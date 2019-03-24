@@ -1,5 +1,6 @@
 Images/
 Images_backup/
+packages/
 *.tmp
 /win32
 mse-set.txt
