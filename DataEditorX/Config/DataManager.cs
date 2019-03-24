@@ -77,6 +77,9 @@ namespace DataEditorX.Config
         public static Dictionary<long, string> Read(string content)
         {
             string text = reReturn(content);
+            //MacOS & Linux适配（？）
+            text = text.Replace("\r", "\n");
+            text = text.Replace("\n\n", "\n");
             return Read(text.Split('\n'));
         }
         /// <summary>
@@ -90,9 +93,10 @@ namespace DataEditorX.Config
             long lkey;
             foreach (string line in lines)
             {
-                if (line.StartsWith("#"))
+                string l = line.Trim();
+                if (l.StartsWith("#"))
                     continue;
-                string[] words = line.Split(SEP_LINE);
+                string[] words = l.Split(SEP_LINE);
                 if (words.Length < 2)
                     continue;
                 if (words[0].StartsWith("0x"))

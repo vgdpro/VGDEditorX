@@ -367,7 +367,11 @@ namespace DataEditorX
 			cb.Items.Clear();
 			cb.Tag = keys;
 			cb.Items.AddRange(values);
-			cb.SelectedIndex = 0;
+            //姑且Crash对策
+            if(cb.Items.Count > 0)
+            {
+                cb.SelectedIndex = 0;
+            }
 		}
 		//计算list最大行数
 		void InitListRows()
