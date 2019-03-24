@@ -77,9 +77,6 @@ namespace DataEditorX.Config
         public static Dictionary<long, string> Read(string content)
         {
             string text = reReturn(content);
-            //MacOS & Linux适配（？）
-            text = text.Replace("\r", "\n");
-            text = text.Replace("\n\n", "\n");
             return Read(text.Split('\n'));
         }
         /// <summary>
