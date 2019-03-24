@@ -448,7 +448,7 @@ namespace DataEditorX
 			int index = keys.IndexOf(k);
 			if (index >= 0 && index < cb.Items.Count)
 				cb.SelectedIndex = index;
-			else
+			else if (cb.Items.Count > 0)
 				cb.SelectedIndex = 0;
 		}
 		//得到所选值
