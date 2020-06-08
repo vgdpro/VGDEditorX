@@ -200,6 +200,9 @@
     <EmbeddedResource Include="CodeEditForm.resx">
       <DependentUpon>CodeEditForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FastColoredTextBoxEx.resx">
+      <DependentUpon>FastColoredTextBoxEx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataEditForm.resx">
       <DependentUpon>DataEditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -232,8 +235,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\TCGEditor" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -56,7 +56,7 @@ namespace DataEditorX
             this.tCards = null;
             //数据目录
             this.datapath = datapath;
-            if (MyConfig.readBoolean(MyConfig.TAG_ASYNC))
+            if (MyConfig.ReadBoolean(MyConfig.TAG_ASYNC))
             {
                 //后台加载数据
                 this.bgWorker1.RunWorkerAsync();
@@ -548,7 +548,7 @@ namespace DataEditorX
         private void MainForm_Load(object sender, EventArgs e)
         {
             //检查更新
-			if (!MyConfig.readBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
+			if (!MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
             {
                 return;
             }

@@ -48,7 +48,7 @@ namespace DataEditorX
 	}
 	
 	public class CardJson{
-		public static void test(){
+		public static void Test(){
 			 string json = File.ReadAllText(@"F:\TCGEditor_v1.2\t.tcgb");
 			 CardSet cardset = JsonConvert.DeserializeObject<CardSet>(json);
 			 if(cardset.cards!=null){

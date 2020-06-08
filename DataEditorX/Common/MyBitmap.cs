@@ -14,7 +14,7 @@ namespace DataEditorX.Common
     /// </summary>
     public static class MyBitmap
     {
-        public static Bitmap readImage(string file)
+        public static Bitmap ReadImage(string file)
         {
             if (!File.Exists(file))
             {

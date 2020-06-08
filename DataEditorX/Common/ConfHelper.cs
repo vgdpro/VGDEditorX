@@ -16,7 +16,7 @@ namespace DataEditorX.Common
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static string getValue(string line)
+        public static string GetValue(string line)
         {
             int t = line.IndexOf('=');
             if (t > 0)
@@ -31,7 +31,7 @@ namespace DataEditorX.Common
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public static string getValue1(string word)
+        public static string GetValue1(string word)
         {
             int i = word.IndexOf(SEP_LINE);
             if (i > 0)
@@ -46,7 +46,7 @@ namespace DataEditorX.Common
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public static string getValue2(string word)
+        public static string GetValue2(string word)
         {
             int i = word.IndexOf(SEP_LINE);
             if (i > 0)
@@ -61,16 +61,16 @@ namespace DataEditorX.Common
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static string getMultLineValue(string line)
+        public static string GetMultLineValue(string line)
         {
-            return getRegex(getValue(line));
+            return GetRegex(GetValue(line));
         }
         /// <summary>
         /// 替换特殊符
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public static string getRegex(string word)
+        public static string GetRegex(string word)
         {
             StringBuilder sb = new StringBuilder(word);
             sb.Replace("\\r", "\r");
@@ -84,9 +84,9 @@ namespace DataEditorX.Common
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static bool getBooleanValue(string line)
+        public static bool GetBooleanValue(string line)
         {
-            if (getValue(line).ToLower() == "true")
+            if (GetValue(line).ToLower() == "true")
             {
                 return true;
             }
@@ -101,12 +101,12 @@ namespace DataEditorX.Common
         /// <param name="line"></param>
         /// <param name="defalut">失败的值</param>
         /// <returns></returns>
-        public static int getIntegerValue(string line, int defalut)
+        public static int GetIntegerValue(string line, int defalut)
         {
             int i;
             try
             {
-                i = int.Parse(getValue(line));
+                i = int.Parse(GetValue(line));
                 return i;
             }
             catch{}

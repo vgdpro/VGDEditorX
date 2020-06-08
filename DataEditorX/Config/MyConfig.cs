@@ -181,7 +181,7 @@ namespace DataEditorX.Config
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string readString(string key)
+        public static string ReadString(string key)
         {
             return GetAppConfig(key);
         }
@@ -191,9 +191,9 @@ namespace DataEditorX.Config
         /// <param name="key"></param>
         /// <param name="def"></param>
         /// <returns></returns>
-        public static int readInteger(string key, int def)
+        public static int ReadInteger(string key, int def)
         {
-            if (int.TryParse(readString(key), out int i))
+            if (int.TryParse(ReadString(key), out int i))
             {
                 return i;
             }
@@ -206,9 +206,9 @@ namespace DataEditorX.Config
         /// <param name="key"></param>
         /// <param name="def"></param>
         /// <returns></returns>
-        public static float readFloat(string key, float def)
+        public static float ReadFloat(string key, float def)
         {
-            if (float.TryParse(readString(key), out float i))
+            if (float.TryParse(ReadString(key), out float i))
             {
                 return i;
             }
@@ -221,9 +221,9 @@ namespace DataEditorX.Config
         /// <param name="key"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static int[] readIntegers(string key, int length)
+        public static int[] ReadIntegers(string key, int length)
         {
-            string temp = readString(key);
+            string temp = ReadString(key);
             int[] ints = new int[length];
             string[] ws = string.IsNullOrEmpty(temp) ? null : temp.Split(',');
 
@@ -241,9 +241,9 @@ namespace DataEditorX.Config
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static Area readArea(string key)
+        public static Area ReadArea(string key)
         {
-            int[] ints = readIntegers(key, 4);
+            int[] ints = ReadIntegers(key, 4);
             Area a = new Area();
             if (ints != null)
             {
@@ -259,9 +259,9 @@ namespace DataEditorX.Config
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static bool readBoolean(string key,bool def=false)
+        public static bool ReadBoolean(string key,bool def=false)
         {
-        	string val= readString(key);
+        	string val= ReadString(key);
         	if("true".Equals(val, StringComparison.OrdinalIgnoreCase)){
         		return true;
         	}
@@ -280,7 +280,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetLanguageFile(string path)
         {
-			if (readBoolean(TAG_CHECK_SYSLANG) && Directory.Exists(path))
+			if (ReadBoolean(TAG_CHECK_SYSLANG) && Directory.Exists(path))
 			{
 				Save(TAG_CHECK_SYSLANG, "false");
 				string[] words = CultureInfo.InstalledUICulture.EnglishName.Split(' ');
@@ -288,7 +288,7 @@ namespace DataEditorX.Config
 				string[] files = Directory.GetFiles(path);
 				foreach (string file in files)
 				{
-					string name = MyPath.getFullFileName(MyConfig.TAG_LANGUAGE, file);
+					string name = MyPath.GetFullFileName(MyConfig.TAG_LANGUAGE, file);
 					if (string.IsNullOrEmpty(name))
                     {
                         continue;
@@ -301,7 +301,7 @@ namespace DataEditorX.Config
 					}
 				}
 			}
-            return MyPath.Combine(path, MyPath.getFileName(MyConfig.TAG_LANGUAGE, GetAppConfig(TAG_LANGUAGE)));
+            return MyPath.Combine(path, MyPath.GetFileName(MyConfig.TAG_LANGUAGE, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
         /// 卡片信息配置文件名
@@ -310,7 +310,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetCardInfoFile(string path)
         {
-            return MyPath.Combine(path,  MyPath.getFileName(MyConfig.TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
+            return MyPath.Combine(path,  MyPath.GetFileName(MyConfig.TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
         /// 发送消息打开文件

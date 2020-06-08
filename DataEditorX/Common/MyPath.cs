@@ -110,7 +110,7 @@ namespace System.IO
         /// <param name="tag">前面</param>
         /// <param name="lang"></param>
         /// <returns></returns>
-        public static string getFileName(string tag,string lang)
+        public static string GetFileName(string tag,string lang)
         {
             return tag + "_" + lang + ".txt";
         }
@@ -120,7 +120,7 @@ namespace System.IO
         /// <param name="tag"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        public static string getFullFileName(string tag, string file)
+        public static string GetFullFileName(string tag, string file)
         {
             string name = Path.GetFileNameWithoutExtension(file);
             if (!name.StartsWith(tag + "_"))

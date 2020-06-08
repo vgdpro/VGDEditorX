@@ -30,7 +30,7 @@ namespace DataEditorX.Core.Info
 		public const int Up = 0x80;
 		public const int UpRight = 0x100;
 		
-		public static bool isLink(int marks, int mark){
+		public static bool IsLink(int marks, int mark){
 			return (marks & mark) == mark;
 		}
 	}

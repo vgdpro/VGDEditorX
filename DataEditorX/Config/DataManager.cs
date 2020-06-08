@@ -36,7 +36,7 @@ namespace DataEditorX.Config
             text = text.Replace("\r", "\n");
             return text;
         }
-        public static string subString(string content, string tag)
+        public static string SubString(string content, string tag)
         {
             Regex reg = new Regex(string.Format(@"{0}{1}\n([\S\s]*?)\n{2}", TAG_START, tag, TAG_END), RegexOptions.Multiline);
             Match mac = reg.Match(reReturn(content));
@@ -57,7 +57,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static Dictionary<long, string> Read(string content, string tag)
         {
-            return Read(subString(content,tag));
+            return Read(SubString(content,tag));
         }
         /// <summary>
         /// 从文件读取内容，按行读取

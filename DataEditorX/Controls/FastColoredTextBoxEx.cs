@@ -10,18 +10,21 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text;
 
 namespace FastColoredTextBoxNS
 {
 	public class FastColoredTextBoxEx : FastColoredTextBox
-	{
-		Point lastMouseCoord;
+    {
+        private Label lbTooltip;
+        Point lastMouseCoord;
  
 		public FastColoredTextBoxEx() : base()
 		{
             this.SyntaxHighlighter = new MySyntaxHighlighter();
+            this.InitializeComponent();
+            this.ToolTipDelay = 1;
             this.TextChangedDelayed += this.FctbTextChangedDelayed;
-
 		}
 		public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -61,13 +64,16 @@ namespace FastColoredTextBoxNS
 
 			if (ea.ToolTipText != null)
 			{
-                //show tooltip
-                this.ToolTip.ToolTipTitle = ea.ToolTipTitle;
-                this.ToolTip.ToolTipIcon = ea.ToolTipIcon;
+                lbTooltip.Text = $"{ea.ToolTipTitle}\r\n\r\n{ea.ToolTipText}";
+                lbTooltip.Location = new Point(this.Size.Width - 500, this.lastMouseCoord.Y + this.CharHeight);
+                //this.ToolTip.ToolTipTitle = ea.ToolTipTitle;
+                //this.ToolTip.ToolTipIcon = ea.ToolTipIcon;
                 //ToolTip.SetToolTip(this, ea.ToolTipText);
-                this.ToolTip.Show(ea.ToolTipText, this, new Point(this.lastMouseCoord.X, this.lastMouseCoord.Y + this.CharHeight));
-			}
-		}
+                //this.ToolTip.Show(ea.ToolTipText, this, new Point(this.lastMouseCoord.X, this.lastMouseCoord.Y + this.CharHeight));
+            }
+        }
+
+
         //高亮当前词
         void FctbTextChangedDelayed(object sender, TextChangedEventArgs e)
         {
@@ -101,5 +107,36 @@ namespace FastColoredTextBoxNS
                 lastNonEmptyLine = i;
             }
         }
-	}
+
+        private void InitializeComponent()
+        {
+            this.lbTooltip = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // lbTooltip
+            // 
+            this.lbTooltip.AutoSize = true;
+            this.lbTooltip.BackColor = System.Drawing.SystemColors.Desktop;
+            this.lbTooltip.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTooltip.ForeColor = System.Drawing.SystemColors.Control;
+            this.lbTooltip.Location = new System.Drawing.Point(221, 117);
+            this.lbTooltip.MaximumSize = new System.Drawing.Size(480, 0);
+            this.lbTooltip.Name = "lbTooltip";
+            this.lbTooltip.Size = new System.Drawing.Size(0, 28);
+            this.lbTooltip.TabIndex = 1;
+            // 
+            // FastColoredTextBoxEx
+            // 
+            this.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.lbTooltip);
+            this.Name = "FastColoredTextBoxEx";
+            this.Size = new System.Drawing.Size(584, 327);
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+    }
 }

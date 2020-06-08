@@ -447,32 +447,32 @@ namespace DataEditorX.Core.Mse
 			if(cardpack!=null){
 				sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
 				if(rarity){
-					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.getMseRarity()));
+					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
 				}
 			}
 			if(c.IsType(CardType.TYPE_LINK)){
-				if(CardLink.isLink(c.def, CardLink.DownLeft)){
+				if(CardLink.IsLink(c.def, CardLink.DownLeft)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_DL, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.Down)){
+				if(CardLink.IsLink(c.def, CardLink.Down)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_Down, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.DownRight)){
+				if(CardLink.IsLink(c.def, CardLink.DownRight)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_DR, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.UpLeft)){
+				if(CardLink.IsLink(c.def, CardLink.UpLeft)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_UL, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.Up)){
+				if(CardLink.IsLink(c.def, CardLink.Up)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_Up, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.UpRight)){
+				if(CardLink.IsLink(c.def, CardLink.UpRight)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_UR, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.Left)){
+				if(CardLink.IsLink(c.def, CardLink.Left)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_Left, "yes"));
 				}
-				if(CardLink.isLink(c.def, CardLink.Right)){
+				if(CardLink.IsLink(c.def, CardLink.Right)){
 					sb.AppendLine(this.GetLine(TAG_Link_Marker_Right, "yes"));
 				}
 				sb.AppendLine(this.GetLine(TAG_Link_Number, ""+ this.getLinkNumber(c.def)));
@@ -520,7 +520,7 @@ namespace DataEditorX.Core.Mse
 			if(cardpack!=null){
 				sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
 				if(rarity){
-					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.getMseRarity()));
+					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
 				}
 			}
 			sb.AppendLine("	" + TAG_TEXT + ":");
@@ -888,7 +888,7 @@ namespace DataEditorX.Core.Mse
 			string file = MyPath.Combine(this.cfg.imagecache, md5);
 			if(!File.Exists(file)){
 				//生成缓存
-				Bitmap bmp=MyBitmap.readImage(img);
+				Bitmap bmp=MyBitmap.ReadImage(img);
 				//缩放
 				if(isPendulum){
 					bmp=MyBitmap.Zoom(bmp, this.cfg.pwidth, this.cfg.pheight);

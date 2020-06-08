@@ -29,12 +29,10 @@ namespace DataEditorX.Core
         //添加
 		public class AddCommand: IBackableCommand
 		{
-			private string _undoSQL;
-            readonly CardEdit cardedit;
+			private string undoSQL;
             readonly IDataForm dataform;
 			public AddCommand(CardEdit cardedit)
 			{
-				this.cardedit = cardedit;
 				this.dataform = cardedit.dataform;
 			}
 
@@ -64,7 +62,7 @@ namespace DataEditorX.Core
 					DataBase.GetInsertSQL(c, true)) >= 2)
 				{
 					MyMsg.Show(LMSG.AddSucceed);
-                    this._undoSQL = DataBase.GetDeleteSQL(c);
+                    this.undoSQL = DataBase.GetDeleteSQL(c);
                     this.dataform.Search(true);
                     this.dataform.SetCard(c);
 					return true;
@@ -74,7 +72,7 @@ namespace DataEditorX.Core
 			}
 			public void Undo()
 			{
-				DataBase.Command(this.dataform.GetOpenFile(), this._undoSQL);
+				DataBase.Command(this.dataform.GetOpenFile(), this.undoSQL);
 			}
 
 			public object Clone()
@@ -88,16 +86,14 @@ namespace DataEditorX.Core
 		//修改
 		public class ModCommand: IBackableCommand
 		{
-			private string _undoSQL;
+			private string undoSQL;
 			private bool modifiled = false;
 			private long oldid;
 			private long newid;
 			private bool delold;
-            readonly CardEdit cardedit;
             readonly IDataForm dataform;
 			public ModCommand(CardEdit cardedit)
 			{
-				this.cardedit = cardedit;
 				this.dataform = cardedit.dataform;
 			}
 
@@ -138,12 +134,12 @@ namespace DataEditorX.Core
 						}
 						else
 						{//删除成功，添加还原sql
-                            this._undoSQL = DataBase.GetDeleteSQL(c) + DataBase.GetInsertSQL(oldCard, false);
+                            this.undoSQL = DataBase.GetDeleteSQL(c) + DataBase.GetInsertSQL(oldCard, false);
 						}
 					}
 					else
                     {
-                        this._undoSQL = DataBase.GetDeleteSQL(c);//还原就是删除
+                        this.undoSQL = DataBase.GetDeleteSQL(c);//还原就是删除
                     }
                     //如果删除旧卡片，则把资源修改名字,否则复制资源
                     if (modfiles)
@@ -166,7 +162,7 @@ namespace DataEditorX.Core
 				else
 				{//更新数据
 					sql = DataBase.GetUpdateSQL(c);
-                    this._undoSQL = DataBase.GetUpdateSQL(oldCard);
+                    this.undoSQL = DataBase.GetUpdateSQL(oldCard);
 				}
 				if (DataBase.Command(this.dataform.GetOpenFile(), sql) > 0)
 				{
@@ -185,7 +181,7 @@ namespace DataEditorX.Core
 
 			public void Undo()
 			{
-				DataBase.Command(this.dataform.GetOpenFile(), this._undoSQL);
+				DataBase.Command(this.dataform.GetOpenFile(), this.undoSQL);
 				if (this.modifiled)
 				{
 					if (this.delold)
@@ -210,12 +206,10 @@ namespace DataEditorX.Core
         //删除
 		public class DelCommand : IBackableCommand
 		{
-			private string _undoSQL;
-            readonly CardEdit cardedit;
+			private string undoSQL;
             readonly IDataForm dataform;
 			public DelCommand(CardEdit cardedit)
 			{
-				this.cardedit = cardedit;
 				this.dataform = cardedit.dataform;
 			}
 
@@ -255,7 +249,7 @@ namespace DataEditorX.Core
 				{
 					MyMsg.Show(LMSG.DeleteSucceed);
                     this.dataform.Search(true);
-                    this._undoSQL = undo;
+                    this.undoSQL = undo;
 					return true;
 				}
 				else
@@ -267,7 +261,7 @@ namespace DataEditorX.Core
 			}
 			public void Undo()
 			{
-				DataBase.Command(this.dataform.GetOpenFile(), this._undoSQL);
+				DataBase.Command(this.dataform.GetOpenFile(), this.undoSQL);
 			}
 
 			public object Clone()
@@ -354,9 +348,9 @@ namespace DataEditorX.Core
 		public class CopyCommand : IBackableCommand
 		{
 			bool copied = false;
-			Card[] NewCards;
+			Card[] newCards;
 			bool replace;
-			Card[] OldCards;
+			Card[] oldCards;
             readonly CardEdit cardedit;
             readonly IDataForm dataform;
 			public CopyCommand(CardEdit cardedit)
@@ -406,15 +400,15 @@ namespace DataEditorX.Core
 				}
 				DataBase.CopyDB(this.dataform.GetOpenFile(), !replace, cards);
 				this.copied = true;
-				this.NewCards = cards;
+				this.newCards = cards;
 				this.replace = replace;
-				this.OldCards = oldcards;
+				this.oldCards = oldcards;
 				return true;
 			}
 			public void Undo()
 			{
-				DataBase.DeleteDB(this.dataform.GetOpenFile(), this.NewCards);
-				DataBase.CopyDB(this.dataform.GetOpenFile(), !this.replace, this.OldCards);
+				DataBase.DeleteDB(this.dataform.GetOpenFile(), this.newCards);
+				DataBase.CopyDB(this.dataform.GetOpenFile(), !this.replace, this.oldCards);
 			}
 
 			public object Clone()
@@ -422,12 +416,12 @@ namespace DataEditorX.Core
                 CopyCommand replica = new CopyCommand(this.cardedit)
                 {
                     copied = this.copied,
-                    NewCards = (Card[])this.NewCards.Clone(),
+                    newCards = (Card[])this.newCards.Clone(),
                     replace = this.replace
                 };
-                if (this.OldCards != null)
+                if (this.oldCards != null)
                 {
-                    replica.OldCards = (Card[])this.OldCards.Clone();
+                    replica.oldCards = (Card[])this.oldCards.Clone();
                 }
 
                 return replica;

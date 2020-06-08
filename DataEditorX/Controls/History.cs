@@ -76,9 +76,11 @@ namespace DataEditorX.Controls
         }
         public void AddHistory(string file)
         {
-            List<string> tmplist = new List<string>();
-            //添加到开始
-            tmplist.Add(file);
+            List<string> tmplist = new List<string>
+            {
+                //添加到开始
+                file
+            };
             //添加旧记录
             tmplist.AddRange(this.cdbhistory.ToArray());
             tmplist.AddRange(this.luahistory.ToArray());

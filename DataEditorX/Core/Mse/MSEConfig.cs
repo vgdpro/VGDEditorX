@@ -63,7 +63,7 @@ namespace DataEditorX.Core.Mse
 		#endregion
 		public MSEConfig(string path)
 		{
-            this.init(path);
+            this.Init(path);
 		}
 		public void SetConfig(string config, string path)
 		{
@@ -75,7 +75,7 @@ namespace DataEditorX.Core.Mse
             this.regx_monster = "(\\s\\S*?)";
             this.regx_pendulum = "(\\s\\S*?)";
             //设置文件名
-            this.configName = MyPath.getFullFileName(MSEConfig.TAG, config);
+            this.configName = MyPath.GetFullFileName(MSEConfig.TAG, config);
 
             this.replaces = new SortedList<string, string>();
 
@@ -91,56 +91,56 @@ namespace DataEditorX.Core.Mse
 
                 if (line.StartsWith(TAG_CN2TW))
                 {
-                    this.Iscn2tw = ConfHelper.getBooleanValue(line);
+                    this.Iscn2tw = ConfHelper.GetBooleanValue(line);
                 }
                 else if (line.StartsWith(TAG_SPELL))
                 {
-                    this.str_spell = ConfHelper.getValue(line);
+                    this.str_spell = ConfHelper.GetValue(line);
                 }
                 else if (line.StartsWith(TAG_HEAD))
                 {
-                    this.head = ConfHelper.getMultLineValue(line);
+                    this.head = ConfHelper.GetMultLineValue(line);
                 }
                 else if (line.StartsWith(TAG_END))
                 {
-                    this.end = ConfHelper.getMultLineValue(line);
+                    this.end = ConfHelper.GetMultLineValue(line);
                 }
                 else if (line.StartsWith(TAG_TEXT))
                 {
-                    this.temp_text = ConfHelper.getMultLineValue(line);
+                    this.temp_text = ConfHelper.GetMultLineValue(line);
                 }
                 else if (line.StartsWith(TAG_TRAP))
                 {
-                    this.str_trap = ConfHelper.getValue(line);
+                    this.str_trap = ConfHelper.GetValue(line);
                 }
                 else if (line.StartsWith(TAG_REG_PENDULUM))
                 {
-                    this.regx_pendulum = ConfHelper.getValue(line);
+                    this.regx_pendulum = ConfHelper.GetValue(line);
                 }
                 else if (line.StartsWith(TAG_REG_MONSTER))
                 {
-                    this.regx_monster = ConfHelper.getValue(line);
+                    this.regx_monster = ConfHelper.GetValue(line);
                 }
                 else if (line.StartsWith(TAG_MAXCOUNT))
                 {
-                    this.maxcount = ConfHelper.getIntegerValue(line, 0);
+                    this.maxcount = ConfHelper.GetIntegerValue(line, 0);
                 }
                 else if (line.StartsWith(TAG_WIDTH)){
-                    this.width =ConfHelper.getIntegerValue(line,0);
+                    this.width =ConfHelper.GetIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_HEIGHT)){
-                    this.height =ConfHelper.getIntegerValue(line,0);
+                    this.height =ConfHelper.GetIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_PEND_WIDTH)){
-                    this.pwidth =ConfHelper.getIntegerValue(line,0);
+                    this.pwidth =ConfHelper.GetIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_PEND_HEIGHT)){
-                    this.pheight =ConfHelper.getIntegerValue(line,0);
+                    this.pheight =ConfHelper.GetIntegerValue(line,0);
 				}
 				else if(line.StartsWith(TAG_NO_TEN)){
-                    this.no10 = ConfHelper.getBooleanValue(line);
+                    this.no10 = ConfHelper.GetBooleanValue(line);
 				}else if(line.StartsWith(TAG_NO_START_CARDS)){
-					string val = ConfHelper.getValue(line);
+					string val = ConfHelper.GetValue(line);
 					string[] cs = val.Split(',');
                     this.noStartCards =new long[cs.Length];
 					int i=0;
@@ -152,16 +152,16 @@ namespace DataEditorX.Core.Mse
 				else if (line.StartsWith(TAG_IMAGE))
 				{
                     //如果路径不合法，则为后面的路径
-                    this.imagepath = MyPath.CheckDir(ConfHelper.getValue(line), MyPath.Combine(path, PATH_IMAGE));
+                    this.imagepath = MyPath.CheckDir(ConfHelper.GetValue(line), MyPath.Combine(path, PATH_IMAGE));
                     //图片缓存目录
                     this.imagecache = MyPath.Combine(this.imagepath, "cache");
 					MyPath.CreateDir(this.imagecache);
 				}
 				else if (line.StartsWith(TAG_REPALCE))
 				{//特数字替换
-					string word = ConfHelper.getValue(line);
-					string p = ConfHelper.getRegex(ConfHelper.getValue1(word));
-					string r = ConfHelper.getRegex(ConfHelper.getValue2(word));
+					string word = ConfHelper.GetValue(line);
+					string p = ConfHelper.GetRegex(ConfHelper.GetValue1(word));
+					string r = ConfHelper.GetRegex(ConfHelper.GetValue2(word));
 					if (!string.IsNullOrEmpty(p))
                     {
                         this.replaces.Add(p, r);
@@ -175,20 +175,20 @@ namespace DataEditorX.Core.Mse
 				{//类型
 					ConfHelper.DicAdd(this.typeDic, line);
 				}else if(line.StartsWith(TAG_REIMAGE)){
-                    this.reimage = ConfHelper.getBooleanValue(line);
+                    this.reimage = ConfHelper.GetBooleanValue(line);
 				}
 			}
 		}
-		public void init(string path)
+		public void Init(string path)
 		{
             this.Iscn2tw = false;
 			
 			//读取配置
-			string tmp = MyPath.Combine(path, MyPath.getFileName(MSEConfig.TAG, MyConfig.readString(MyConfig.TAG_MSE)));
+			string tmp = MyPath.Combine(path, MyPath.GetFileName(MSEConfig.TAG, MyConfig.ReadString(MyConfig.TAG_MSE)));
 			
 			if (!File.Exists(tmp))
 			{
-				tmp = MyPath.Combine(path, MyPath.getFileName(MSEConfig.TAG, FILE_CONFIG_NAME));
+				tmp = MyPath.Combine(path, MyPath.GetFileName(MSEConfig.TAG, FILE_CONFIG_NAME));
 				if(!File.Exists(tmp))
                 {
                     return;//如果默认的也不存在

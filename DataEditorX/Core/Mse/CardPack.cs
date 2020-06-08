@@ -17,10 +17,10 @@ namespace DataEditorX.Core
 	{
 		public CardPack(long id)
 		{
-			this.card_id=id;
+			this.CardId=id;
 		}
 		
-		public long card_id{
+		public long CardId{
 			get;
 			private set;
 		}
@@ -29,7 +29,7 @@ namespace DataEditorX.Core
 		public string rarity;
 		public string date;
 		
-		public string getMseRarity(){
+		public string GetMseRarity(){
 			if(this.rarity==null)
             {
                 return "common";

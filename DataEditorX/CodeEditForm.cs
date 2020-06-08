@@ -51,15 +51,15 @@ namespace DataEditorX
             this.tooltipDic = new SortedList<string, string>();
             this.InitializeComponent();
             //设置字体，大小
-            string fontname = MyConfig.readString(MyConfig.TAG_FONT_NAME);
-            float fontsize = MyConfig.readFloat(MyConfig.TAG_FONT_SIZE, this.fctb.Font.Size);
+            string fontname = MyConfig.ReadString(MyConfig.TAG_FONT_NAME);
+            float fontsize = MyConfig.ReadFloat(MyConfig.TAG_FONT_SIZE, this.fctb.Font.Size);
             this.fctb.Font = new Font(fontname, fontsize);
-            if (MyConfig.readBoolean(MyConfig.TAG_IME))
+            if (MyConfig.ReadBoolean(MyConfig.TAG_IME))
             {
                 this.fctb.ImeMode = ImeMode.On;
             }
 
-            if (MyConfig.readBoolean(MyConfig.TAG_WORDWRAP))
+            if (MyConfig.ReadBoolean(MyConfig.TAG_WORDWRAP))
             {
                 this.fctb.WordWrap = true;
             }
@@ -68,7 +68,7 @@ namespace DataEditorX
                 this.fctb.WordWrap = false;
             }
 
-            if (MyConfig.readBoolean(MyConfig.TAG_TAB2SPACES))
+            if (MyConfig.ReadBoolean(MyConfig.TAG_TAB2SPACES))
             {
                 this.tabisspaces = true;
             }
@@ -370,7 +370,7 @@ namespace DataEditorX
             MyMsg.Show(
                 LanguageHelper.GetMsg(LMSG.About) + "\t" + Application.ProductName + "\n"
                 + LanguageHelper.GetMsg(LMSG.Version) + "\t1.1.0.0\n"
-                + LanguageHelper.GetMsg(LMSG.Author) + "\t菜菜");
+                + LanguageHelper.GetMsg(LMSG.Author) + "\tNanahira & JoyJ");
         }
 
         void Menuitem_openClick(object sender, EventArgs e)

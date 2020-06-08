@@ -101,7 +101,7 @@ namespace DataEditorX
 		}
 		public DataEditForm()
 		{//默认启动
-			string dir = MyConfig.readString(MyConfig.TAG_DATA);
+			string dir = MyConfig.ReadString(MyConfig.TAG_DATA);
 			if (string.IsNullOrEmpty(dir))
 			{
 				Application.Exit();
@@ -171,13 +171,13 @@ namespace DataEditorX
 			this.oldCard = new Card(0);
 			this.SetCard(this.oldCard);
 			//删除资源
-			this.menuitem_operacardsfile.Checked = MyConfig.readBoolean(MyConfig.TAG_DELETE_WITH);
+			this.menuitem_operacardsfile.Checked = MyConfig.ReadBoolean(MyConfig.TAG_DELETE_WITH);
 			//用CodeEditor打开脚本
-			this.menuitem_openfileinthis.Checked = MyConfig.readBoolean(MyConfig.TAG_OPEN_IN_THIS);
+			this.menuitem_openfileinthis.Checked = MyConfig.ReadBoolean(MyConfig.TAG_OPEN_IN_THIS);
 			//自动检查更新
-			this.menuitem_autocheckupdate.Checked = MyConfig.readBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE);
+			this.menuitem_autocheckupdate.Checked = MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE);
 			//add require automatically
-			this.Addrequire = MyConfig.readString(MyConfig.TAG_ADD_REQUIRE);
+			this.Addrequire = MyConfig.ReadString(MyConfig.TAG_ADD_REQUIRE);
 			this.menuitem_addrequire.Checked = (this.Addrequire.Length > 0);
             if (this.nowCdbFile != null && File.Exists(this.nowCdbFile))
 			{
@@ -295,7 +295,7 @@ namespace DataEditorX
 			this.confcover = MyPath.Combine(datapath, "cover.jpg");
 			if (File.Exists(this.confcover))
 			{
-				this.cover = MyBitmap.readImage(this.confcover);
+				this.cover = MyBitmap.ReadImage(this.confcover);
 			}
 			else
 			{
@@ -567,7 +567,7 @@ namespace DataEditorX
 			}
 			List<long> keys = (List<long>)cb.Tag;
 			int index = cb.SelectedIndex;
-			if (index >= keys.Count)
+			if (index >= keys.Count || index < 0)
 			{
 				return 0;
 			}
@@ -1155,7 +1155,7 @@ namespace DataEditorX
 			MyMsg.Show(
 				LanguageHelper.GetMsg(LMSG.About) + "\t" + Application.ProductName + "\n"
 				+ LanguageHelper.GetMsg(LMSG.Version) + "\t" + Application.ProductVersion + "\n"
-				+ LanguageHelper.GetMsg(LMSG.Author) + "\t菜菜");
+				+ LanguageHelper.GetMsg(LMSG.Author) + "\tNanahira & JoyJ");
 		}
 
 		void Menuitem_checkupdateClick(object sender, EventArgs e)
@@ -1197,7 +1197,7 @@ namespace DataEditorX
 		}
 		void Menuitem_githubClick(object sender, EventArgs e)
 		{
-			System.Diagnostics.Process.Start(MyConfig.readString(MyConfig.TAG_SOURCE_URL));
+			System.Diagnostics.Process.Start(MyConfig.ReadString(MyConfig.TAG_SOURCE_URL));
 		}
 		#endregion
 
@@ -1630,12 +1630,12 @@ namespace DataEditorX
 				string msepic = MseMaker.GetCardImagePath(this.tasker.MSEImagePath, this.oldCard);
 				if(File.Exists(msepic))
 				{
-					this.pl_image.BackgroundImage = MyBitmap.readImage(msepic);
+					this.pl_image.BackgroundImage = MyBitmap.ReadImage(msepic);
 				}
 			}
 			else if (File.Exists(pic))
 			{
-				this.pl_image.BackgroundImage = MyBitmap.readImage(pic);
+				this.pl_image.BackgroundImage = MyBitmap.ReadImage(pic);
 			}
 			else
 			{
@@ -1779,7 +1779,7 @@ namespace DataEditorX
 			string[] files = Directory.GetFiles(this.datapath);
 			foreach (string file in files)
 			{
-				string name = MyPath.getFullFileName(MSEConfig.TAG, file);
+				string name = MyPath.GetFullFileName(MSEConfig.TAG, file);
 				//是否是MSE配置文件
 				if (string.IsNullOrEmpty(name))
 				{
@@ -1999,7 +1999,7 @@ namespace DataEditorX
 			string[] files = Directory.GetFiles(this.datapath);
 			foreach (string file in files)
 			{
-				string name = MyPath.getFullFileName(MyConfig.TAG_LANGUAGE, file);
+				string name = MyPath.GetFullFileName(MyConfig.TAG_LANGUAGE, file);
 				if (string.IsNullOrEmpty(name))
 				{
 					continue;
@@ -2011,7 +2011,7 @@ namespace DataEditorX
 					ToolTipText = file
 				};
 				tsmi.Click += this.SetLanguage_Click;
-				if (MyConfig.readString(MyConfig.TAG_LANGUAGE).Equals(name, StringComparison.OrdinalIgnoreCase))
+				if (MyConfig.ReadString(MyConfig.TAG_LANGUAGE).Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
 					tsmi.Checked = true;
 				}
@@ -2043,7 +2043,7 @@ namespace DataEditorX
 				return;
 			}
 
-			string msepath=MyPath.GetRealPath(MyConfig.readString(MyConfig.TAG_MSE_PATH));
+			string msepath=MyPath.GetRealPath(MyConfig.ReadString(MyConfig.TAG_MSE_PATH));
 			if(!File.Exists(msepath)){
 				MyMsg.Error(LMSG.exportMseImagesErr);
 				this.menuitem_exportMSEimage.Checked=false;
@@ -2065,7 +2065,7 @@ namespace DataEditorX
 				if (dlg.ShowDialog() == DialogResult.OK)
 				{
 					string mseset=dlg.FileName;
-					string exportpath=MyPath.GetRealPath(MyConfig.readString(MyConfig.TAG_MSE_EXPORT));
+					string exportpath=MyPath.GetRealPath(MyConfig.ReadString(MyConfig.TAG_MSE_EXPORT));
 					MseMaker.ExportSet(msepath, mseset, exportpath, delegate{
 						this.menuitem_exportMSEimage.Checked=false;
 					                   });
@@ -2123,7 +2123,7 @@ namespace DataEditorX
 					if (DataBase.Create(dlg.FileName))
 					{
 						//
-						int len = MyConfig.readInteger(MyConfig.TAG_AUTO_LEN, 30);
+						int len = MyConfig.ReadInteger(MyConfig.TAG_AUTO_LEN, 30);
 						for (int i = 0; i < count; i++)
 						{
 							if(cards[i].desc!=null){
@@ -2160,7 +2160,7 @@ namespace DataEditorX
 					if (DataBase.Create(dlg.FileName))
                     {
 						//
-						_ = MyConfig.readInteger(MyConfig.TAG_AUTO_LEN, 30);
+						_ = MyConfig.ReadInteger(MyConfig.TAG_AUTO_LEN, 30);
 						for (int i = 0; i < count; i++)
                         {
                             if (cards[i].desc != null)
