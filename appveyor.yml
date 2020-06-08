@@ -2,8 +2,8 @@ version: '{build}'
 skip_tags: true
 
 install:
-  - wget -O DataEditorX/data/constants.lua https://github.com/Fluorohydride/ygopro-scripts/raw/master/constants.lua
-  - wget -O DataEditorX/data/strings.conf https://github.com/Fluorohydride/ygopro/raw/master/strings.conf
+  - curl -sL -o DataEditorX/data/constants.lua https://github.com/Fluorohydride/ygopro-scripts/raw/master/constants.lua
+  - curl -sL -o DataEditorX/data/strings.conf https://github.com/Fluorohydride/ygopro/raw/master/strings.conf
 
 configuration: Release
 
