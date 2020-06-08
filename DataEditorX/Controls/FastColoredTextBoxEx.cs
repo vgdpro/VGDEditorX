@@ -64,6 +64,7 @@ namespace FastColoredTextBoxNS
 
 			if (ea.ToolTipText != null)
 			{
+                lbTooltip.Visible = true;
                 lbTooltip.Text = $"{ea.ToolTipTitle}\r\n\r\n{ea.ToolTipText}";
                 lbTooltip.Location = new Point(this.Size.Width - 500, this.lastMouseCoord.Y + this.CharHeight);
                 //this.ToolTip.ToolTipTitle = ea.ToolTipTitle;
@@ -125,6 +126,7 @@ namespace FastColoredTextBoxNS
             this.lbTooltip.Name = "lbTooltip";
             this.lbTooltip.Size = new System.Drawing.Size(0, 28);
             this.lbTooltip.TabIndex = 1;
+            this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
             // 
             // FastColoredTextBoxEx
             // 
@@ -133,10 +135,21 @@ namespace FastColoredTextBoxNS
             this.Controls.Add(this.lbTooltip);
             this.Name = "FastColoredTextBoxEx";
             this.Size = new System.Drawing.Size(584, 327);
+            this.Load += new System.EventHandler(this.FastColoredTextBoxEx_Load);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void FastColoredTextBoxEx_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbTooltip_MouseMove(object sender, MouseEventArgs e)
+        {
+            lbTooltip.Visible = false;
         }
     }
 }

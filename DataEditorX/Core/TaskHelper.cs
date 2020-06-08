@@ -76,6 +76,7 @@ namespace DataEditorX.Core
 
 		public TaskHelper(string datapath, BackgroundWorker worker, MSEConfig mcfg)
 		{
+			this.Datapath = datapath;
 			this.worker = worker;
             this.mseHelper = new MseMaker(mcfg);
             this.imgSet = new ImageSet();
@@ -97,12 +98,12 @@ namespace DataEditorX.Core
             this.isRun = false;
             this.isCancel = true;
 		}
-		public MyTask getLastTask()
+		public MyTask GetLastTask()
 		{
 			return this.lastTask;
 		}
 		
-		public void testPendulumText(string desc){
+		public void TestPendulumText(string desc){
             this.mseHelper.TestPendulum(desc);
 		}
 		#endregion
@@ -277,6 +278,9 @@ namespace DataEditorX.Core
 		{
 			get { return this.mseHelper.ImagePath; }
 		}
+
+		public string Datapath { get; }
+
 		public void SaveMSEs(string file, Card[] cards,bool isUpdate)
 		{
 			if(cards == null)
