@@ -25,8 +25,9 @@ upload_to_minio:
     - build_dex
   tags: 
     - linux
-  image: banst/awscli
+  image: python
   script:
-    - s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
+    - pip install -U awscli
+    - aws s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
   only:
     - master
