@@ -8,6 +8,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DataEditorX.Common
 {
@@ -30,7 +31,7 @@ namespace DataEditorX.Common
 		/// </summary>
 		const string HEAD = "[DataEditorX]";
 		const string HEAD2 = "[URL]";
-		public const string DEFALUT = "0.0.0.0";
+		public const string DEFAULT = "0.0.0.0";
 
 		#region 检查版本
 		/// <summary>
@@ -40,24 +41,18 @@ namespace DataEditorX.Common
 		/// <returns>版本号</returns>
 		public static string GetNewVersion(string VERURL)
 		{
-			string urlver = DEFALUT;
+			string urlver = DEFAULT;
 			string html = GetHtmlContentByUrl(VERURL);
 			if (!string.IsNullOrEmpty(html))
 			{
-				int t, w;
-				t = html.IndexOf(HEAD);
-				w = (t > 0) ? html.IndexOf(HEAD, t + HEAD.Length) : 0;
-				if (w > 0)
+				Regex ver = new Regex(@"\[DataEditorX\]([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\[DataEditorX\]");
+				Regex url = new Regex(@"\[URL\]([^\[]+?)\[URL\]");
+				if (ver.IsMatch(html) && url.IsMatch(html))
 				{
-					//获取版本
-					urlver = html.Substring(t + HEAD.Length, w - t - HEAD.Length);
-				}
-				t = html.IndexOf(HEAD2);
-				w = (t > 0) ? html.IndexOf(HEAD2, t + HEAD2.Length) : 0;
-				if (w > 0)
-				{
-					//获取下载地址
-					URL = html.Substring(t + HEAD2.Length, w - t - HEAD2.Length);
+					Match mVer = ver.Match(html);
+					Match mUrl = url.Match(html);
+					URL = mUrl.Groups[1].Value;
+					return $"{mVer.Groups[1].Value}";
 				}
 			}
 			return urlver;

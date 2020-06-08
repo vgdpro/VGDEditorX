@@ -142,6 +142,7 @@ namespace DataEditorX
             this.mainMenu.SuspendLayout();
             this.pl_bottom.SuspendLayout();
             this.pl_main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -1249,7 +1250,7 @@ namespace DataEditorX
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DataEditorX";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DataEditFormFormClosing);
-            this.Load += new System.EventHandler(this.DataEditForm_Load);
+            this.Load += new System.EventHandler(this.DataEditFormLoad);
             this.SizeChanged += new System.EventHandler(this.DataEditFormSizeChanged);
             this.Enter += new System.EventHandler(this.DataEditFormEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataEditForm_KeyDown);
@@ -1261,6 +1262,7 @@ namespace DataEditorX
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             this.splitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
