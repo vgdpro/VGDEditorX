@@ -465,10 +465,10 @@ namespace DataEditorX
 		{
 			cb.Items.Clear();
 			cb.Tag = keys;
-            //Improve 190324 by JoyJ
-            if (cb.Items.Count > 0)
+			//Improve 190324 by JoyJ
+			cb.Items.AddRange(values);
+			if (cb.Items.Count > 0)
             {
-                cb.Items.AddRange(values);
 				cb.SelectedIndex = 0;
 			}
 		}
@@ -2212,6 +2212,11 @@ namespace DataEditorX
 		}
 
 		private void DataEditForm_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void menuitem_language_Click(object sender, EventArgs e)
 		{
 
 		}
