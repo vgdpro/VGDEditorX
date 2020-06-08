@@ -313,7 +313,7 @@ namespace DataEditorX.Core
                             sw.WriteLine("--" + c.name);
                             sw.WriteLine("local m=" + id.ToString());
                             sw.WriteLine("local cm=_G[\"c\"..m]");
-                            sw.WriteLine("xpcall(function() require(\"expansions/script/" + addrequire + "\") end,function() require(\"script/" + addrequire + "\") end)");
+                            sw.WriteLine("Duel.LoadScript(\"" + addrequire + ".lua\")");
                             sw.WriteLine("function cm.initial_effect(c)");
                             sw.WriteLine("\t");
                             sw.WriteLine("end");
