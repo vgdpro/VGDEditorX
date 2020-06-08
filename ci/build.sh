@@ -5,7 +5,7 @@ DEX_VERSION=$(grep -oP '\[DataEditorX\](.+)\[DataEditorX\]' DataEditorX/readme.t
 apt update
 apt -y install p7zip-full
 
-xbuild /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:OutDir=$PWD/output/
+xbuild /p:Configuration=Release /p:OutDir=$PWD/output/ # /p:TargetFrameworkVersion=v4.6 
 
 mkdir -p dist/releases
 cd output
