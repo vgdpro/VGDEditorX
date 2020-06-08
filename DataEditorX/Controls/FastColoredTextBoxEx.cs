@@ -20,33 +20,40 @@ namespace FastColoredTextBoxNS
 		public FastColoredTextBoxEx() : base()
 		{
             this.SyntaxHighlighter = new MySyntaxHighlighter();
-            this.TextChangedDelayed += FctbTextChangedDelayed;
+            this.TextChangedDelayed += this.FctbTextChangedDelayed;
 
 		}
 		public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
-			lastMouseCoord = e.Location;
+            this.lastMouseCoord = e.Location;
 		}
 		//函数悬停提示
 		protected override void OnToolTip()
 		{
-			if (ToolTip == null)
-				return;
-			if (ToolTipNeeded == null)
-				return;
+			if (this.ToolTip == null)
+            {
+                return;
+            }
 
-			//get place under mouse
-			Place place = PointToPlace(lastMouseCoord);
+            if (ToolTipNeeded == null)
+            {
+                return;
+            }
+
+            //get place under mouse
+            Place place = this.PointToPlace(this.lastMouseCoord);
 
 			//check distance
-			Point p = PlaceToPoint(place);
-			if (Math.Abs(p.X - lastMouseCoord.X) > CharWidth*2 ||
-			    Math.Abs(p.Y - lastMouseCoord.Y) > CharHeight*2)
-				return;
-			//get word under mouse
-			var r = new Range(this, place, place);
+			Point p = this.PlaceToPoint(place);
+			if (Math.Abs(p.X - this.lastMouseCoord.X) > this.CharWidth *2 ||
+			    Math.Abs(p.Y - this.lastMouseCoord.Y) > this.CharHeight *2)
+            {
+                return;
+            }
+            //get word under mouse
+            var r = new Range(this, place, place);
 			string hoveredWord = r.GetFragment("[a-zA-Z0-9_]").Text;
 			//event handler
 			var ea = new ToolTipNeededEventArgs(place, hoveredWord);
@@ -54,11 +61,11 @@ namespace FastColoredTextBoxNS
 
 			if (ea.ToolTipText != null)
 			{
-				//show tooltip
-				ToolTip.ToolTipTitle = ea.ToolTipTitle;
-				ToolTip.ToolTipIcon = ea.ToolTipIcon;
-				//ToolTip.SetToolTip(this, ea.ToolTipText);
-				ToolTip.Show(ea.ToolTipText, this, new Point(lastMouseCoord.X, lastMouseCoord.Y + CharHeight));
+                //show tooltip
+                this.ToolTip.ToolTipTitle = ea.ToolTipTitle;
+                this.ToolTip.ToolTipIcon = ea.ToolTipIcon;
+                //ToolTip.SetToolTip(this, ea.ToolTipText);
+                this.ToolTip.Show(ea.ToolTipText, this, new Point(this.lastMouseCoord.X, this.lastMouseCoord.Y + this.CharHeight));
 			}
 		}
         //高亮当前词
@@ -75,13 +82,21 @@ namespace FastColoredTextBoxNS
                 var line = this[i];
                 var spacesCount = line.StartSpacesCount;
                 if (spacesCount == line.Count) //empty line
+                {
                     continue;
+                }
+
                 if (currentIndent < spacesCount)
+                {
                     //append start folding marker
                     this[lastNonEmptyLine].FoldingStartMarker = "m" + currentIndent;
+                }
                 else if (currentIndent > spacesCount)
+                {
                     //append end folding marker
                     this[lastNonEmptyLine].FoldingEndMarker = "m" + spacesCount;
+                }
+
                 currentIndent = spacesCount;
                 lastNonEmptyLine = i;
             }

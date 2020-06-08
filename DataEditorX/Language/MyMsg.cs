@@ -19,7 +19,7 @@ namespace DataEditorX.Language
     /// </summary>
     public static class MyMsg
     {
-        static string info, warning, error, question;
+        static readonly string info, warning, error, question;
         static MyMsg()
         {
             info = LanguageHelper.GetMsg(LMSG.titleInfo);
@@ -47,9 +47,13 @@ namespace DataEditorX.Language
             if(MessageBox.Show(strQues, question,
                                MessageBoxButtons.OKCancel,
                                MessageBoxIcon.Question)==DialogResult.OK)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
         public static void Show(LMSG msg)
         {
@@ -71,9 +75,13 @@ namespace DataEditorX.Language
             if(MessageBox.Show(LanguageHelper.GetMsg(msg), question,
                                MessageBoxButtons.OKCancel,
                                MessageBoxIcon.Question)==DialogResult.OK)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

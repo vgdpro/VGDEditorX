@@ -31,14 +31,16 @@ namespace DataEditorX
                 Environment.Exit(1);
             }
             if (MyConfig.OpenOnExistForm(arg))//在已经存在的窗口打开文件
+            {
                 Environment.Exit(1);
+            }
             else//新建窗口
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 MainForm mainForm = new MainForm();
                 //设置将要打开的文件
-                mainForm.setOpenFile(arg);
+                mainForm.SetOpenFile(arg);
                 //数据目录
                 mainForm.SetDataPath(MyPath.Combine(Application.StartupPath, MyConfig.TAG_DATA));
 

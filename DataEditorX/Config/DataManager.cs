@@ -77,6 +77,8 @@ namespace DataEditorX.Config
         public static Dictionary<long, string> Read(string content)
         {
             string text = reReturn(content);
+            text = text.Replace("\r", "\n");
+            text = text.Replace("\n\n", "\n"); //Linux & MacOS 适配 190324 by JoyJ
             return Read(text.Split('\n'));
         }
         /// <summary>
@@ -90,18 +92,31 @@ namespace DataEditorX.Config
             long lkey;
             foreach (string line in lines)
             {
-                if (line.StartsWith("#"))
+                string l = line.Trim(); //姑且做一下Trim 190324 by JoyJ
+                if (l.StartsWith("#"))
+                {
                     continue;
-                string[] words = line.Split(SEP_LINE);
+                }
+
+                string[] words = l.Split(SEP_LINE);
                 if (words.Length < 2)
+                {
                     continue;
+                }
+
                 if (words[0].StartsWith("0x"))
+                {
                     long.TryParse(words[0].Replace("0x", ""), NumberStyles.HexNumber, null, out lkey);
+                }
                 else
+                {
                     long.TryParse(words[0], out lkey);
+                }
                 // N/A 的数据不显示
                 if (!tempDic.ContainsKey(lkey) && words[1] != "N/A")
+                {
                     tempDic.Add(lkey, words[1]);
+                }
             }
             return tempDic;
         }
@@ -136,8 +151,11 @@ namespace DataEditorX.Config
         public static string GetValue(Dictionary<long, string> dic, long key)
         {
         	if(dic.ContainsKey(key))
-        		return dic[key].Trim();
-        	return key.ToString("x");
+            {
+                return dic[key].Trim();
+            }
+
+            return key.ToString("x");
         }
         #endregion
     }

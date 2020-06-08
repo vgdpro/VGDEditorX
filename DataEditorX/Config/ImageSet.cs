@@ -18,7 +18,7 @@ namespace DataEditorX.Config
 	public class ImageSet
 	{
 		public ImageSet(){
-            Init();
+            this.Init();
 		}
         //初始化
 		void Init()

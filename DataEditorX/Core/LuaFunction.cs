@@ -19,26 +19,26 @@ namespace DataEditorX
 	public class LuaFunction
 	{
 		#region 日志log
-		static void ResetLog(string file)
+		static void ResetLog()
 		{
-			File.Delete(logtxt);
+			File.Delete(_logtxt);
 		}
 		static void Log(string str)
 		{
-			File.AppendAllText(logtxt, str+Environment.NewLine);
+			File.AppendAllText(_logtxt, str+Environment.NewLine);
 		}
 		#endregion
 		
 		#region old functions 
-        static string oldfun;
-        static string logtxt;
-        static string funclisttxt;
-		static SortedList<string,string> funclist=new SortedList<string,string>();
+        static string _oldfun;
+        static string _logtxt;
+        static string _funclisttxt;
+		static readonly SortedList<string,string> _funclist=new SortedList<string,string>();
         //读取旧函数
         public static void Read(string funtxt)
 		{
-			funclist.Clear();
-			oldfun=funtxt;
+			_funclist.Clear();
+			_oldfun=funtxt;
 			if(File.Exists(funtxt))
 			{
 				string[] lines=File.ReadAllLines(funtxt);
@@ -50,8 +50,11 @@ namespace DataEditorX
 					if(string.IsNullOrEmpty(line)
 					   || line.StartsWith("==")
 					   || line.StartsWith("#"))
-						continue;
-					if(line.StartsWith("●"))
+                    {
+                        continue;
+                    }
+
+                    if (line.StartsWith("●"))
 					{
 						//添加之前的函数
                         AddOldFun(name, desc);
@@ -76,13 +79,13 @@ namespace DataEditorX
         {
             if (!string.IsNullOrEmpty(name))
             {
-                if (funclist.ContainsKey(name))//存在，则添加注释
+                if (_funclist.ContainsKey(name))//存在，则添加注释
                 {
-                    funclist[name] += Environment.NewLine + desc;
+                    _funclist[name] += Environment.NewLine + desc;
                 }
                 else
                 {//不存在，则添加函数
-                    funclist.Add(name, desc);
+                    _funclist.Add(name, desc);
                 }
             }
         }
@@ -99,10 +102,10 @@ namespace DataEditorX
 			string name="interpreter.cpp";
 			string file=Path.Combine(path,name);
 			string file2=Path.Combine(Path.Combine(path, "ocgcore"), name);
-			logtxt=Path.Combine(path, "find_functions.log");
-			ResetLog(logtxt);
-			funclisttxt =Path.Combine(path, "_functions.txt");
-			File.Delete(funclisttxt);
+			_logtxt=Path.Combine(path, "find_functions.log");
+			ResetLog();
+			_funclisttxt =Path.Combine(path, "_functions.txt");
+			File.Delete(_funclisttxt);
 			if(!File.Exists(file)){//判断用户选择的目录
 				Log("error: no find file "+file);
 				if(File.Exists(file2)){
@@ -135,16 +138,19 @@ namespace DataEditorX
         //保存
         static void Save()
         {
-            if (string.IsNullOrEmpty(oldfun))
+            if (string.IsNullOrEmpty(_oldfun))
+            {
                 return;
-            using (FileStream fs = new FileStream(oldfun + "_sort.txt",
+            }
+
+            using (FileStream fs = new FileStream(_oldfun + "_sort.txt",
                                                FileMode.Create,
                                                FileAccess.Write))
             {
                 StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-                foreach (string k in funclist.Keys)
+                foreach (string k in _funclist.Keys)
                 {
-                    sw.WriteLine("●" + funclist[k]);
+                    sw.WriteLine("●" + _funclist[k]);
                 }
                 sw.Close();
             }
@@ -171,8 +177,10 @@ namespace DataEditorX
 					string k=ToTitle(name)+"."+m.Groups[1].Value;
 					string v=m.Groups[2].Value;
 					if(!dic.ContainsKey(k))
-						dic.Add(k,v);
-				}
+                    {
+                        dic.Add(k,v);
+                    }
+                }
 			}
 			return dic;
 		}
@@ -189,41 +197,63 @@ namespace DataEditorX
 			if(mc.Success)
 			{
 				if(mc.Groups.Count>1)
-					return mc.Groups[0].Value
+                {
+                    return mc.Groups[0].Value
 						.Replace("\r\n","\n")
 						.Replace("\r","\n")
 						.Replace("\n",Environment.NewLine);
-			}
+                }
+            }
 			return "";
 		}
 		#endregion
 		
 		#region find return
         //查找返回类型
-		static string FindReturn(string texts,string name)
+		static string FindReturn(string texts)
 		{
 			string restr="";
 			if(texts.IndexOf("lua_pushboolean")>=0)
-				return "bool ";
-			else
+            {
+                return "bool ";
+            }
+            else
 			{
 				if(texts.IndexOf("interpreter::card2value")>=0)
-					restr += "Card ";
-				if(texts.IndexOf("interpreter::group2value")>=0)
-					restr += "Group ";
-				if(texts.IndexOf("interpreter::effect2value")>=0)
-					restr += "Effect ";
-				else if(texts.IndexOf("interpreter::function2value")>=0)
-					restr += "function ";
-				
-				if(texts.IndexOf("lua_pushinteger")>=0)
-					restr += "int ";
-				if(texts.IndexOf("lua_pushstring")>=0)
-					restr += "string ";
-			}
+                {
+                    restr += "Card ";
+                }
+
+                if (texts.IndexOf("interpreter::group2value")>=0)
+                {
+                    restr += "Group ";
+                }
+
+                if (texts.IndexOf("interpreter::effect2value")>=0)
+                {
+                    restr += "Effect ";
+                }
+                else if(texts.IndexOf("interpreter::function2value")>=0)
+                {
+                    restr += "function ";
+                }
+
+                if (texts.IndexOf("lua_pushinteger")>=0)
+                {
+                    restr += "int ";
+                }
+
+                if (texts.IndexOf("lua_pushstring")>=0)
+                {
+                    restr += "string ";
+                }
+            }
 			if(string.IsNullOrEmpty(restr))
-				restr="void ";
-			if(restr.IndexOf(" ") !=restr.Length-1){
+            {
+                restr ="void ";
+            }
+
+            if (restr.IndexOf(" ") !=restr.Length-1){
 				restr = restr.Replace(" ","|").Substring(0,restr.Length-1)+" ";
 			}
 			return restr;
@@ -235,13 +265,21 @@ namespace DataEditorX
 		static string getUserType(string str)
 		{
 			if(str.IndexOf("card")>=0)
-				return "Card";
-			if(str.IndexOf("effect")>=0)
-				return "Effect";
-			if(str.IndexOf("group")>=0)
-				return "Group";
-			
-			return "Any";
+            {
+                return "Card";
+            }
+
+            if (str.IndexOf("effect")>=0)
+            {
+                return "Effect";
+            }
+
+            if (str.IndexOf("group")>=0)
+            {
+                return "Group";
+            }
+
+            return "Any";
 		}
 		
 		static void AddArgs(string texts,string regx,string arg,SortedList<int,string> dic)
@@ -256,13 +294,17 @@ namespace DataEditorX
 					string v=arg;
 					int k=int.Parse(m.Groups[1].Value);
 					if(dic.ContainsKey(k))
-						dic[k] = dic[k]+"|"+v;
-					else
-						dic.Add(k,v);
-				}
+                    {
+                        dic[k] = dic[k]+"|"+v;
+                    }
+                    else
+                    {
+                        dic.Add(k,v);
+                    }
+                }
 			}
 		}
-		static string FindArgs(string texts,string name)
+		static string FindArgs(string texts)
 		{
 			SortedList<int,string> dic=new SortedList<int, string>();
 			//card effect ggroup
@@ -276,10 +318,14 @@ namespace DataEditorX
 					v = getUserType(v);
 					int k=int.Parse(m.Groups[2].Value);
 					if(dic.ContainsKey(k))
-						dic[k] = dic[k]+"|"+v;
-					else
-						dic.Add(k,v);
-				}
+                    {
+                        dic[k] = dic[k]+"|"+v;
+                    }
+                    else
+                    {
+                        dic.Add(k,v);
+                    }
+                }
 			}
 			//function
 			AddArgs(texts
@@ -298,8 +344,11 @@ namespace DataEditorX
 				args +=dic[i]+", ";
 			}
 			if(args.Length>1)
-				args = args.Substring(0,args.Length-2);
-			args += ")";
+            {
+                args = args.Substring(0,args.Length-2);
+            }
+
+            args += ")";
 			return args;
 		}
 		#endregion
@@ -308,9 +357,12 @@ namespace DataEditorX
         //查找旧函数的描述
 		static string FindOldDesc(string name)
 		{
-			if(funclist.ContainsKey(name))
-				return funclist[name];
-			return "";
+			if(_funclist.ContainsKey(name))
+            {
+                return _funclist[name];
+            }
+
+            return "";
 		}
 		#endregion
 		
@@ -337,19 +389,19 @@ namespace DataEditorX
 			{
 				StreamWriter sw=new StreamWriter(fs, Encoding.UTF8);
 				sw.WriteLine("========== "+name+" ==========");
-                File.AppendAllText(funclisttxt, "========== " + name + " ==========" + Environment.NewLine);
+                File.AppendAllText(_funclisttxt, "========== " + name + " ==========" + Environment.NewLine);
 				foreach(string k in fun.Keys)
 				{
 					string v=fun[k];
 					string code=FindCode(cpps, v);
-					string txt="●"+FindReturn(code,v)+k+FindArgs(code,v)
+					string txt="●"+FindReturn(code)+k+FindArgs(code)
 						+Environment.NewLine
 						+FindOldDesc(k)
 						+Environment.NewLine
 						+code;
 					sw.WriteLine(txt);
 					
-					File.AppendAllText(funclisttxt,txt + Environment.NewLine);
+					File.AppendAllText(_funclisttxt,txt + Environment.NewLine);
 				}
 				sw.Close();
 			}

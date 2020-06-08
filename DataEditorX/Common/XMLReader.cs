@@ -25,7 +25,9 @@ namespace DataEditorX.Common
 
             XmlElement xElem = (XmlElement)xNode.SelectSingleNode("//add[@key='" + appKey + "']");
             if (xElem != null) //存在，则更新
+            {
                 xElem.SetAttribute("value", appValue);
+            }
             else//不存在，则插入
             {
                 XmlElement xNewElem = xDoc.CreateElement("add");

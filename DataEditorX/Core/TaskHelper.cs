@@ -47,7 +47,7 @@ namespace DataEditorX.Core
 		/// </summary>
 		public Card[] CardList
 		{
-			get { return cardlist; }
+			get { return this.cardlist; }
 		}
 		/// <summary>
 		/// 任务参数
@@ -56,11 +56,11 @@ namespace DataEditorX.Core
 		/// <summary>
 		/// 图片设置
 		/// </summary>
-		private ImageSet imgSet;
+		private readonly ImageSet imgSet;
 		/// <summary>
 		/// MSE转换
 		/// </summary>
-		private MseMaker mseHelper;
+		private readonly MseMaker mseHelper;
 		/// <summary>
 		/// 是否取消
 		/// </summary>
@@ -72,38 +72,38 @@ namespace DataEditorX.Core
 		/// <summary>
 		/// 后台工作线程
 		/// </summary>
-		private BackgroundWorker worker;
+		private readonly BackgroundWorker worker;
 
 		public TaskHelper(string datapath, BackgroundWorker worker, MSEConfig mcfg)
 		{
 			this.worker = worker;
-			mseHelper = new MseMaker(mcfg);
-			imgSet = new ImageSet();
+            this.mseHelper = new MseMaker(mcfg);
+            this.imgSet = new ImageSet();
 		}
 		public MseMaker MseHelper
 		{
-			get { return mseHelper; }
+			get { return this.mseHelper; }
 		}
 		public bool IsRuning()
 		{
-			return isRun;
+			return this.isRun;
 		}
 		public bool IsCancel()
 		{
-			return isCancel;
+			return this.isCancel;
 		}
 		public void Cancel()
 		{
-			isRun = false;
-			isCancel = true;
+            this.isRun = false;
+            this.isCancel = true;
 		}
 		public MyTask getLastTask()
 		{
-			return lastTask;
+			return this.lastTask;
 		}
 		
 		public void testPendulumText(string desc){
-			mseHelper.testPendulum(desc);
+            this.mseHelper.TestPendulum(desc);
 		}
 		#endregion
 
@@ -111,19 +111,22 @@ namespace DataEditorX.Core
 		//设置任务
 		public void SetTask(MyTask myTask, Card[] cards, params string[] args)
 		{
-			nowTask = myTask;
-			cardlist = cards;
-			mArgs = args;
+            this.nowTask = myTask;
+            this.cardlist = cards;
+            this.mArgs = args;
 		}
 		//转换图片
 		//public void ToImg(string img, string saveimg1, string saveimg2)
 		public void ToImg(string img, string saveimg1)
 		{
 			if (!File.Exists(img))
-				return;
-			Bitmap bmp = new Bitmap(img);
-			MyBitmap.SaveAsJPEG(MyBitmap.Zoom(bmp, imgSet.W, imgSet.H),
-								saveimg1, imgSet.quilty);
+            {
+                return;
+            }
+
+            Bitmap bmp = new Bitmap(img);
+			MyBitmap.SaveAsJPEG(MyBitmap.Zoom(bmp, this.imgSet.W, this.imgSet.H),
+								saveimg1, this.imgSet.quilty);
 			//MyBitmap.SaveAsJPEG(MyBitmap.Zoom(bmp, imgSet.w, imgSet.h),
 			//					saveimg2, imgSet.quilty);
 			bmp.Dispose();
@@ -137,30 +140,44 @@ namespace DataEditorX.Core
 			if (newver == CheckUpdate.DEFALUT)
 			{   //检查失败
 				if (!showNew)
-					return;
-				MyMsg.Error(LMSG.CheckUpdateFail);
+                {
+                    return;
+                }
+
+                MyMsg.Error(LMSG.CheckUpdateFail);
 				return;
 			}
 
 			if (CheckUpdate.CheckVersion(newver, Application.ProductVersion))
 			{//有最新版本
 				if (!MyMsg.Question(LMSG.HaveNewVersion))
-					return;
-			}
+                {
+                    return;
+                }
+            }
 			else
 			{//现在就是最新版本
 				if (!showNew)
-					return;
-				if (!MyMsg.Question(LMSG.NowIsNewVersion))
-					return;
-			}
+                {
+                    return;
+                }
+
+                if (!MyMsg.Question(LMSG.NowIsNewVersion))
+                {
+                    return;
+                }
+            }
 			//下载文件
 			if (CheckUpdate.DownLoad(
 				MyPath.Combine(Application.StartupPath, newver + ".zip")))
-				MyMsg.Show(LMSG.DownloadSucceed);
-			else
-				MyMsg.Show(LMSG.DownloadFail);
-		}
+            {
+                MyMsg.Show(LMSG.DownloadSucceed);
+            }
+            else
+            {
+                MyMsg.Show(LMSG.DownloadFail);
+            }
+        }
 		public void OnCheckUpdate(bool showNew)
 		{
 			TaskHelper.CheckVersion(showNew);
@@ -170,34 +187,37 @@ namespace DataEditorX.Core
 		#region 裁剪图片
 		public void CutImages(string imgpath, bool isreplace)
 		{
-			int count = cardlist.Length;
+			int count = this.cardlist.Length;
 			int i = 0;
-			foreach (Card c in cardlist)
+			foreach (Card c in this.cardlist)
 			{
-				if (isCancel)
-					break;
-				i++;
-				worker.ReportProgress((i / count), string.Format("{0}/{1}", i, count));
+				if (this.isCancel)
+                {
+                    break;
+                }
+
+                i++;
+                this.worker.ReportProgress((i / count), string.Format("{0}/{1}", i, count));
 				string jpg = MyPath.Combine(imgpath, c.id + ".jpg");
-				string savejpg = MyPath.Combine(mseHelper.ImagePath, c.id + ".jpg");
+				string savejpg = MyPath.Combine(this.mseHelper.ImagePath, c.id + ".jpg");
 				if (File.Exists(jpg) && (isreplace || !File.Exists(savejpg)))
 				{
 					Bitmap bp = new Bitmap(jpg);
-					Bitmap bmp = null;
-					if (c.IsType(CardType.TYPE_XYZ))//超量
+                    Bitmap bmp;
+                    if (c.IsType(CardType.TYPE_XYZ))//超量
 					{
-						bmp = MyBitmap.Cut(bp, imgSet.xyzArea);
+						bmp = MyBitmap.Cut(bp, this.imgSet.xyzArea);
 					}
 					else if (c.IsType(CardType.TYPE_PENDULUM))//P怪兽
 					{
-						bmp = MyBitmap.Cut(bp, imgSet.pendulumArea);
+						bmp = MyBitmap.Cut(bp, this.imgSet.pendulumArea);
 					}
 					else//一般
 					{
-						bmp = MyBitmap.Cut(bp, imgSet.normalArea);
+						bmp = MyBitmap.Cut(bp, this.imgSet.normalArea);
 					}
 					bp.Dispose();
-					MyBitmap.SaveAsJPEG(bmp, savejpg, imgSet.quilty);
+					MyBitmap.SaveAsJPEG(bmp, savejpg, this.imgSet.quilty);
 					//bmp.Save(savejpg, ImageFormat.Png);
 				}
 			}
@@ -216,10 +236,13 @@ namespace DataEditorX.Core
 
 			foreach (string f in files)
 			{
-				if (isCancel)
-					break;
-				i++;
-				worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
+				if (this.isCancel)
+                {
+                    break;
+                }
+
+                i++;
+                this.worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
 				string ex = Path.GetExtension(f).ToLower();
 				string name = Path.GetFileNameWithoutExtension(f);
 				string jpg_b = MyPath.Combine(picspath, name + ".jpg");
@@ -233,8 +256,8 @@ namespace DataEditorX.Core
 						if (isreplace || !File.Exists(jpg_b))
 						{
 
-							MyBitmap.SaveAsJPEG(MyBitmap.Zoom(bmp, imgSet.W, imgSet.H),
-							                    jpg_b, imgSet.quilty);
+							MyBitmap.SaveAsJPEG(MyBitmap.Zoom(bmp, this.imgSet.W, this.imgSet.H),
+							                    jpg_b, this.imgSet.quilty);
 						}
 						//小图，如果替换，或者不存在
 						//if (isreplace || !File.Exists(jpg_s))
@@ -252,50 +275,63 @@ namespace DataEditorX.Core
 		#region MSE存档
 		public string MSEImagePath
 		{
-			get { return mseHelper.ImagePath; }
+			get { return this.mseHelper.ImagePath; }
 		}
 		public void SaveMSEs(string file, Card[] cards,bool isUpdate)
 		{
 			if(cards == null)
-				return;
-			string pack_db=MyPath.GetRealPath(MyConfig.readString("pack_db"));
+            {
+                return;
+            }
+
+            string pack_db=MyPath.GetRealPath(MyConfig.readString("pack_db"));
 			bool rarity=MyConfig.readBoolean("mse_auto_rarity", false);
 			#if DEBUG
 			MessageBox.Show("db = "+pack_db+",auto rarity="+rarity);
 			#endif
 			int c = cards.Length;
 			//不分开，或者卡片数小于单个存档的最大值
-			if (mseHelper.MaxNum == 0 || c < mseHelper.MaxNum)
-				SaveMSE(1, file, cards,pack_db, rarity, isUpdate);
-			else
+			if (this.mseHelper.MaxNum == 0 || c < this.mseHelper.MaxNum)
+            {
+                this.SaveMSE(1, file, cards,pack_db, rarity, isUpdate);
+            }
+            else
 			{
-				int nums = c / mseHelper.MaxNum;
-				if (nums * mseHelper.MaxNum < c)//计算需要分多少个存档
-					nums++;
-				List<Card> clist = new List<Card>();
+				int nums = c / this.mseHelper.MaxNum;
+				if (nums * this.mseHelper.MaxNum < c)//计算需要分多少个存档
+                {
+                    nums++;
+                }
+
+                List<Card> clist = new List<Card>();
 				for (int i = 0; i < nums; i++)//分别生成存档
 				{
 					clist.Clear();
-					for (int j = 0; j < mseHelper.MaxNum; j++)
+					for (int j = 0; j < this.mseHelper.MaxNum; j++)
 					{
-						int index = i * mseHelper.MaxNum + j;
+						int index = i * this.mseHelper.MaxNum + j;
 						if (index < c)
-							clist.Add(cards[index]);
-					}
+                        {
+                            clist.Add(cards[index]);
+                        }
+                    }
 					int t = file.LastIndexOf(".mse-set");
 					string fname = (t > 0) ? file.Substring(0, t) : file;
-					fname = fname + string.Format("_{0}.mse-set", i + 1);
-					SaveMSE(i + 1, fname, clist.ToArray(),pack_db, rarity, isUpdate);
+					fname += string.Format("_{0}.mse-set", i + 1);
+                    this.SaveMSE(i + 1, fname, clist.ToArray(),pack_db, rarity, isUpdate);
 				}
 			}
 		}
 		public void SaveMSE(int num, string file, Card[] cards,string pack_db,bool rarity, bool isUpdate)
 		{
 			string setFile = file + ".txt";
-			Dictionary<Card, string> images = mseHelper.WriteSet(setFile, cards,pack_db,rarity);
+			Dictionary<Card, string> images = this.mseHelper.WriteSet(setFile, cards,pack_db,rarity);
 			if (isUpdate)//仅更新文字
-				return;
-			int i = 0;
+            {
+                return;
+            }
+
+            int i = 0;
 			int count = images.Count;
 			using (ZipStorer zips = ZipStorer.Create(file, ""))
 			{
@@ -304,12 +340,15 @@ namespace DataEditorX.Core
 				foreach (Card c in images.Keys)
 				{
 					string img=images[c];
-					if (isCancel)
-						break;
-					i++;
-					worker.ReportProgress(i / count, string.Format("{0}/{1}-{2}", i, count, num));
+					if (this.isCancel)
+                    {
+                        break;
+                    }
+
+                    i++;
+                    this.worker.ReportProgress(i / count, string.Format("{0}/{1}-{2}", i, count, num));
 					//TODO 先裁剪图片
-					zips.AddFile(mseHelper.getImageCache(img,c), Path.GetFileName(img), "");
+					zips.AddFile(this.mseHelper.GetImageCache(img,c), Path.GetFileName(img), "");
 				}
 			}
 			File.Delete(setFile);
@@ -325,13 +364,13 @@ namespace DataEditorX.Core
 				int i = 0;
 				foreach (ZipStorer.ZipFileEntry file in files)
 				{
-					worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
-					string savefilename = MyPath.Combine(mseHelper.ImagePath, file.FilenameInZip);
+                    this.worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
+					string savefilename = MyPath.Combine(this.mseHelper.ImagePath, file.FilenameInZip);
 					zips.ExtractFile(file, savefilename);
 				}
 			}
-			string setfile = MyPath.Combine(mseHelper.ImagePath, "set");
-			return mseHelper.ReadCards(setfile, repalceOld);
+			string setfile = MyPath.Combine(this.mseHelper.ImagePath, "set");
+			return this.mseHelper.ReadCards(setfile, repalceOld);
 		}
 		#endregion
 
@@ -339,10 +378,13 @@ namespace DataEditorX.Core
 		public void ExportData(string path, string zipname, string _cdbfile, string modulescript)
 		{
 			int i = 0;
-			Card[] cards = cardlist;
+			Card[] cards = this.cardlist;
 			if (cards == null || cards.Length == 0)
-				return;
-			int count = cards.Length;
+            {
+                return;
+            }
+
+            int count = cards.Length;
 			YgoPath ygopath = new YgoPath(path);
 			string name = Path.GetFileNameWithoutExtension(zipname);
 			//数据库
@@ -354,30 +396,44 @@ namespace DataEditorX.Core
 			//module scripts
 			string extra_script = "";
 			if (modulescript.Length > 0)
-				extra_script = ygopath.GetModuleScript(modulescript);
-			
-			File.Delete(cdbfile);
+            {
+                extra_script = ygopath.GetModuleScript(modulescript);
+            }
+
+            File.Delete(cdbfile);
 			DataBase.Create(cdbfile);
-			DataBase.CopyDB(cdbfile, false, cardlist);
+			DataBase.CopyDB(cdbfile, false, this.cardlist);
 			if (File.Exists(zipname))
-				File.Delete(zipname);
-			using (ZipStorer zips = ZipStorer.Create(zipname, ""))
+            {
+                File.Delete(zipname);
+            }
+
+            using (ZipStorer zips = ZipStorer.Create(zipname, ""))
 			{
 				zips.AddFile(cdbfile,  Path.GetFileNameWithoutExtension(_cdbfile) + ".cdb", "");
 				if (File.Exists(readme))
-					zips.AddFile(readme, "readme_" + name + ".txt", "");
-				if (File.Exists(deckydk))
-					zips.AddFile(deckydk, "deck/" + name + ".ydk", "");
-				if (modulescript.Length > 0 && File.Exists(extra_script))
-					zips.AddFile(extra_script, extra_script.Replace(path, ""), "");
-				foreach (Card c in cards)
+                {
+                    zips.AddFile(readme, "readme_" + name + ".txt", "");
+                }
+
+                if (File.Exists(deckydk))
+                {
+                    zips.AddFile(deckydk, "deck/" + name + ".ydk", "");
+                }
+
+                if (modulescript.Length > 0 && File.Exists(extra_script))
+                {
+                    zips.AddFile(extra_script, extra_script.Replace(path, ""), "");
+                }
+
+                foreach (Card c in cards)
 				{
 					i++;
-					worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
+                    this.worker.ReportProgress(i / count, string.Format("{0}/{1}", i, count));
 					string[] files = ygopath.GetCardfiles(c.id);
 					foreach (string file in files)
 					{
-						if (!String.Equals(file, extra_script) && File.Exists(file))
+						if (!string.Equals(file, extra_script) && File.Exists(file))
 						{
 							zips.AddFile(file, file.Replace(path,""), "");
 						}
@@ -391,81 +447,92 @@ namespace DataEditorX.Core
 		#region 运行
 		public void Run()
 		{
-			isCancel = false;
-			isRun = true;
+            this.isCancel = false;
+            this.isRun = true;
 			bool replace;
 			bool showNew;
-			switch (nowTask)
+			switch (this.nowTask)
 			{
 				case MyTask.ExportData:
-					if (mArgs != null && mArgs.Length >= 3)
+					if (this.mArgs != null && this.mArgs.Length >= 3)
 					{
-						ExportData(mArgs[0], mArgs[1], mArgs[2], mArgs[3]);
+                        this.ExportData(this.mArgs[0], this.mArgs[1], this.mArgs[2], this.mArgs[3]);
 					}
 					break;
 				case MyTask.CheckUpdate:
 					showNew = false;
-					if (mArgs != null && mArgs.Length >= 1)
+					if (this.mArgs != null && this.mArgs.Length >= 1)
 					{
-						showNew = (mArgs[0] == Boolean.TrueString) ? true : false;
+						showNew = (this.mArgs[0] == bool.TrueString) ? true : false;
 					}
-					OnCheckUpdate(showNew);
+                    this.OnCheckUpdate(showNew);
 					break;
 				case MyTask.CutImages:
-					if (mArgs != null && mArgs.Length >= 2)
+					if (this.mArgs != null && this.mArgs.Length >= 2)
 					{
 						replace = true;
-						if (mArgs.Length >= 2)
+						if (this.mArgs.Length >= 2)
 						{
-							if (mArgs[1] == Boolean.FalseString)
-								replace = false;
-						}
-						CutImages(mArgs[0], replace);
+							if (this.mArgs[1] == bool.FalseString)
+                            {
+                                replace = false;
+                            }
+                        }
+                        this.CutImages(this.mArgs[0], replace);
 					}
 					break;
 				case MyTask.SaveAsMSE:
-					if (mArgs != null && mArgs.Length >= 2)
+					if (this.mArgs != null && this.mArgs.Length >= 2)
 					{
 						replace = false;
-						if (mArgs.Length >= 2)
+						if (this.mArgs.Length >= 2)
 						{
-							if (mArgs[1] == Boolean.TrueString)
-								replace = true;
-						}
-						SaveMSEs(mArgs[0], cardlist, replace);
+							if (this.mArgs[1] == bool.TrueString)
+                            {
+                                replace = true;
+                            }
+                        }
+                        this.SaveMSEs(this.mArgs[0], this.cardlist, replace);
 					}
 					break;
 				case MyTask.ReadMSE:
-					if (mArgs != null && mArgs.Length >= 2)
+					if (this.mArgs != null && this.mArgs.Length >= 2)
 					{
 						replace = false;
-						if (mArgs.Length >= 2)
+						if (this.mArgs.Length >= 2)
 						{
-							if (mArgs[1] == Boolean.TrueString)
-								replace = true;
-						}
-						cardlist = ReadMSE(mArgs[0], replace);
+							if (this.mArgs[1] == bool.TrueString)
+                            {
+                                replace = true;
+                            }
+                        }
+                        this.cardlist = this.ReadMSE(this.mArgs[0], replace);
 					}
 					break;
 				case MyTask.ConvertImages:
-					if (mArgs != null && mArgs.Length >= 2)
+					if (this.mArgs != null && this.mArgs.Length >= 2)
 					{
 						replace = true;
-						if (mArgs.Length >= 3)
+						if (this.mArgs.Length >= 3)
 						{
-							if (mArgs[2] == Boolean.FalseString)
-								replace = false;
-						}
-						ConvertImages(mArgs[0], mArgs[1], replace);
+							if (this.mArgs[2] == bool.FalseString)
+                            {
+                                replace = false;
+                            }
+                        }
+                        this.ConvertImages(this.mArgs[0], this.mArgs[1], replace);
 					}
 					break;
 			}
-			isRun = false;
-			lastTask = nowTask;
-			nowTask = MyTask.NONE;
-			if(lastTask != MyTask.ReadMSE)
-				cardlist = null;
-			mArgs = null;
+            this.isRun = false;
+            this.lastTask = this.nowTask;
+            this.nowTask = MyTask.NONE;
+			if(this.lastTask != MyTask.ReadMSE)
+            {
+                this.cardlist = null;
+            }
+
+            this.mArgs = null;
 		}
 		#endregion
 	}

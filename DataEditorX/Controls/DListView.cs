@@ -9,10 +9,10 @@ namespace DataEditorX
     {
         public DListView()
         {
-            SetStyle(ControlStyles.OptimizedDoubleBuffer |
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint,
                      true);
-            UpdateStyles();
+            this.UpdateStyles();
         }
     }
 }

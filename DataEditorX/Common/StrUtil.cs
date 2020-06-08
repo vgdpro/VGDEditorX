@@ -9,22 +9,30 @@ namespace DataEditorX.Common
 		public static string AutoEnter(string str, int lineNum, char re)
 		{
 			if (str == null || str.Length == 0)
-				return "";
-			str = " "+str.Replace("\r\n", "\n");
-			char[] ch = str.ToCharArray();
-			int count = ch.Length;
+            {
+                return "";
+            }
 
-			StringBuilder sb = new StringBuilder();
+            str = " "+str.Replace("\r\n", "\n");
+			char[] ch = str.ToCharArray();
+            _ = ch.Length;
+
+            StringBuilder sb = new StringBuilder();
 			
 			int i = 0;
 			foreach (char c in ch)
 			{
 				int ic = c;
 				if (ic > 128)
-					i += 2;
-				else
-					i += 1;
-				if (c == '\n' || c == '\r')
+                {
+                    i += 2;
+                }
+                else
+                {
+                    i += 1;
+                }
+
+                if (c == '\n' || c == '\r')
 				{
 					sb.Append(re);
 					i = 0;

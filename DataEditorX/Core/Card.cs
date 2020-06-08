@@ -38,8 +38,10 @@ namespace DataEditorX.Core
             this.desc = "";
             this.str = new string[STR_MAX];
             for (int i = 0; i < STR_MAX; i++)
+            {
                 this.str[i] = "";
-		}
+            }
+        }
 		#endregion
 
 		#region 成员
@@ -78,8 +80,10 @@ namespace DataEditorX.Core
                     {
                         this.str = new string[STR_MAX];
                         for (int i = 0; i < STR_MAX; i++)
-                            this.str[i] = "";
+                    {
+                        this.str[i] = "";
                     }
+                }
                 return this.str;
                 }
             set { this.str = value; }
@@ -110,12 +114,11 @@ namespace DataEditorX.Core
         {
             int i = 0;
             this.setcode = 0;
-            long temp;
             if (setcodes != null)
             {
                 foreach (string sc in setcodes)
                 {
-                    long.TryParse(sc, NumberStyles.HexNumber, null, out temp);
+                    long.TryParse(sc, NumberStyles.HexNumber, null, out long temp);
                     this.setcode += (temp << i);
                     i += 0x10;
                 }
@@ -140,10 +143,14 @@ namespace DataEditorX.Core
 		public override bool Equals(object obj)
 		{
 			if (obj is Card)
-				return Equals((Card)obj); // use Equals method below
-			else
-				return false;
-		}
+            {
+                return this.Equals((Card)obj); // use Equals method below
+            }
+            else
+            {
+                return false;
+            }
+        }
 		/// <summary>
 		/// 比较卡片，除脚本提示文本
 		/// </summary>
@@ -153,32 +160,59 @@ namespace DataEditorX.Core
 		{
 			bool equalBool = true;
 			if (this.id != other.id)
-				equalBool = false;
-			else if (this.ot != other.ot)
-				equalBool = false;
-			else if (this.alias != other.alias)
-				equalBool = false;
-			else if (this.setcode != other.setcode)
-				equalBool = false;
-			else if (this.type != other.type)
-				equalBool = false;
-			else if (this.atk != other.atk)
-				equalBool = false;
-			else if (this.def != other.def)
-				equalBool = false;
-			else if (this.level != other.level)
-				equalBool = false;
-			else if (this.race != other.race)
-				equalBool = false;
-			else if (this.attribute != other.attribute)
-				equalBool = false;
-			else if (this.category != other.category)
-				equalBool = false;
-			else if (!this.name.Equals(other.name))
-				equalBool = false;
-			else if (!this.desc.Equals(other.desc))
-				equalBool = false;
-			return equalBool;
+            {
+                equalBool = false;
+            }
+            else if (this.ot != other.ot)
+            {
+                equalBool = false;
+            }
+            else if (this.alias != other.alias)
+            {
+                equalBool = false;
+            }
+            else if (this.setcode != other.setcode)
+            {
+                equalBool = false;
+            }
+            else if (this.type != other.type)
+            {
+                equalBool = false;
+            }
+            else if (this.atk != other.atk)
+            {
+                equalBool = false;
+            }
+            else if (this.def != other.def)
+            {
+                equalBool = false;
+            }
+            else if (this.level != other.level)
+            {
+                equalBool = false;
+            }
+            else if (this.race != other.race)
+            {
+                equalBool = false;
+            }
+            else if (this.attribute != other.attribute)
+            {
+                equalBool = false;
+            }
+            else if (this.category != other.category)
+            {
+                equalBool = false;
+            }
+            else if (!this.name.Equals(other.name))
+            {
+                equalBool = false;
+            }
+            else if (!this.desc.Equals(other.desc))
+            {
+                equalBool = false;
+            }
+
+            return equalBool;
 		}
 		/// <summary>
 		/// 比较卡片是否一致？
@@ -187,12 +221,16 @@ namespace DataEditorX.Core
 		/// <returns>结果</returns>
 		public bool Equals(Card other)
 		{
-			bool equalBool=EqualsData(other);
+			bool equalBool=this.EqualsData(other);
 			if(!equalBool)
-				return false;
-			else if (this.str.Length != other.str.Length)
-				equalBool = false;
-			else
+            {
+                return false;
+            }
+            else if (this.str.Length != other.str.Length)
+            {
+                equalBool = false;
+            }
+            else
 			{
 				int l = this.str.Length;
 				for (int i = 0; i < l; i++)
@@ -213,7 +251,7 @@ namespace DataEditorX.Core
 		public override int GetHashCode()
 		{
 			// combine the hash codes of all members here (e.g. with XOR operator ^)
-			int hashCode = id.GetHashCode() + name.GetHashCode();
+			int hashCode = this.id.GetHashCode() + this.name.GetHashCode();
 			return hashCode;//member.GetHashCode();
 		}
 		/// <summary>
@@ -230,8 +268,11 @@ namespace DataEditorX.Core
         /// <returns></returns>
 		public bool IsType(CardType type){
 			if((this.type & (long)type) == (long)type)
-				return true;
-			return false;
+            {
+                return true;
+            }
+
+            return false;
 		}
         /// <summary>
         /// 是否是某系列
@@ -246,8 +287,11 @@ namespace DataEditorX.Core
             while (setcode != 0)
             {
                 if ((setcode & 0xfff) == settype && (setcode & 0xf000 & setsubtype) == setsubtype)
+                {
                     return true;
-                setcode = setcode >> 0x10;
+                }
+
+                setcode >>= 0x10;
             }
             return false;
 		}
@@ -264,47 +308,54 @@ namespace DataEditorX.Core
         /// <summary>
         /// 密码字符串
         /// </summary>
-        public string idString
+        public string IdString
         {
-            get { return id.ToString("00000000"); }
+            get { return this.id.ToString("00000000"); }
         }
         /// <summary>
         /// 字符串化
         /// </summary>
         public override string ToString()
         {
-            string str = "";
-            if (IsType(CardType.TYPE_MONSTER)){
-                str = name + "[" + idString + "]\n["
-                    + YGOUtil.GetTypeString(type) + "] "
-                    + YGOUtil.GetRace(race) + "/" + YGOUtil.GetAttributeString(attribute)
-                    + "\n" + levelString() + " " + atk + "/" + def + "\n" + redesc();
+            string str;
+            if (this.IsType(CardType.TYPE_MONSTER)){
+                str = this.name + "[" + this.IdString + "]\n["
+                    + YGOUtil.GetTypeString(this.type) + "] "
+                    + YGOUtil.GetRace(this.race) + "/" + YGOUtil.GetAttributeString(this.attribute)
+                    + "\n" + this.levelString() + " " + this.atk + "/" + this.def + "\n" + this.redesc();
             }else
-                str = name +"[" +idString +"]\n["+YGOUtil.GetTypeString(type)+"]\n"+redesc();
+            {
+                str = this.name +"[" + this.IdString +"]\n["+YGOUtil.GetTypeString(this.type)+"]\n"+ this.redesc();
+            }
+
             return str;
         }
         public string ToShortString(){
-            return this.name+" ["+idString+"]";
+            return this.name+" ["+ this.IdString +"]";
         }
         public string ToLongString(){
-            return ToString();
+            return this.ToString();
         }
 
         string levelString()
         {
             string star = "[";
-            long i = 0, j = level & 0xff;
+            long j = this.level & 0xff;
+            long i;
             for (i = 0; i < j; i++)
             {
                 if (i > 0 && (i % 4) == 0)
+                {
                     star += " ";
+                }
+
                 star += "★";
             }
             return star + "]";
         }
         string redesc()
         {
-            string str = desc.Replace(Environment.NewLine, "\n");
+            string str = this.desc.Replace(Environment.NewLine, "\n");
             str = Regex.Replace(str, "([。|？|?])", "$1\n");
             str = str.Replace("\n\n", "\n");
             return str;

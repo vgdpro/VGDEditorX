@@ -52,7 +52,7 @@ namespace System.IO
 				}
 				if (!firstPath.EndsWith(spliter))
 				{
-					firstPath = firstPath + spliter;
+					firstPath += spliter;
 				}
 				builder.Append(firstPath);
 				for (int i = 1; i < paths.Length; i++)
@@ -70,7 +70,7 @@ namespace System.IO
 						}
 						else
 						{
-							nextPath = nextPath + spliter;
+							nextPath += spliter;
 						}
 					}
 					builder.Append(nextPath);
@@ -96,7 +96,10 @@ namespace System.IO
                 fo = new DirectoryInfo(defalut);
             }
             if (!fo.Exists)
+            {
                 fo.Create();
+            }
+
             dir = fo.FullName;
             return dir;
         }
@@ -121,21 +124,29 @@ namespace System.IO
         {
             string name = Path.GetFileNameWithoutExtension(file);
             if (!name.StartsWith(tag + "_"))
+            {
                 return "";
+            }
             else
+            {
                 return name.Replace(tag + "_", "");
+            }
         }
 
         public static void CreateDir(string dir)
         {
             if (!Directory.Exists(dir))
+            {
                 Directory.CreateDirectory(dir);
+            }
         }
         public static void CreateDirByFile(string file)
         {
             string dir = Path.GetDirectoryName(file);
             if (!Directory.Exists(dir))
+            {
                 Directory.CreateDirectory(dir);
+            }
         }
     }
 }

@@ -9,17 +9,17 @@ namespace DataEditorX.Config
     {
         public YgoPath(string gamepath)
         {
-            SetPath(gamepath);
+            this.SetPath(gamepath);
         }
         public void SetPath(string gamepath)
         {
             this.gamepath = gamepath;
-            picpath = MyPath.Combine(gamepath, "pics");
-            fieldpath = MyPath.Combine(picpath, "field");
-            picpath2 = MyPath.Combine(picpath, "thumbnail");
-            luapath = MyPath.Combine(gamepath, "script");
-            ydkpath = MyPath.Combine(gamepath, "deck");
-            replaypath = MyPath.Combine(gamepath, "replay");
+            this.picpath = MyPath.Combine(gamepath, "pics");
+            this.fieldpath = MyPath.Combine(this.picpath, "field");
+            this.picpath2 = MyPath.Combine(this.picpath, "thumbnail");
+            this.luapath = MyPath.Combine(gamepath, "script");
+            this.ydkpath = MyPath.Combine(gamepath, "deck");
+            this.replaypath = MyPath.Combine(gamepath, "replay");
 		}
         /// <summary>游戏目录</summary>
         public string gamepath;
@@ -38,7 +38,7 @@ namespace DataEditorX.Config
 
 		public string GetImage(long id)
         {
-			return GetImage(id.ToString());
+			return this.GetImage(id.ToString());
 		}
 		//public string GetImageThum(long id)
 		//{
@@ -46,20 +46,20 @@ namespace DataEditorX.Config
 		//}
 		public string GetImageField(long id)
         {
-			return GetImageField(id.ToString());//场地图
+			return this.GetImageField(id.ToString());//场地图
         }
 		public string GetScript(long id)
         {
-			return GetScript(id.ToString());
+			return this.GetScript(id.ToString());
 		}
 		public string GetYdk(string name)
 		{
-			return MyPath.Combine(ydkpath, name + ".ydk");
+			return MyPath.Combine(this.ydkpath, name + ".ydk");
 		}
 		//字符串id
 		public string GetImage(string id)
 		{
-			return MyPath.Combine(picpath, id + ".jpg");
+			return MyPath.Combine(this.picpath, id + ".jpg");
 		}
 		//public string GetImageThum(string id)
 		//{
@@ -67,34 +67,34 @@ namespace DataEditorX.Config
 		//}
 		public string GetImageField(string id)
         {
-            return MyPath.Combine(fieldpath, id+ ".png");//场地图
+            return MyPath.Combine(this.fieldpath, id+ ".png");//场地图
         }
 		public string GetScript(string id)
 		{
-			return MyPath.Combine(luapath, "c" + id + ".lua");
+			return MyPath.Combine(this.luapath, "c" + id + ".lua");
 		}
 		public string GetModuleScript(string modulescript)
 		{
-			return MyPath.Combine(luapath, modulescript + ".lua");
+			return MyPath.Combine(this.luapath, modulescript + ".lua");
 		}
 
 		public string[] GetCardfiles(long id)
 		{
 			string[] files = new string[]{
-				GetImage(id),//大图
+                this.GetImage(id),//大图
 				//GetImageThum(id),//小图
-				GetImageField(id),//场地图
-				GetScript(id)
+				this.GetImageField(id),//场地图
+				this.GetScript(id)
 		   };
 			return files;
 		}
 		public string[] GetCardfiles(string id)
 		{
 			string[] files = new string[]{
-				GetImage(id),//大图
+                this.GetImage(id),//大图
 				//GetImageThum(id),//小图
-				GetImageField(id),//场地图
-				GetScript(id)
+				this.GetImageField(id),//场地图
+				this.GetScript(id)
 		   };
 			return files;
 		}

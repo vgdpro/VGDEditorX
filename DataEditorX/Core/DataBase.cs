@@ -19,12 +19,12 @@ namespace DataEditorX.Core
 	public static class DataBase
 	{
 		#region 默认
-		static string defaultSQL;
-		static string defaultTableSQL;
+		static readonly string _defaultSQL;
+		static readonly string _defaultTableSQL;
 		
 		static DataBase()
 		{
-			defaultSQL =
+			_defaultSQL =
 				"SELECT datas.*,texts.* FROM datas,texts WHERE datas.id=texts.id ";
 			StringBuilder st = new StringBuilder();
 			st.Append(@"CREATE TABLE texts(id integer primary key,name text,desc text");
@@ -39,24 +39,27 @@ namespace DataEditorX.Core
 			st.Append("id integer primary key,ot integer,alias integer,");
 			st.Append("setcode integer,type integer,atk integer,def integer,");
 			st.Append("level integer,race integer,attribute integer,category integer) ");
-			defaultTableSQL=st.ToString();
+			_defaultTableSQL=st.ToString();
 			st.Remove(0,st.Length);
-			st=null;
-		}
-		#endregion
-		
-		#region 创建数据库
-		/// <summary>
-		/// 创建数据库
-		/// </summary>
-		/// <param name="Db">新数据库路径</param>
-		public static bool Create(string Db)
+        }
+        #endregion
+
+        #region 创建数据库
+        /// <summary>
+        /// 创建数据库
+        /// </summary>
+        /// <param name="Db">新数据库路径</param>
+        public static bool Create(string Db)
 		{
 			if ( File.Exists(Db) )
-				File.Delete(Db);
-			try{
+            {
+                File.Delete(Db);
+            }
+
+            try
+            {
 				SQLiteConnection.CreateFile(Db);
-				Command(Db, defaultTableSQL);
+				Command(Db, _defaultTableSQL);
 			}
 			catch
 			{
@@ -67,7 +70,7 @@ namespace DataEditorX.Core
 		public static bool CheckTable(string db)
 		{
 			try{
-				Command(db, defaultTableSQL);
+				Command(db, _defaultTableSQL);
 			}
 			catch
 			{
@@ -125,28 +128,32 @@ namespace DataEditorX.Core
 		#region 根据SQL读取
 		static Card ReadCard(SQLiteDataReader reader,bool reNewLine)
 		{
-			Card c = new Card(0);
-			c.id = reader.GetInt64(reader.GetOrdinal("id"));
-			c.ot = reader.GetInt32(reader.GetOrdinal("ot"));
-			c.alias = reader.GetInt64(reader.GetOrdinal("alias"));
-			c.setcode = reader.GetInt64(reader.GetOrdinal("setcode"));
-			c.type = reader.GetInt64(reader.GetOrdinal("type"));
-			c.atk = reader.GetInt32(reader.GetOrdinal("atk"));
-			c.def = reader.GetInt32(reader.GetOrdinal("def"));
-			c.level = reader.GetInt64(reader.GetOrdinal("level"));
-			c.race = reader.GetInt64(reader.GetOrdinal("race"));
-			c.attribute = reader.GetInt32(reader.GetOrdinal("attribute"));
-			c.category = reader.GetInt64(reader.GetOrdinal("category"));
-			c.name = reader.GetString(reader.GetOrdinal("name"));
-			
-			c.desc = reader.GetString(reader.GetOrdinal("desc"));
-			if(reNewLine)
-				c.desc=Retext(c.desc);
-			string temp = null;
-			for ( int i = 0; i < 0x10; i++ )
+            Card c = new Card(0)
+            {
+                id = reader.GetInt64(reader.GetOrdinal("id")),
+                ot = reader.GetInt32(reader.GetOrdinal("ot")),
+                alias = reader.GetInt64(reader.GetOrdinal("alias")),
+                setcode = reader.GetInt64(reader.GetOrdinal("setcode")),
+                type = reader.GetInt64(reader.GetOrdinal("type")),
+                atk = reader.GetInt32(reader.GetOrdinal("atk")),
+                def = reader.GetInt32(reader.GetOrdinal("def")),
+                level = reader.GetInt64(reader.GetOrdinal("level")),
+                race = reader.GetInt64(reader.GetOrdinal("race")),
+                attribute = reader.GetInt32(reader.GetOrdinal("attribute")),
+                category = reader.GetInt64(reader.GetOrdinal("category")),
+                name = reader.GetString(reader.GetOrdinal("name")),
+
+                desc = reader.GetString(reader.GetOrdinal("desc"))
+            };
+            if (reNewLine)
+            {
+                c.desc=Retext(c.desc);
+            }
+
+            for ( int i = 0; i < 0x10; i++ )
 			{
-				temp = reader.GetString(reader.GetOrdinal("str"+(i+1).ToString()));
-				c.Str[i]= ( temp == null ) ? "":temp;
+                string temp = reader.GetString(reader.GetOrdinal("str" + (i + 1).ToString()));
+                c.Str[i]= temp ?? "";
 			}
 			return c;
 		}
@@ -179,54 +186,68 @@ namespace DataEditorX.Core
 		{
 			List<Card> list=new List<Card>();
 			List<long> idlist=new List<long>();
-			string SQLstr = "";
-			if ( File.Exists(DB) && SQLs != null )
-			{
-				using ( SQLiteConnection sqliteconn = new SQLiteConnection(@"Data Source=" + DB) )
-				{
-					sqliteconn.Open();
-					using ( SQLiteTransaction trans = sqliteconn.BeginTransaction() )
-					{
-						using ( SQLiteCommand sqlitecommand = new SQLiteCommand(sqliteconn) )
-						{
-							foreach ( string str in SQLs )
-							{
-								int tmp;
-								int.TryParse(str, out tmp);
-								
-								if ( string.IsNullOrEmpty(str) )
-									SQLstr = defaultSQL;
-								else if ( tmp >0)
-									SQLstr = defaultSQL + " and datas.id=" + tmp.ToString();
-								else if ( str.StartsWith("select",StringComparison.OrdinalIgnoreCase))
-									SQLstr = str;
-								else if(str.IndexOf("and ")>=0)
-									SQLstr = defaultSQL + str;
-								else
-									SQLstr = defaultSQL + " and texts.name like '%" + str+"%'";
-								sqlitecommand.CommandText = SQLstr;
-								using ( SQLiteDataReader reader = sqlitecommand.ExecuteReader() )
-								{
-									while ( reader.Read() )
-									{
-										Card c=ReadCard(reader,reNewLine);
-										if(idlist.IndexOf(c.id)<0){//不存在，则添加
-											idlist.Add(c.id);
-											list.Add(c);
-										}
-									}
-									reader.Close();
-								}
-							}
-						}
-						trans.Commit();
-					}
-					sqliteconn.Close();
-				}
-			}
-			if(list.Count==0)
-				return null;
-			return list.ToArray();
+            if (File.Exists(DB) && SQLs != null)
+            {
+                using (SQLiteConnection sqliteconn = new SQLiteConnection(@"Data Source=" + DB))
+                {
+                    sqliteconn.Open();
+                    using (SQLiteTransaction trans = sqliteconn.BeginTransaction())
+                    {
+                        using (SQLiteCommand sqlitecommand = new SQLiteCommand(sqliteconn))
+                        {
+                            foreach (string str in SQLs)
+                            {
+                                int.TryParse(str, out int tmp);
+
+                                string SQLstr;
+                                if (string.IsNullOrEmpty(str))
+                                {
+                                    SQLstr = _defaultSQL;
+                                }
+                                else if (tmp > 0)
+                                {
+                                    SQLstr = _defaultSQL + " and datas.id=" + tmp.ToString();
+                                }
+                                else if (str.StartsWith("select", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    SQLstr = str;
+                                }
+                                else if (str.IndexOf("and ") >= 0)
+                                {
+                                    SQLstr = _defaultSQL + str;
+                                }
+                                else
+                                {
+                                    SQLstr = _defaultSQL + " and texts.name like '%" + str + "%'";
+                                }
+
+                                sqlitecommand.CommandText = SQLstr;
+                                using (SQLiteDataReader reader = sqlitecommand.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        Card c=ReadCard(reader,reNewLine);
+                                        if (idlist.IndexOf(c.id) < 0)
+                                        {//不存在，则添加
+                                            idlist.Add(c.id);
+                                            list.Add(c);
+                                        }
+                                    }
+                                    reader.Close();
+                                }
+                            }
+                        }
+                        trans.Commit();
+                    }
+                    sqliteconn.Close();
+                }
+            }
+            if (list.Count==0)
+            {
+                return null;
+            }
+
+            return list.ToArray();
 		}
 		#endregion
 		
@@ -326,37 +347,76 @@ namespace DataEditorX.Core
 			StringBuilder sb=new StringBuilder();
 			sb.Append("SELECT datas.*,texts.* FROM datas,texts WHERE datas.id=texts.id ");
 			if (c == null)
-				return sb.ToString();
-			if(!string.IsNullOrEmpty(c.name)){
+            {
+                return sb.ToString();
+            }
+
+            if (!string.IsNullOrEmpty(c.name)){
 				if(c.name.IndexOf("%%")>=0)
-					c.name=c.name.Replace("%%","%");
-				else
-					c.name="%"+c.name.Replace("%","/%").Replace("_","/_")+"%";
-				sb.Append(" and texts.name like '"+c.name.Replace("'", "''")+"' ");
+                {
+                    c.name=c.name.Replace("%%","%");
+                }
+                else
+                {
+                    c.name="%"+c.name.Replace("%","/%").Replace("_","/_")+"%";
+                }
+
+                sb.Append(" and texts.name like '"+c.name.Replace("'", "''")+"' ");
 			}
 			if(!string.IsNullOrEmpty(c.desc))
-				sb.Append(" and texts.desc like '%"+c.desc.Replace("'", "''") + "%' ");
-			if(c.ot>0)
-				sb.Append(" and datas.ot = "+c.ot.ToString());
-			if(c.attribute>0)
-				sb.Append(" and datas.attribute = "+c.attribute.ToString());
-			if ((c.level & 0xff) > 0)
-				sb.Append(" and (datas.level & 255) = "+toInt(c.level & 0xff));
+            {
+                sb.Append(" and texts.desc like '%"+c.desc.Replace("'", "''") + "%' ");
+            }
+
+            if (c.ot>0)
+            {
+                sb.Append(" and datas.ot = "+c.ot.ToString());
+            }
+
+            if (c.attribute>0)
+            {
+                sb.Append(" and datas.attribute = "+c.attribute.ToString());
+            }
+
+            if ((c.level & 0xff) > 0)
+            {
+                sb.Append(" and (datas.level & 255) = "+toInt(c.level & 0xff));
+            }
+
             if ((c.level & 0xff000000) > 0)
+            {
                 sb.Append(" and (datas.level & 4278190080) = " + toInt(c.level & 0xff000000));
+            }
+
             if ((c.level & 0xff0000) > 0)
+            {
                 sb.Append(" and (datas.level & 16711680) = " + toInt(c.level & 0xff0000));
+            }
+
             if (c.race>0)
-				sb.Append(" and datas.race = "+toInt(c.race));
-			if(c.type>0)
-				sb.Append(" and datas.type & "+toInt(c.type)+" = "+toInt(c.type));
-			if(c.category>0)
-				sb.Append(" and datas.category & "+toInt(c.category)+" = "+toInt(c.category));
-			
-			if(c.atk==-1)
-				sb.Append(" and datas.type & 1 = 1 and datas.atk = 0");
-			else if(c.atk<0 || c.atk>0)
-				sb.Append(" and datas.atk = "+c.atk.ToString());
+            {
+                sb.Append(" and datas.race = "+toInt(c.race));
+            }
+
+            if (c.type>0)
+            {
+                sb.Append(" and datas.type & "+toInt(c.type)+" = "+toInt(c.type));
+            }
+
+            if (c.category>0)
+            {
+                sb.Append(" and datas.category & "+toInt(c.category)+" = "+toInt(c.category));
+            }
+
+            if (c.atk==-1)
+            {
+                sb.Append(" and datas.type & 1 = 1 and datas.atk = 0");
+            }
+            else if(c.atk<0 || c.atk>0)
+            {
+                sb.Append(" and datas.atk = "+c.atk.ToString());
+            }
+
             if (c.IsType(Info.CardType.TYPE_LINK))
             {
                 sb.Append(" and datas.def &" + c.def.ToString() + "=" + c.def.ToString());
@@ -364,20 +424,29 @@ namespace DataEditorX.Core
             else
             {
                 if (c.def == -1)
+                {
                     sb.Append(" and datas.type & 1 = 1 and datas.def = 0");
+                }
                 else if (c.def < 0 || c.def > 0)
+                {
                     sb.Append(" and datas.def = " + c.def.ToString());
+                }
             }
 			
 			if(c.id>0 && c.alias>0)
-				sb.Append(" and datas.id BETWEEN "+c.alias.ToString()+" and "+c.id.ToString());
-			else if(c.id>0)
+            {
+                sb.Append(" and datas.id BETWEEN "+c.alias.ToString()+" and "+c.id.ToString());
+            }
+            else if(c.id>0)
 			{
 				sb.Append(" and ( datas.id="+c.id.ToString()+" or datas.alias="+c.id.ToString()+") ");
 			}
 			else if(c.alias>0)
-				sb.Append(" and datas.alias= "+c.alias.ToString());
-			return sb.ToString();
+            {
+                sb.Append(" and datas.alias= "+c.alias.ToString());
+            }
+
+            return sb.ToString();
 			
 		}
 		#endregion
@@ -393,10 +462,15 @@ namespace DataEditorX.Core
 		{
 			StringBuilder st = new StringBuilder();
 			if(ignore)
-				st.Append("INSERT or ignore into datas values(");
-			else
-				st.Append("INSERT or replace into datas values(");
-			st.Append(c.id.ToString()); st.Append(",");
+            {
+                st.Append("INSERT or ignore into datas values(");
+            }
+            else
+            {
+                st.Append("INSERT or replace into datas values(");
+            }
+
+            st.Append(c.id.ToString()); st.Append(",");
 			st.Append(c.ot.ToString()); st.Append(",");
 			st.Append(c.alias.ToString()); st.Append(",");
 			if(hex){
@@ -420,10 +494,15 @@ namespace DataEditorX.Core
 				st.Append(c.category.ToString()); st.Append(")");
 			}
 			if(ignore)
-				st.Append(";\nINSERT or ignore into texts values(");
-			else
-				st.Append(";\nINSERT or replace into texts values(");
-			st.Append(c.id.ToString()); st.Append(",'");
+            {
+                st.Append(";\nINSERT or ignore into texts values(");
+            }
+            else
+            {
+                st.Append(";\nINSERT or replace into texts values(");
+            }
+
+            st.Append(c.id.ToString()); st.Append(",'");
 			st.Append(c.name.Replace("'", "''")); st.Append("','");
 			st.Append(c.desc.Replace("'", "''"));
 			for ( int i = 0; i < 0x10; i++ )
@@ -432,8 +511,7 @@ namespace DataEditorX.Core
 			}
 			st.Append("');");
 			string sql = st.ToString();
-			st = null;
-			return sql;
+            return sql;
 		}
 		#endregion
 
@@ -471,8 +549,7 @@ namespace DataEditorX.Core
 			st.Append("' where id="); st.Append(c.id.ToString());
 			st.Append(";");
 			string sql = st.ToString();
-			st = null;
-			return sql;
+            return sql;
 		}
 		#endregion
 
@@ -491,7 +568,7 @@ namespace DataEditorX.Core
 		#endregion
 		
 		
-		public static void exportSql(String file,params Card[] cards){
+		public static void ExportSql(string file,params Card[] cards){
 			using (FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write))
 			{
 				StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
@@ -503,7 +580,7 @@ namespace DataEditorX.Core
 			}
 		}
 		
-		public static CardPack findPack(string db, long id){
+		public static CardPack FindPack(string db, long id){
 			CardPack cardpack=null;
 			if ( File.Exists(db) && id>=0)
 			{
@@ -517,12 +594,14 @@ namespace DataEditorX.Core
 						{
 							if(reader.Read())
 							{
-								cardpack=new CardPack(id);
-								cardpack.pack_id=reader.GetString(1);
-								cardpack.pack_name=reader.GetString(2);
-								cardpack.rarity=reader.GetString(3);
-								cardpack.date=reader.GetString(4);
-							}
+                                cardpack = new CardPack(id)
+                                {
+                                    pack_id = reader.GetString(1),
+                                    pack_name = reader.GetString(2),
+                                    rarity = reader.GetString(3),
+                                    date = reader.GetString(4)
+                                };
+                            }
 							reader.Close();
 						}
 					}

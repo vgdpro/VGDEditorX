@@ -17,7 +17,10 @@ namespace DataEditorX.Common
         public static Bitmap readImage(string file)
         {
             if (!File.Exists(file))
+            {
                 return null;
+            }
+
             MemoryStream ms = new MemoryStream(File.ReadAllBytes(file));
             return (Bitmap)Image.FromStream(ms);
         }
@@ -124,9 +127,15 @@ namespace DataEditorX.Common
             {
             	string path=Path.GetDirectoryName(filename);
             	if(!Directory.Exists(path))//创建文件夹
-            		Directory.CreateDirectory(path);
-            	if(File.Exists(filename))//删除旧文件
-            		File.Delete(filename);
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                if (File.Exists(filename))//删除旧文件
+                {
+                    File.Delete(filename);
+                }
+
                 ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
                 ImageCodecInfo ici = null;
                 foreach ( ImageCodecInfo codec in codecs )
@@ -138,7 +147,10 @@ namespace DataEditorX.Common
                     }
                 }
                 if (quality < 0 || quality > 100)
+                {
                     quality = 60;
+                }
+
                 EncoderParameters encoderParams = new EncoderParameters();
                 encoderParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)quality);
                 if (ici != null)

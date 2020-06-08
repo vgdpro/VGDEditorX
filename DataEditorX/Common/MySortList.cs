@@ -32,9 +32,11 @@ namespace DataEditorX
 				}
 			}
 			if (flag == 1)
-				return;  //跳出函数
-			//否则就加入
-			base.Add(key, value);
+            {
+                return;  //跳出函数
+            }
+            //否则就加入
+            base.Add(key, value);
 		}
 	}
 }

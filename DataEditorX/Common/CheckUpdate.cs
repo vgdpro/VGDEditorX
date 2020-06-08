@@ -78,21 +78,23 @@ namespace DataEditorX.Common
 			string[] oldvers = oldver.Split('.');
 			if (vers.Length == oldvers.Length)
 			{
-				int j, k;//从左到右比较数字
-				for (int i = 0; i < oldvers.Length; i++)
-				{
-					int.TryParse(vers[i], out j);
-					int.TryParse(oldvers[i], out k);
-					if (j > k)//新的版本号大于旧的
-					{
-						hasNew = true;
-						break;
-					}else if(j < k){
-						hasNew = false;
-						break;
-					}
-				}
-			}
+                //从左到右比较数字
+                for (int i = 0; i < oldvers.Length; i++)
+                {
+                    int.TryParse(vers[i], out int j);
+                    int.TryParse(oldvers[i], out int k);
+                    if (j > k)//新的版本号大于旧的
+                    {
+                        hasNew = true;
+                        break;
+                    }
+                    else if (j < k)
+                    {
+                        hasNew = false;
+                        break;
+                    }
+                }
+            }
 			return hasNew;
 		}
 		#endregion
@@ -147,8 +149,11 @@ namespace DataEditorX.Common
 			try
 			{
 				if (File.Exists(filename))
-					File.Delete(filename);
-				HttpWebRequest Myrq = (HttpWebRequest)System.Net.HttpWebRequest.Create(URL);
+                {
+                    File.Delete(filename);
+                }
+
+                HttpWebRequest Myrq = (HttpWebRequest)System.Net.HttpWebRequest.Create(URL);
 				HttpWebResponse myrp = (HttpWebResponse)Myrq.GetResponse();
 				long totalBytes = myrp.ContentLength;
 

@@ -13,27 +13,33 @@ namespace DataEditorX.Core
 {
     static class YGOUtil
     {
-        static DataConfig datacfg;
+        static DataConfig _datacfg;
         static YGOUtil()
         {
-            datacfg = new DataConfig();
+            _datacfg = new DataConfig();
         }
         public static void SetConfig(DataConfig dcfg)
         {
-            datacfg = dcfg;
+            _datacfg = dcfg;
         }
 
         #region 判断文件类型
-        public static bool isScript(string file)
+        public static bool IsScript(string file)
         {
             if (file != null && file.EndsWith(".lua", StringComparison.OrdinalIgnoreCase))
+            {
                 return true;
+            }
+
             return false;
         }
-        public static bool isDataBase(string file)
+        public static bool IsDataBase(string file)
         {
             if (file != null && file.EndsWith(".cdb", StringComparison.OrdinalIgnoreCase))
+            {
                 return true;
+            }
+
             return false;
         }
         #endregion
@@ -41,13 +47,13 @@ namespace DataEditorX.Core
         #region 获取属性，种族
         public static string GetAttributeString(int attr)
         {
-            return DataManager.GetValue(datacfg.dicCardAttributes, attr);
+            return DataManager.GetValue(_datacfg.dicCardAttributes, attr);
         }
 
 
         public static string GetRace(long race)
         {
-            return DataManager.GetValue(datacfg.dicCardRaces, race);
+            return DataManager.GetValue(_datacfg.dicCardRaces, race);
         }
         #endregion
 
@@ -82,33 +88,56 @@ namespace DataEditorX.Core
                     str = GetType(CardType.TYPE_EFFECT);
                 }
                 else
+                {
                     str = GetType(CardType.TYPE_NORMAL);
+                }
+
                 str += GetType(CardType.TYPE_MONSTER);
             }
             else if (c.IsType(CardType.TYPE_SPELL))
             {
                 if (c.IsType(CardType.TYPE_EQUIP))
+                {
                     str = GetType(CardType.TYPE_EQUIP);
+                }
                 else if (c.IsType(CardType.TYPE_QUICKPLAY))
+                {
                     str = GetType(CardType.TYPE_QUICKPLAY);
+                }
                 else if (c.IsType(CardType.TYPE_FIELD))
+                {
                     str = GetType(CardType.TYPE_FIELD);
+                }
                 else if (c.IsType(CardType.TYPE_CONTINUOUS))
+                {
                     str = GetType(CardType.TYPE_CONTINUOUS);
+                }
                 else if (c.IsType(CardType.TYPE_RITUAL))
+                {
                     str = GetType(CardType.TYPE_RITUAL);
+                }
                 else
+                {
                     str = GetType(CardType.TYPE_NORMAL);
+                }
+
                 str += GetType(CardType.TYPE_SPELL);
             }
             else if (c.IsType(CardType.TYPE_TRAP))
             {
                 if (c.IsType(CardType.TYPE_CONTINUOUS))
+                {
                     str = GetType(CardType.TYPE_CONTINUOUS);
+                }
                 else if (c.IsType(CardType.TYPE_COUNTER))
+                {
                     str = GetType(CardType.TYPE_COUNTER);
+                }
                 else
+                {
                     str = GetType(CardType.TYPE_NORMAL);
+                }
+
                 str += GetType(CardType.TYPE_TRAP);
             }
             return str.Replace(" ", "");
@@ -116,21 +145,28 @@ namespace DataEditorX.Core
 
         static string GetType(CardType type)
         {
-            return DataManager.GetValue(datacfg.dicCardTypes, (long)type);
+            return DataManager.GetValue(_datacfg.dicCardTypes, (long)type);
         }
 
         public static string GetTypeString(long type)
         {
             string str = "";
-            foreach (long k in datacfg.dicCardTypes.Keys)
+            foreach (long k in _datacfg.dicCardTypes.Keys)
             {
                 if ((type & k) == k)
+                {
                     str += GetType((CardType)k) + "|";
+                }
             }
             if (str.Length > 0)
+            {
                 str = str.Substring(0, str.Length - 1);
+            }
             else
+            {
                 str = "???";
+            }
+
             return str;
         }
         #endregion
@@ -142,10 +178,10 @@ namespace DataEditorX.Core
             long sc2 = (setcode >> 0x10) & 0xffff;
             long sc3 = (setcode >> 0x20) & 0xffff;
             long sc4 = (setcode >> 0x30) & 0xffff;
-            string setname = DataManager.GetValue(datacfg.dicSetnames, sc1)
-                    + " " + DataManager.GetValue(datacfg.dicSetnames, sc2)
-                    + " " + DataManager.GetValue(datacfg.dicSetnames, sc3)
-                    + " " + DataManager.GetValue(datacfg.dicSetnames, sc4);
+            string setname = DataManager.GetValue(_datacfg.dicSetnames, sc1)
+                    + " " + DataManager.GetValue(_datacfg.dicSetnames, sc2)
+                    + " " + DataManager.GetValue(_datacfg.dicSetnames, sc3)
+                    + " " + DataManager.GetValue(_datacfg.dicSetnames, sc4);
 
             return setname;
         }
@@ -172,7 +208,9 @@ namespace DataEditorX.Core
                         if (!str.StartsWith("!") && !str.StartsWith("#") && str.Length > 0)
                         {
                             if (IDs.IndexOf(str) < 0)
+                            {
                                 IDs.Add(str);
+                            }
                         }
                         str = sr.ReadLine();
                     }
@@ -181,7 +219,10 @@ namespace DataEditorX.Core
                 }
             }
             if (IDs.Count == 0)
+            {
                 return null;
+            }
+
             return IDs.ToArray();
         }
         #endregion
@@ -196,7 +237,9 @@ namespace DataEditorX.Core
             {
                 string ex = Path.GetExtension(files[i]).ToLower();
                 if (ex == ".jpg" || ex == ".png" || ex == ".bmp")
+                {
                     list.Add(Path.GetFileNameWithoutExtension(files[i]));
+                }
             }
             return list.ToArray();
         }
@@ -210,8 +253,10 @@ namespace DataEditorX.Core
 			for (int i = 0; i < files.Length; i++)
 			{
 					if (FileSystem.FileExists(files[i]))
-						FileSystem.DeleteFile(files[i], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-			}
+                {
+                    FileSystem.DeleteFile(files[i], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                }
+            }
         }
         #endregion
 

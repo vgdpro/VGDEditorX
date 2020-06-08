@@ -63,76 +63,99 @@ namespace DataEditorX.Core.Mse
 		#endregion
 		public MSEConfig(string path)
 		{
-			init(path);
+            this.init(path);
 		}
 		public void SetConfig(string config, string path)
 		{
 			if (!File.Exists(config))
-				return;
-			regx_monster = "(\\s\\S*?)";
-			regx_pendulum = "(\\s\\S*?)";
-			//设置文件名
-			configName = MyPath.getFullFileName(MSEConfig.TAG, config);
+            {
+                return;
+            }
 
-			replaces = new SortedList<string, string>();
+            this.regx_monster = "(\\s\\S*?)";
+            this.regx_pendulum = "(\\s\\S*?)";
+            //设置文件名
+            this.configName = MyPath.getFullFileName(MSEConfig.TAG, config);
 
-			typeDic = new SortedList<long, string>();
-			raceDic = new SortedList<long, string>();
+            this.replaces = new SortedList<string, string>();
+
+            this.typeDic = new SortedList<long, string>();
+            this.raceDic = new SortedList<long, string>();
 			string[] lines = File.ReadAllLines(config, Encoding.UTF8);
 			foreach (string line in lines)
 			{
 				if (string.IsNullOrEmpty(line) || line.StartsWith("#"))
-					continue;
-				if (line.StartsWith(TAG_CN2TW))
-					Iscn2tw = ConfHelper.getBooleanValue(line);
-				else if (line.StartsWith(TAG_SPELL))
-					str_spell = ConfHelper.getValue(line);
-				else if (line.StartsWith(TAG_HEAD))
-					head = ConfHelper.getMultLineValue(line);
-				else if (line.StartsWith(TAG_END))
-					end = ConfHelper.getMultLineValue(line);
-				else if (line.StartsWith(TAG_TEXT))
-					temp_text = ConfHelper.getMultLineValue(line);
-				else if (line.StartsWith(TAG_TRAP))
-					str_trap = ConfHelper.getValue(line);
-				else if (line.StartsWith(TAG_REG_PENDULUM))
-					regx_pendulum = ConfHelper.getValue(line);
-				else if (line.StartsWith(TAG_REG_MONSTER))
-					regx_monster = ConfHelper.getValue(line);
-				else if (line.StartsWith(TAG_MAXCOUNT))
-					maxcount = ConfHelper.getIntegerValue(line, 0);
-				else if (line.StartsWith(TAG_WIDTH)){
-					width=ConfHelper.getIntegerValue(line,0);
+                {
+                    continue;
+                }
+
+                if (line.StartsWith(TAG_CN2TW))
+                {
+                    this.Iscn2tw = ConfHelper.getBooleanValue(line);
+                }
+                else if (line.StartsWith(TAG_SPELL))
+                {
+                    this.str_spell = ConfHelper.getValue(line);
+                }
+                else if (line.StartsWith(TAG_HEAD))
+                {
+                    this.head = ConfHelper.getMultLineValue(line);
+                }
+                else if (line.StartsWith(TAG_END))
+                {
+                    this.end = ConfHelper.getMultLineValue(line);
+                }
+                else if (line.StartsWith(TAG_TEXT))
+                {
+                    this.temp_text = ConfHelper.getMultLineValue(line);
+                }
+                else if (line.StartsWith(TAG_TRAP))
+                {
+                    this.str_trap = ConfHelper.getValue(line);
+                }
+                else if (line.StartsWith(TAG_REG_PENDULUM))
+                {
+                    this.regx_pendulum = ConfHelper.getValue(line);
+                }
+                else if (line.StartsWith(TAG_REG_MONSTER))
+                {
+                    this.regx_monster = ConfHelper.getValue(line);
+                }
+                else if (line.StartsWith(TAG_MAXCOUNT))
+                {
+                    this.maxcount = ConfHelper.getIntegerValue(line, 0);
+                }
+                else if (line.StartsWith(TAG_WIDTH)){
+                    this.width =ConfHelper.getIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_HEIGHT)){
-					height=ConfHelper.getIntegerValue(line,0);
+                    this.height =ConfHelper.getIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_PEND_WIDTH)){
-					pwidth=ConfHelper.getIntegerValue(line,0);
+                    this.pwidth =ConfHelper.getIntegerValue(line,0);
 				}
 				else if (line.StartsWith(TAG_PEND_HEIGHT)){
-					pheight=ConfHelper.getIntegerValue(line,0);
+                    this.pheight =ConfHelper.getIntegerValue(line,0);
 				}
 				else if(line.StartsWith(TAG_NO_TEN)){
-					no10 = ConfHelper.getBooleanValue(line);
+                    this.no10 = ConfHelper.getBooleanValue(line);
 				}else if(line.StartsWith(TAG_NO_START_CARDS)){
 					string val = ConfHelper.getValue(line);
 					string[] cs = val.Split(',');
-					noStartCards=new long[cs.Length];
+                    this.noStartCards =new long[cs.Length];
 					int i=0;
 					foreach(string str in cs){
-						long l = 0;
-						long.TryParse(str, out l);
-						noStartCards[i++] = l;
+                        long.TryParse(str, out long l);
+                        this.noStartCards[i++] = l;
 					}
 				}
 				else if (line.StartsWith(TAG_IMAGE))
 				{
-					//如果路径不合法，则为后面的路径
-					imagepath = MyPath.CheckDir(ConfHelper.getValue(line), MyPath.Combine(path, PATH_IMAGE));
-					//图片缓存目录
-					imagecache = MyPath.Combine(imagepath, "cache");
-					MyPath.CreateDir(imagecache);
+                    //如果路径不合法，则为后面的路径
+                    this.imagepath = MyPath.CheckDir(ConfHelper.getValue(line), MyPath.Combine(path, PATH_IMAGE));
+                    //图片缓存目录
+                    this.imagecache = MyPath.Combine(this.imagepath, "cache");
+					MyPath.CreateDir(this.imagecache);
 				}
 				else if (line.StartsWith(TAG_REPALCE))
 				{//特数字替换
@@ -140,24 +163,25 @@ namespace DataEditorX.Core.Mse
 					string p = ConfHelper.getRegex(ConfHelper.getValue1(word));
 					string r = ConfHelper.getRegex(ConfHelper.getValue2(word));
 					if (!string.IsNullOrEmpty(p))
-						replaces.Add(p, r);
-
-				}
+                    {
+                        this.replaces.Add(p, r);
+                    }
+                }
 				else if (line.StartsWith(TAG_RACE))
 				{//种族
-					ConfHelper.DicAdd(raceDic, line);
+					ConfHelper.DicAdd(this.raceDic, line);
 				}
 				else if (line.StartsWith(TAG_TYPE))
 				{//类型
-					ConfHelper.DicAdd(typeDic, line);
+					ConfHelper.DicAdd(this.typeDic, line);
 				}else if(line.StartsWith(TAG_REIMAGE)){
-					reimage = ConfHelper.getBooleanValue(line);
+                    this.reimage = ConfHelper.getBooleanValue(line);
 				}
 			}
 		}
 		public void init(string path)
 		{
-			Iscn2tw = false;
+            this.Iscn2tw = false;
 			
 			//读取配置
 			string tmp = MyPath.Combine(path, MyPath.getFileName(MSEConfig.TAG, MyConfig.readString(MyConfig.TAG_MSE)));
@@ -166,9 +190,11 @@ namespace DataEditorX.Core.Mse
 			{
 				tmp = MyPath.Combine(path, MyPath.getFileName(MSEConfig.TAG, FILE_CONFIG_NAME));
 				if(!File.Exists(tmp))
-					return;//如果默认的也不存在
-			}
-			SetConfig(tmp, path);
+                {
+                    return;//如果默认的也不存在
+                }
+            }
+            this.SetConfig(tmp, path);
 		}
 		/// <summary>
 		/// 是否调整图片

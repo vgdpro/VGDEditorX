@@ -193,9 +193,11 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static int readInteger(string key, int def)
         {
-            int i;
-            if (int.TryParse(readString(key), out i))
+            if (int.TryParse(readString(key), out int i))
+            {
                 return i;
+            }
+
             return def;
         }
         /// <summary>
@@ -206,9 +208,11 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static float readFloat(string key, float def)
         {
-            float i;
-            if (float.TryParse(readString(key), out i))
+            if (float.TryParse(readString(key), out float i))
+            {
                 return i;
+            }
+
             return def;
         }
         /// <summary>
@@ -286,8 +290,11 @@ namespace DataEditorX.Config
 				{
 					string name = MyPath.getFullFileName(MyConfig.TAG_LANGUAGE, file);
 					if (string.IsNullOrEmpty(name))
-						continue;
-					if (syslang.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    if (syslang.Equals(name, StringComparison.OrdinalIgnoreCase))
 					{
 						Save(MyConfig.TAG_LANGUAGE, syslang);
 						break;

@@ -20,7 +20,10 @@ namespace DataEditorX.Common
         {
             int t = line.IndexOf('=');
             if (t > 0)
+            {
                 return line.Substring(t + 1).Trim();
+            }
+
             return "";
         }
         /// <summary>
@@ -32,7 +35,10 @@ namespace DataEditorX.Common
         {
             int i = word.IndexOf(SEP_LINE);
             if (i > 0)
+            {
                 return word.Substring(0, i);
+            }
+
             return word;
         }
         /// <summary>
@@ -44,7 +50,10 @@ namespace DataEditorX.Common
         {
             int i = word.IndexOf(SEP_LINE);
             if (i > 0)
+            {
                 return word.Substring(i + SEP_LINE.Length);
+            }
+
             return "";
         }
         /// <summary>
@@ -78,9 +87,13 @@ namespace DataEditorX.Common
         public static bool getBooleanValue(string line)
         {
             if (getValue(line).ToLower() == "true")
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
         /// <summary>
         /// 获取int值
@@ -113,10 +126,11 @@ namespace DataEditorX.Common
             {
                 string strkey = line.Substring(i + 2, j - i - 1);
                 string strval = line.Substring(j + 1);
-                long key;
-                long.TryParse(strkey, NumberStyles.HexNumber, null, out key);
+                long.TryParse(strkey, NumberStyles.HexNumber, null, out long key);
                 if (!dic.ContainsKey(key))
+                {
                     dic.Add(key, strval.Trim());
+                }
             }
         }
     }
