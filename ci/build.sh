@@ -9,6 +9,6 @@ xbuild /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:OutDir=$PWD/ou
 
 mkdir -p dist/releases
 cd output
-7z a -mx9 ../dist/releases/$DEX_VERSION.zip ./*
+7z a -mx9 ../dist/releases/DataEditorX-$DEX_VERSION.zip ./*
 cd ..
 cp -rf DataEditorX/readme.txt dist/version.txt
