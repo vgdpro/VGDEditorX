@@ -27,7 +27,6 @@ upload_to_minio:
     - linux
   image: banst/awscli
   script:
-    - pip install -U awscli
-    - aws s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
+    - s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
   only:
     - master
