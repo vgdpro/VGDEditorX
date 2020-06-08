@@ -10,8 +10,8 @@ build_dex:
   dependencies: []
   tags:
     - linux
-  only:
-    - master
+  #only:
+  #  - master
   image: mono
   script:
     - ./ci/build.sh
@@ -25,9 +25,9 @@ upload_to_minio:
     - build_dex
   tags: 
     - linux
-  image: python
+  image: banst/awscli
   script:
     - pip install -U awscli
-    - aws s3 --endpoint=https://minio.mycard.moe:9000 sync dist s3://mycard/DataEditorX
+    - aws s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
   only:
     - master
