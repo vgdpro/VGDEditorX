@@ -1166,6 +1166,10 @@ namespace DataEditorX
 		{
 			if (!this.isRun())
 			{
+				if (this.tasker == null)
+				{
+					this.tasker = new TaskHelper("", new System.ComponentModel.BackgroundWorker(), null);
+				}
 				this.tasker.SetTask(MyTask.CheckUpdate, null, showNew.ToString());
 				this.Run(LanguageHelper.GetMsg(LMSG.checkUpdate));
 			}
@@ -1352,7 +1356,7 @@ namespace DataEditorX
 			}
 			else
 			{
-				MyTask mt = this.tasker.getLastTask();
+				MyTask mt = this.tasker.GetLastTask();
 				switch (mt)
 				{
 					case MyTask.CheckUpdate:
@@ -2079,7 +2083,7 @@ namespace DataEditorX
 		{
 			Card c = this.GetCard();
 			if(c != null){
-				this.tasker.testPendulumText(c.desc);
+				this.tasker.TestPendulumText(c.desc);
 			}
 		}
 		void Menuitem_export_select_sqlClick(object sender, EventArgs e)
