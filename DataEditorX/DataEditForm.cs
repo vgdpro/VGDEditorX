@@ -1166,6 +1166,10 @@ namespace DataEditorX
 		{
 			if (!this.isRun())
 			{
+				if (this.tasker == null)
+				{
+					this.tasker = new TaskHelper("", new System.ComponentModel.BackgroundWorker(), null);
+				}
 				this.tasker.SetTask(MyTask.CheckUpdate, null, showNew.ToString());
 				this.Run(LanguageHelper.GetMsg(LMSG.checkUpdate));
 			}
