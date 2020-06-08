@@ -138,7 +138,7 @@ namespace DataEditorX.Core
 		public static void CheckVersion(bool showNew)
 		{
 			string newver = CheckUpdate.GetNewVersion(MyConfig.ReadString(MyConfig.TAG_UPDATE_URL));
-			if (newver == CheckUpdate.DEFALUT)
+			if (newver == CheckUpdate.DEFAULT)
 			{   //检查失败
 				if (!showNew)
                 {
