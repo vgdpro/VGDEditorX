@@ -4,7 +4,7 @@ set -o errexit
 DEX_VERSION=$(grep -oP '\[DataEditorX\](.+)\[DataEditorX\]' DataEditorX/readme.txt | sed 's/\[DataEditorX\]//g')
 
 # build
-xbuild /p:Configuration=Release /p:OutDir=$PWD/output/ # /p:TargetFrameworkVersion=v4.6 
+xbuild /p:Configuration=Release /p:OutDir=$PWD/output/ /p:TargetFrameworkVersion=v4.6 
 
 # zip tool
 sed -i '/download.mono-project.com/d' /etc/apt/sources.list /etc/apt/sources.list.d/*
