@@ -308,109 +308,31 @@ namespace DataEditorX
 		//初始化控件
 		public void InitControl(DataConfig datacfg)
         {   
-            //为了进行错误定位而进行改造 190324 by JoyJ
             if (datacfg == null)
 			{
 				return;
 			}
 
+			List<long> setcodes = DataManager.GetKeys(datacfg.dicSetnames);
+			string[] setnames = DataManager.GetValues(datacfg.dicSetnames);
 			try
             {
 				this.InitComboBox(this.cb_cardrace, datacfg.dicCardRaces);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_cardrace");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_cardattribute, datacfg.dicCardAttributes);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_cardattribute");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_cardrule, datacfg.dicCardRules);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_cardrule");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_cardlevel, datacfg.dicCardLevels);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_cardlevel");
-            }
-            try
-            {
 				this.InitCheckPanel(this.pl_cardtype, datacfg.dicCardTypes);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-pl_cardtype");
-            }
-            try
-            {
 				this.InitCheckPanel(this.pl_markers, datacfg.dicLinkMarkers);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-pl_markers");
-            }
-            try
-            {
 				this.InitCheckPanel(this.pl_category, datacfg.dicCardcategorys);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-pl_category");
-            }
-            try
-            {
 				this.SetEnabled(this.pl_markers, false);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-pl_markers");
-            }
-            List<long> setcodes = DataManager.GetKeys(datacfg.dicSetnames);
-            string[] setnames = DataManager.GetValues(datacfg.dicSetnames);
-            try
-            {
 				this.InitComboBox(this.cb_setname1, setcodes, setnames);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_setname1");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_setname2, setcodes, setnames);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_setname2");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_setname3, setcodes, setnames);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_setname3");
-            }
-            try
-            {
 				this.InitComboBox(this.cb_setname4, setcodes, setnames);
-            }
+			}
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "启动错误-cb_setname4");
+                MessageBox.Show(ex.ToString(), "启动错误");
             }
 		}
 		//初始化FlowLayoutPanel
@@ -440,18 +362,12 @@ namespace DataEditorX
 						AutoSize = true,
 						Margin = fpanel.Margin
 					};
-					_cbox.CheckedChanged += this._cbox_CheckedChanged;
 					//_cbox.Click += PanelOnCheckClick;
 					fpanel.Controls.Add(_cbox);
 				}
 			}
 			fpanel.ResumeLayout(false);
 			fpanel.PerformLayout();
-		}
-
-		private void _cbox_CheckedChanged(object sender, EventArgs e)
-		{
-
 		}
 
 		//初始化ComboBox
@@ -465,7 +381,6 @@ namespace DataEditorX
 		{
 			cb.Items.Clear();
 			cb.Tag = keys;
-			//Improve 190324 by JoyJ
 			cb.Items.AddRange(values);
 			if (cb.Items.Count > 0)
             {
