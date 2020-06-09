@@ -79,14 +79,14 @@ namespace DataEditorX
             }
 
             Font ft = new Font(this.fctb.Font.Name, this.fctb.Font.Size / 1.2f, FontStyle.Regular);
-            this.popupMenu = new FastColoredTextBoxNS.AutocompleteMenu(this.fctb)
+            this.popupMenu = new AutocompleteMenu(this.fctb)
             {
                 MinFragmentLength = 2
             };
             this.popupMenu.ToolTip.Popup += this.ToolTip_Popup;
             this.popupMenu.Items.Font = ft;
             this.popupMenu.AutoSize = true;
-            this.popupMenu.MinimumSize = new System.Drawing.Size(300, 0);
+            this.popupMenu.MinimumSize = new Size(300, 0);
             this.popupMenu.BackColor = this.fctb.BackColor;
             this.popupMenu.ForeColor = this.fctb.ForeColor;
             this.popupMenu.Closed += new ToolStripDropDownClosedEventHandler(this.popupMenu_Closed);
@@ -567,7 +567,7 @@ namespace DataEditorX
                 return;
             }
 
-            if (e.Button == MouseButtons.Left && Control.ModifierKeys == Keys.Control)
+            if (e.Button == MouseButtons.Left && ModifierKeys == Keys.Control)
             {
                 List<int> linenums = this.fctb.FindLines(@"function\s+?\S+?\." + text + @"\(", RegexOptions.Singleline);
                 if (linenums.Count > 0)

@@ -146,21 +146,21 @@ namespace DataEditorX.Common
                     File.Delete(filename);
                 }
 
-                HttpWebRequest Myrq = (HttpWebRequest)System.Net.HttpWebRequest.Create(URL);
+                HttpWebRequest Myrq = (HttpWebRequest)WebRequest.Create(URL);
 				HttpWebResponse myrp = (HttpWebResponse)Myrq.GetResponse();
 				long totalBytes = myrp.ContentLength;
 
 				Stream st = myrp.GetResponseStream();
-				Stream so = new System.IO.FileStream(filename + ".tmp", FileMode.Create);
+				Stream so = new FileStream(filename + ".tmp", FileMode.Create);
 				long totalDownloadedByte = 0;
 				byte[] by = new byte[1024 * 512];
-				int osize = st.Read(by, 0, (int)by.Length);
+				int osize = st.Read(by, 0, by.Length);
 				while (osize > 0)
 				{
 					totalDownloadedByte = osize + totalDownloadedByte;
 					System.Windows.Forms.Application.DoEvents();
 					so.Write(by, 0, osize);
-					osize = st.Read(by, 0, (int)by.Length);
+					osize = st.Read(by, 0, by.Length);
 				}
 				so.Close();
 				st.Close();

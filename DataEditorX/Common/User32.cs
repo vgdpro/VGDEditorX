@@ -43,6 +43,6 @@ namespace System
         /// </summary>
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern System.IntPtr GetForegroundWindow();
+        public static extern IntPtr GetForegroundWindow();
     }
 }

@@ -156,7 +156,7 @@ namespace DataEditorX
         #endregion
 
         #region 处理窗口消息
-        protected override void DefWndProc(ref System.Windows.Forms.Message m)
+        protected override void DefWndProc(ref Message m)
         {
             switch (m.Msg)
             {

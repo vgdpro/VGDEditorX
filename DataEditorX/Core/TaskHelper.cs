@@ -181,7 +181,7 @@ namespace DataEditorX.Core
         }
 		public void OnCheckUpdate(bool showNew)
 		{
-			TaskHelper.CheckVersion(showNew);
+            CheckVersion(showNew);
 		}
 		#endregion
 

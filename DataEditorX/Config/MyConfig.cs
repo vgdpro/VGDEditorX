@@ -288,7 +288,7 @@ namespace DataEditorX.Config
 				string[] files = Directory.GetFiles(path);
 				foreach (string file in files)
 				{
-					string name = MyPath.GetFullFileName(MyConfig.TAG_LANGUAGE, file);
+					string name = MyPath.GetFullFileName(TAG_LANGUAGE, file);
 					if (string.IsNullOrEmpty(name))
                     {
                         continue;
@@ -296,12 +296,12 @@ namespace DataEditorX.Config
 
                     if (syslang.Equals(name, StringComparison.OrdinalIgnoreCase))
 					{
-						Save(MyConfig.TAG_LANGUAGE, syslang);
+						Save(TAG_LANGUAGE, syslang);
 						break;
 					}
 				}
 			}
-            return MyPath.Combine(path, MyPath.GetFileName(MyConfig.TAG_LANGUAGE, GetAppConfig(TAG_LANGUAGE)));
+            return MyPath.Combine(path, MyPath.GetFileName(TAG_LANGUAGE, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
         /// 卡片信息配置文件名
@@ -310,7 +310,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetCardInfoFile(string path)
         {
-            return MyPath.Combine(path,  MyPath.GetFileName(MyConfig.TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
+            return MyPath.Combine(path,  MyPath.GetFileName(TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
         /// 发送消息打开文件
@@ -327,20 +327,20 @@ namespace DataEditorX.Config
             else
             {
                 //把需要打开的文件写入临时文件
-                string tmpfile = Path.Combine(Application.StartupPath, MyConfig.FILE_TEMP);
+                string tmpfile = Path.Combine(Application.StartupPath, FILE_TEMP);
                 File.WriteAllText(tmpfile, file);
                 //发送消息
-                User32.SendMessage(instance.MainWindowHandle, MyConfig.WM_OPEN, 0, 0);
+                User32.SendMessage(instance.MainWindowHandle, WM_OPEN, 0, 0);
                 return true;
             }
         }
         public static void OpenFileInThis(string file)
         {
             //把需要打开的文件写入临时文件
-            string tmpfile = Path.Combine(Application.StartupPath, MyConfig.FILE_TEMP);
+            string tmpfile = Path.Combine(Application.StartupPath, FILE_TEMP);
             File.WriteAllText(tmpfile, file);
             //发送消息
-            User32.SendMessage(Process.GetCurrentProcess().MainWindowHandle, MyConfig.WM_OPEN, 0, 0);
+            User32.SendMessage(Process.GetCurrentProcess().MainWindowHandle, WM_OPEN, 0, 0);
         }
         public static Process RunningInstance(string filename)
         {

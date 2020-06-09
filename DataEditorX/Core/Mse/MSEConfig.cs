@@ -75,7 +75,7 @@ namespace DataEditorX.Core.Mse
             this.regx_monster = "(\\s\\S*?)";
             this.regx_pendulum = "(\\s\\S*?)";
             //设置文件名
-            this.configName = MyPath.GetFullFileName(MSEConfig.TAG, config);
+            this.configName = MyPath.GetFullFileName(TAG, config);
 
             this.replaces = new SortedList<string, string>();
 
@@ -184,11 +184,11 @@ namespace DataEditorX.Core.Mse
             this.Iscn2tw = false;
 			
 			//读取配置
-			string tmp = MyPath.Combine(path, MyPath.GetFileName(MSEConfig.TAG, MyConfig.ReadString(MyConfig.TAG_MSE)));
+			string tmp = MyPath.Combine(path, MyPath.GetFileName(TAG, MyConfig.ReadString(MyConfig.TAG_MSE)));
 			
 			if (!File.Exists(tmp))
 			{
-				tmp = MyPath.Combine(path, MyPath.GetFileName(MSEConfig.TAG, FILE_CONFIG_NAME));
+				tmp = MyPath.Combine(path, MyPath.GetFileName(TAG, FILE_CONFIG_NAME));
 				if(!File.Exists(tmp))
                 {
                     return;//如果默认的也不存在

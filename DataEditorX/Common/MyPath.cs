@@ -26,7 +26,7 @@ namespace System.IO
             string path = Application.StartupPath;
             if (dir.StartsWith("."))
             {
-                dir = MyPath.Combine(path, dir.Substring(2));
+                dir = Combine(path, dir.Substring(2));
             }
             return dir;
         }
@@ -89,7 +89,7 @@ namespace System.IO
             DirectoryInfo fo;
             try
             {
-                fo = new DirectoryInfo(MyPath.GetRealPath(dir));
+                fo = new DirectoryInfo(GetRealPath(dir));
             }
             catch{
                 //路径不合法

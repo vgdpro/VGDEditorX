@@ -47,23 +47,23 @@ namespace FastColoredTextBoxNS
 			//clear style of changed range
 			range.ClearStyle(this.mStrStyle, this.mGrayStyle, this.conStyle, this.mNumberStyle, this.mKeywordStyle, this.mFunStyle);
 			//
-			if (base.LuaStringRegex == null)
+			if (LuaStringRegex == null)
             {
-                base.InitLuaRegex();
+                InitLuaRegex();
             }
             //string highlighting
-            range.SetStyle(this.mStrStyle, base.LuaStringRegex);
+            range.SetStyle(this.mStrStyle, LuaStringRegex);
 			//comment highlighting
-			range.SetStyle(this.mGrayStyle, base.LuaCommentRegex1);
-			range.SetStyle(this.mGrayStyle, base.LuaCommentRegex2);
-			range.SetStyle(this.mGrayStyle, base.LuaCommentRegex3);
+			range.SetStyle(this.mGrayStyle, LuaCommentRegex1);
+			range.SetStyle(this.mGrayStyle, LuaCommentRegex2);
+			range.SetStyle(this.mGrayStyle, LuaCommentRegex3);
 			//number highlighting
-			range.SetStyle(this.mNumberStyle, base.LuaNumberRegex);
+			range.SetStyle(this.mNumberStyle, LuaNumberRegex);
 
 			//keyword highlighting
-			range.SetStyle(this.mKeywordStyle, base.LuaKeywordRegex);
+			range.SetStyle(this.mKeywordStyle, LuaKeywordRegex);
 			//functions highlighting
-			range.SetStyle(this.mFunStyle, base.LuaFunctionsRegex);
+			range.SetStyle(this.mFunStyle, LuaFunctionsRegex);
 			range.SetStyle(this.mNumberStyle, @"\bc\d+\b");
 			
 			range.SetStyle(this.conStyle, @"[\s|\(|+|,]{0,1}(?<range>[A-Z_]+?)[\)|+|\s|,|;]");

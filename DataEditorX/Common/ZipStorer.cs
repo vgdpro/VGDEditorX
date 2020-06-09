@@ -183,7 +183,7 @@ namespace System.IO.Compression
                 return zip;
             }
 
-            throw new System.IO.InvalidDataException();
+            throw new InvalidDataException();
         }
                 /// <summary>
         /// Add full contents of a file into the Zip storage
@@ -380,7 +380,7 @@ namespace System.IO.Compression
         public bool ExtractFile(ZipFileEntry _zfe, string _filename)
         {
             // Make sure the parent directory exist
-            string path = System.IO.Path.GetDirectoryName(_filename);
+            string path = Path.GetDirectoryName(_filename);
 
             if (!Directory.Exists(path))
             {
@@ -485,7 +485,7 @@ namespace System.IO.Compression
 
             try
             {
-                ZipStorer tempZip = ZipStorer.Create(tempZipName, string.Empty);
+                ZipStorer tempZip = Create(tempZipName, string.Empty);
 
                 foreach (ZipFileEntry zfe in fullList)
                 {
@@ -503,7 +503,7 @@ namespace System.IO.Compression
                 File.Delete(_zip.fileName);
                 File.Move(tempZipName, _zip.fileName);
 
-                _zip = ZipStorer.Open(_zip.fileName, _zip.access);
+                _zip = Open(_zip.fileName, _zip.access);
             }
             catch
             {
@@ -682,7 +682,7 @@ namespace System.IO.Compression
 
                     for (uint i = 0; i < bytesRead; i++)
                     {
-                        _zfe.Crc32 = ZipStorer._crcTable[(_zfe.Crc32 ^ buffer[i]) & 0xFF] ^ (_zfe.Crc32 >> 8);
+                        _zfe.Crc32 = _crcTable[(_zfe.Crc32 ^ buffer[i]) & 0xFF] ^ (_zfe.Crc32 >> 8);
                     }
                 }
             } while (bytesRead == buffer.Length);

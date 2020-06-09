@@ -908,14 +908,14 @@ namespace DataEditorX.Core.Mse
 		private static void exportSetThread(object obj){
 			string[] args=(string[])obj;
 			if(args==null||args.Length<3){
-				System.Windows.Forms.MessageBox.Show(Language.LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
+                MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
 				return;
 			}
 			string mse_path=args[0];
 			string setfile=args[1];
 			string path=args[2];
 			if(string.IsNullOrEmpty(mse_path)||string.IsNullOrEmpty(setfile)){
-				System.Windows.Forms.MessageBox.Show(Language.LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
+                MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
 				return;
 			}else{
 				string cmd=" --export "+setfile.Replace("\\\\","\\").Replace("\\","/")+" {card.gamecode}.png";
@@ -932,7 +932,7 @@ namespace DataEditorX.Core.Mse
 					_mseProcess.Exited += new EventHandler(_exitHandler);
 					_mseProcess.Close();
 					_mseProcess=null;
-					System.Windows.Forms.MessageBox.Show(Language.LanguageHelper.GetMsg(LMSG.exportMseImages));
+                    MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImages));
 				}catch{
 					
 				}

@@ -273,7 +273,7 @@ namespace DataEditorX.Core
 						{
 							foreach ( Card c in cards )
 							{
-								cmd.CommandText = DataBase.GetInsertSQL(c, ignore);
+								cmd.CommandText = GetInsertSQL(c, ignore);
 								result += cmd.ExecuteNonQuery();
 							}
 						}
@@ -301,7 +301,7 @@ namespace DataEditorX.Core
 						{
 							foreach (Card c in cards)
 							{
-								cmd.CommandText = DataBase.GetDeleteSQL(c);
+								cmd.CommandText = GetDeleteSQL(c);
 								result += cmd.ExecuteNonQuery();
 							}
 						}

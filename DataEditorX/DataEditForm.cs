@@ -1813,7 +1813,7 @@ namespace DataEditorX
 				//刷新菜单
 				this.AddMenuItemFormMSE();
 				//保存配置
-				MyConfig.Save(MyConfig.TAG_MSE, tsmi.Text);
+				XMLReader.Save(MyConfig.TAG_MSE, tsmi.Text);
 			}
 		}
 		#endregion
@@ -1964,26 +1964,26 @@ namespace DataEditorX
 		private void menuitem_deletecardsfile_Click(object sender, EventArgs e)
 		{
 			this.menuitem_operacardsfile.Checked = !this.menuitem_operacardsfile.Checked;
-			MyConfig.Save(MyConfig.TAG_DELETE_WITH, this.menuitem_operacardsfile.Checked.ToString().ToLower());
+			XMLReader.Save(MyConfig.TAG_DELETE_WITH, this.menuitem_operacardsfile.Checked.ToString().ToLower());
 		}
 		//用CodeEditor打开lua
 		private void menuitem_openfileinthis_Click(object sender, EventArgs e)
 		{
 			this.menuitem_openfileinthis.Checked = !this.menuitem_openfileinthis.Checked;
-			MyConfig.Save(MyConfig.TAG_OPEN_IN_THIS, this.menuitem_openfileinthis.Checked.ToString().ToLower());
+			XMLReader.Save(MyConfig.TAG_OPEN_IN_THIS, this.menuitem_openfileinthis.Checked.ToString().ToLower());
 		}
 		//自动检查更新
 		private void menuitem_autocheckupdate_Click(object sender, EventArgs e)
 		{
 			this.menuitem_autocheckupdate.Checked = !this.menuitem_autocheckupdate.Checked;
-			MyConfig.Save(MyConfig.TAG_AUTO_CHECK_UPDATE, this.menuitem_autocheckupdate.Checked.ToString().ToLower());
+			XMLReader.Save(MyConfig.TAG_AUTO_CHECK_UPDATE, this.menuitem_autocheckupdate.Checked.ToString().ToLower());
 		}
         //add require automatically
         private void menuitem_addrequire_Click(object sender, EventArgs e)
         {
 			this.Addrequire = Microsoft.VisualBasic.Interaction.InputBox("Module script?\n\nPress \"Cancel\" to remove module script.", "", this.Addrequire);
 			this.menuitem_addrequire.Checked = (this.Addrequire.Length > 0);
-            MyConfig.Save(MyConfig.TAG_ADD_REQUIRE, this.Addrequire);
+			XMLReader.Save(MyConfig.TAG_ADD_REQUIRE, this.Addrequire);
         }
         #endregion
 
@@ -2028,7 +2028,7 @@ namespace DataEditorX
 
 			if (sender is ToolStripMenuItem tsmi)
 			{
-				MyConfig.Save(MyConfig.TAG_LANGUAGE, tsmi.Text);
+				XMLReader.Save(MyConfig.TAG_LANGUAGE, tsmi.Text);
 				this.GetLanguageItem();
 				MyMsg.Show(LMSG.PlzRestart);
 			}
