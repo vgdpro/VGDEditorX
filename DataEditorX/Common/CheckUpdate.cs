@@ -29,8 +29,6 @@ namespace DataEditorX.Common
 		/// <summary>
 		/// 从HEAD获取版本号
 		/// </summary>
-		const string HEAD = "[DataEditorX]";
-		const string HEAD2 = "[URL]";
 		public const string DEFAULT = "0.0.0.0";
 
 		#region 检查版本
