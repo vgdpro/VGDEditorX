@@ -81,8 +81,9 @@ namespace DataEditorX
             Font ft = new Font(this.fctb.Font.Name, this.fctb.Font.Size / 1.2f, FontStyle.Regular);
             this.popupMenu = new FastColoredTextBoxNS.AutocompleteMenu(this.fctb)
             {
-                MinFragmentLength = 2
+                MinFragmentLength = 2,
             };
+            this.popupMenu.ToolTip.Popup += this.ToolTip_Popup;
             this.popupMenu.Items.Font = ft;
             this.popupMenu.AutoSize = true;
             this.popupMenu.MinimumSize = new System.Drawing.Size(300, 0);
@@ -94,6 +95,11 @@ namespace DataEditorX
             popupMenu.Items.FocussedItemIndexChanged += this.Items_FocussedItemIndexChanged;
 
             this.title = this.Text;
+        }
+
+        private void ToolTip_Popup(object sender, PopupEventArgs e)
+        {
+            e.Cancel = true;
         }
 
         private void PopupMenu_VisibleChanged(object sender, EventArgs e)
