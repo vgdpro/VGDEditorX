@@ -153,7 +153,7 @@ namespace DataEditorX.Common
 				Stream st = myrp.GetResponseStream();
 				Stream so = new System.IO.FileStream(filename + ".tmp", FileMode.Create);
 				long totalDownloadedByte = 0;
-				byte[] by = new byte[2048];
+				byte[] by = new byte[1024 * 512];
 				int osize = st.Read(by, 0, (int)by.Length);
 				while (osize > 0)
 				{
