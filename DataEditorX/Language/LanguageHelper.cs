@@ -19,8 +19,8 @@ namespace DataEditorX.Language
     /// </summary>
     public class LanguageHelper
     {
-        static readonly Dictionary<string, string> gWordsList = new Dictionary<string, string>();
-        static readonly SortedList<LMSG, string> gMsgList = new SortedList<LMSG, string>();
+        static readonly Dictionary<string, string> _gWordsList = new Dictionary<string, string>();
+        static readonly SortedList<LMSG, string> _gMsgList = new SortedList<LMSG, string>();
         const char SEP_CONTROL = '.';
         const char SEP_LINE = '\t';
         readonly Dictionary<string, string> mWordslist = new Dictionary<string, string>();
@@ -28,9 +28,9 @@ namespace DataEditorX.Language
         #region 获取消息文字
         public static string GetMsg(LMSG lMsg)
         {
-            if (gMsgList.IndexOfKey(lMsg) >= 0)
+            if (_gMsgList.IndexOfKey(lMsg) >= 0)
             {
-                return gMsgList[lMsg];
+                return _gMsgList[lMsg];
             }
             else
             {
@@ -59,7 +59,7 @@ namespace DataEditorX.Language
 
         static bool GetLabel(string key, out string title)
         {
-            if (gWordsList.TryGetValue(key, out string v))
+            if (_gWordsList.TryGetValue(key, out string v))
             {
                 title = v;
                 return true;
@@ -262,14 +262,14 @@ namespace DataEditorX.Language
                     sw.WriteLine(k + SEP_LINE + this.mWordslist[k]);
                 }
                 sw.WriteLine("#");
-                foreach (LMSG k in gMsgList.Keys)
+                foreach (LMSG k in _gMsgList.Keys)
                 {
                     //记得替换换行符
-                    sw.WriteLine("0x" + ((uint)k).ToString("x") + SEP_LINE + gMsgList[k].Replace("\n", "\\n"));
+                    sw.WriteLine("0x" + ((uint)k).ToString("x") + SEP_LINE + _gMsgList[k].Replace("\n", "\\n"));
                 }
                 foreach (LMSG k in Enum.GetValues(typeof(LMSG)))
                 {
-                    if (!gMsgList.ContainsKey(k))
+                    if (!_gMsgList.ContainsKey(k))
                     {
                         sw.WriteLine("0x" + ((uint)k).ToString("x") + SEP_LINE + k.ToString());
                     }
@@ -289,8 +289,8 @@ namespace DataEditorX.Language
                 return;
             }
 
-            gWordsList.Clear();
-            gMsgList.Clear();
+            _gWordsList.Clear();
+            _gMsgList.Clear();
             using (FileStream fs = new FileStream(f, FileMode.Open, FileAccess.Read))
             {
                 StreamReader sr = new StreamReader(fs, Encoding.UTF8);
@@ -313,16 +313,16 @@ namespace DataEditorX.Language
                     {
                         uint.TryParse(words[0].Replace("0x", ""), NumberStyles.HexNumber, null, out uint utemp);
                         ltemp = (LMSG)utemp;
-                        if (gMsgList.IndexOfKey(ltemp) < 0)//记得替换换行符
+                        if (_gMsgList.IndexOfKey(ltemp) < 0)//记得替换换行符
                         {
-                            gMsgList.Add(ltemp, words[1].Replace("\\n", "\n"));
+                            _gMsgList.Add(ltemp, words[1].Replace("\\n", "\n"));
                         }
                     }
                     else if (!line.StartsWith("#"))//加载界面语言
                     {
-                        if (!gWordsList.ContainsKey(words[0]))
+                        if (!_gWordsList.ContainsKey(words[0]))
                         {
-                            gWordsList.Add(words[0], words[1]);
+                            _gWordsList.Add(words[0], words[1]);
                         }
                     }
                 }

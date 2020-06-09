@@ -548,16 +548,14 @@ namespace DataEditorX
         private void MainForm_Load(object sender, EventArgs e)
         {
             //检查更新
-			if (!MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
+			if (MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
             {
-                return;
+                Thread th = new Thread(this.CheckUpdate)
+                {
+                    IsBackground = true//如果exe结束，则线程终止
+                };
+                th.Start();
             }
-
-            Thread th = new Thread(this.CheckUpdate)
-            {
-                IsBackground = true//如果exe结束，则线程终止
-            };
-            th.Start();
         }
     }
 }
