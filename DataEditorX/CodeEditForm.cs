@@ -81,7 +81,7 @@ namespace DataEditorX
             Font ft = new Font(this.fctb.Font.Name, this.fctb.Font.Size / 1.2f, FontStyle.Regular);
             this.popupMenu = new FastColoredTextBoxNS.AutocompleteMenu(this.fctb)
             {
-                MinFragmentLength = 2,
+                MinFragmentLength = 2
             };
             this.popupMenu.ToolTip.Popup += this.ToolTip_Popup;
             this.popupMenu.Items.Font = ft;
