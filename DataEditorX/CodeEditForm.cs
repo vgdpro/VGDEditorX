@@ -45,6 +45,7 @@ namespace DataEditorX
         {
             this.InitForm();
         }
+
         void InitForm()
         {
             this.cardlist = new SortedDictionary<long, string>();
@@ -83,15 +84,53 @@ namespace DataEditorX
                 MinFragmentLength = 2
             };
             this.popupMenu.Items.Font = ft;
-            this.popupMenu.Items.MaximumSize = new System.Drawing.Size(200, 400);
-            this.popupMenu.Items.Width = 300;
+            this.popupMenu.AutoSize = true;
+            this.popupMenu.MinimumSize = new System.Drawing.Size(300, 0);
             this.popupMenu.BackColor = this.fctb.BackColor;
             this.popupMenu.ForeColor = this.fctb.ForeColor;
             this.popupMenu.Closed += new ToolStripDropDownClosedEventHandler(this.popupMenu_Closed);
-
             this.popupMenu.SelectedColor = Color.LightGray;
+            popupMenu.VisibleChanged += this.PopupMenu_VisibleChanged;
+            popupMenu.Items.FocussedItemIndexChanged += this.Items_FocussedItemIndexChanged;
 
             this.title = this.Text;
+        }
+
+        private void PopupMenu_VisibleChanged(object sender, EventArgs e)
+        {
+            this.AdjustPopupMenuSize();
+            if (!popupMenu.Visible || popupMenu.Items.FocussedItem == null)
+            {
+                return;
+            }
+            this.fctb.ShowTooltipWithLabel(popupMenu.Items.FocussedItem.ToolTipTitle,
+                popupMenu.Items.FocussedItem.ToolTipText);
+        }
+        private void AdjustPopupMenuSize()
+        {
+            if (!popupMenu.Visible || popupMenu.Items.FocussedItem == null)
+            {
+                popupMenu.Size = new Size(300, 0);
+                popupMenu.MinimumSize = new Size(300, 0);
+            }
+            Size s = TextRenderer.MeasureText(popupMenu.Items.FocussedItem.ToolTipTitle,
+                popupMenu.Items.Font, new Size(0, 0), TextFormatFlags.NoPadding);
+            s = new Size(s.Width + 50, popupMenu.Size.Height);
+            if (popupMenu.Size.Width < s.Width)
+            {
+                popupMenu.Size = s;
+                popupMenu.MinimumSize = s;
+            }
+        }
+        private void Items_FocussedItemIndexChanged(object sender, EventArgs e)
+        {
+            if (popupMenu.Items.FocussedItem == null)
+            {
+                return;
+            }
+            this.AdjustPopupMenuSize();
+            this.fctb.ShowTooltipWithLabel(popupMenu.Items.FocussedItem.ToolTipTitle,
+                popupMenu.Items.FocussedItem.ToolTipText);
         }
 
         void popupMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)

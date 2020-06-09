@@ -16,17 +16,20 @@ namespace FastColoredTextBoxNS
 {
 	public class FastColoredTextBoxEx : FastColoredTextBox
     {
-        private Label lbTooltip;
+        public Label lbTooltip;
         Point lastMouseCoord;
  
 		public FastColoredTextBoxEx() : base()
 		{
             this.SyntaxHighlighter = new MySyntaxHighlighter();
-            this.InitializeComponent();
+            this.TextChanged += this.FctbTextChanged;
             this.ToolTipDelay = 1;
-            this.TextChangedDelayed += this.FctbTextChangedDelayed;
-		}
-		public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
+            this.DelayedEventsInterval = 1;
+            this.DelayedTextChangedInterval = 1;
+            this.InitializeComponent();
+        }
+
+        public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
@@ -64,19 +67,24 @@ namespace FastColoredTextBoxNS
 
 			if (ea.ToolTipText != null)
 			{
-                lbTooltip.Visible = true;
-                lbTooltip.Text = $"{ea.ToolTipTitle}\r\n\r\n{ea.ToolTipText}";
-                lbTooltip.Location = new Point(this.Size.Width - 500, this.lastMouseCoord.Y + this.CharHeight);
-                //this.ToolTip.ToolTipTitle = ea.ToolTipTitle;
-                //this.ToolTip.ToolTipIcon = ea.ToolTipIcon;
-                //ToolTip.SetToolTip(this, ea.ToolTipText);
-                //this.ToolTip.Show(ea.ToolTipText, this, new Point(this.lastMouseCoord.X, this.lastMouseCoord.Y + this.CharHeight));
+                this.ShowTooltipWithLabel(ea.ToolTipTitle, ea.ToolTipText);
             }
         }
 
+        public void ShowTooltipWithLabel(string title, string text, int height)
+        {
+            lbTooltip.Visible = true;
+            lbTooltip.Text = $"{title}\r\n\r\n{text}";
+            lbTooltip.Location = new Point(this.Size.Width - 500, height);
+        }
+
+        public void ShowTooltipWithLabel(string title, string text)
+        {
+            this.ShowTooltipWithLabel(title,text, this.lastMouseCoord.Y + this.CharHeight);
+        }
 
         //高亮当前词
-        void FctbTextChangedDelayed(object sender, TextChangedEventArgs e)
+        void FctbTextChanged(object sender, TextChangedEventArgs e)
         {
             //delete all markers
             this.Range.ClearFoldingMarkers();
