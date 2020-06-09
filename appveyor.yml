@@ -4,6 +4,7 @@ skip_tags: true
 install:
   - curl -sL -o DataEditorX/data/constants.lua https://github.com/Fluorohydride/ygopro-scripts/raw/master/constants.lua
   - curl -sL -o DataEditorX/data/strings.conf https://github.com/Fluorohydride/ygopro/raw/master/strings.conf
+  - nuget restore
 
 configuration: Release
 
