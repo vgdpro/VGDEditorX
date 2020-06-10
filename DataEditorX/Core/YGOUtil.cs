@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
-using System.IO;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Microsoft.VisualBasic.FileIO;
-using System.Configuration;
-using DataEditorX.Config;
-
+﻿using DataEditorX.Config;
 using DataEditorX.Core.Info;
+using Microsoft.VisualBasic.FileIO;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace DataEditorX.Core
 {
@@ -250,9 +247,9 @@ namespace DataEditorX.Core
         public static void CardDelete(long id, YgoPath ygopath)
         {
             string[] files = ygopath.GetCardfiles(id);
-			for (int i = 0; i < files.Length; i++)
-			{
-					if (FileSystem.FileExists(files[i]))
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (FileSystem.FileExists(files[i]))
                 {
                     FileSystem.DeleteFile(files[i], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                 }
@@ -271,32 +268,34 @@ namespace DataEditorX.Core
             {
                 if (File.Exists(oldfiles[i]))
                 {
-					try {
-						File.Move(oldfiles[i], newfiles[i]);
-					}
-					catch { }
+                    try
+                    {
+                        File.Move(oldfiles[i], newfiles[i]);
+                    }
+                    catch { }
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region 复制资源
-		public static void CardCopy(long newid, long oldid, YgoPath ygopath)
-		{
-			string[] newfiles = ygopath.GetCardfiles(newid);
-			string[] oldfiles = ygopath.GetCardfiles(oldid);
+        #region 复制资源
+        public static void CardCopy(long newid, long oldid, YgoPath ygopath)
+        {
+            string[] newfiles = ygopath.GetCardfiles(newid);
+            string[] oldfiles = ygopath.GetCardfiles(oldid);
 
-			for (int i = 0; i < oldfiles.Length; i++)
-			{
-				if (File.Exists(oldfiles[i]))
-				{
-					try {
-						File.Copy(oldfiles[i], newfiles[i], false);
-					}
-					catch { }
-				}
-			}
-		}
-		#endregion
-	}
+            for (int i = 0; i < oldfiles.Length; i++)
+            {
+                if (File.Exists(oldfiles[i]))
+                {
+                    try
+                    {
+                        File.Copy(oldfiles[i], newfiles[i], false);
+                    }
+                    catch { }
+                }
+            }
+        }
+        #endregion
+    }
 }

@@ -1,10 +1,5 @@
-﻿using System;
+﻿using System.Windows.Forms;
 using System.Xml;
-using System.IO;
-using DataEditorX.Common;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace DataEditorX.Common
 {

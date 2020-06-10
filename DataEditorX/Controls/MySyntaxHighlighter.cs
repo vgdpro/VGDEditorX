@@ -5,13 +5,7 @@
  * 时间: 23:14
  * 
  */
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Xml;
 
 namespace FastColoredTextBoxNS
 {
@@ -20,14 +14,14 @@ namespace FastColoredTextBoxNS
 	/// </summary>
 	public class MySyntaxHighlighter : SyntaxHighlighter
 	{
-        readonly TextStyle mNumberStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
-        readonly TextStyle mStrStyle = new TextStyle(Brushes.Gold, null, FontStyle.Regular);
-        readonly TextStyle conStyle = new TextStyle(Brushes.YellowGreen, null, FontStyle.Regular);
-        readonly TextStyle mKeywordStyle = new TextStyle(Brushes.DeepSkyBlue, null, FontStyle.Regular);
-        readonly TextStyle mGrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
-        readonly TextStyle mFunStyle = new TextStyle(Brushes.LightGray, null, FontStyle.Bold);
-		
-		
+		readonly TextStyle mNumberStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
+		readonly TextStyle mStrStyle = new TextStyle(Brushes.Gold, null, FontStyle.Regular);
+		readonly TextStyle conStyle = new TextStyle(Brushes.YellowGreen, null, FontStyle.Regular);
+		readonly TextStyle mKeywordStyle = new TextStyle(Brushes.DeepSkyBlue, null, FontStyle.Regular);
+		readonly TextStyle mGrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
+		readonly TextStyle mFunStyle = new TextStyle(Brushes.LightGray, null, FontStyle.Bold);
+
+
 		/// <summary>
 		/// Highlights Lua code
 		/// </summary>
@@ -47,28 +41,28 @@ namespace FastColoredTextBoxNS
 			//clear style of changed range
 			range.ClearStyle(this.mStrStyle, this.mGrayStyle, this.conStyle, this.mNumberStyle, this.mKeywordStyle, this.mFunStyle);
 			//
-			if (LuaStringRegex == null)
-            {
-                InitLuaRegex();
-            }
-            //string highlighting
-            range.SetStyle(this.mStrStyle, LuaStringRegex);
+			if (this.LuaStringRegex == null)
+			{
+				this.InitLuaRegex();
+			}
+			//string highlighting
+			range.SetStyle(this.mStrStyle, this.LuaStringRegex);
 			//comment highlighting
-			range.SetStyle(this.mGrayStyle, LuaCommentRegex1);
-			range.SetStyle(this.mGrayStyle, LuaCommentRegex2);
-			range.SetStyle(this.mGrayStyle, LuaCommentRegex3);
+			range.SetStyle(this.mGrayStyle, this.LuaCommentRegex1);
+			range.SetStyle(this.mGrayStyle, this.LuaCommentRegex2);
+			range.SetStyle(this.mGrayStyle, this.LuaCommentRegex3);
 			//number highlighting
-			range.SetStyle(this.mNumberStyle, LuaNumberRegex);
+			range.SetStyle(this.mNumberStyle, this.LuaNumberRegex);
 
 			//keyword highlighting
-			range.SetStyle(this.mKeywordStyle, LuaKeywordRegex);
+			range.SetStyle(this.mKeywordStyle, this.LuaKeywordRegex);
 			//functions highlighting
-			range.SetStyle(this.mFunStyle, LuaFunctionsRegex);
+			range.SetStyle(this.mFunStyle, this.LuaFunctionsRegex);
 			range.SetStyle(this.mNumberStyle, @"\bc\d+\b");
-			
+
 			range.SetStyle(this.conStyle, @"[\s|\(|+|,]{0,1}(?<range>[A-Z_]+?)[\)|+|\s|,|;]");
 			//range.SetStyle(mFunStyle, @"[:|\.|\s](?<range>[a-zA-Z0-9_]*?)[\(|\)|\s]");
-			
+
 			//clear folding markers
 			range.ClearFoldingMarkers();
 			//set folding markers

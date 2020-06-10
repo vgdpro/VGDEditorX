@@ -6,11 +6,11 @@
  * 
  */
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Collections.Generic;
 
 namespace DataEditorX.Config
 {
@@ -42,7 +42,7 @@ namespace DataEditorX.Config
             Match mac = reg.Match(reReturn(content));
             if (mac.Success)//把相应的内容提取出来
             {
-                return mac.Groups[1].Value.Replace("\n",Environment.NewLine);
+                return mac.Groups[1].Value.Replace("\n", Environment.NewLine);
             }
             return "";
         }
@@ -57,7 +57,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static Dictionary<long, string> Read(string content, string tag)
         {
-            return Read(SubString(content,tag));
+            return Read(SubString(content, tag));
         }
         /// <summary>
         /// 从文件读取内容，按行读取
@@ -122,7 +122,7 @@ namespace DataEditorX.Config
         }
 
         #endregion
-        
+
         #region 查找
         public static List<long> GetKeys(Dictionary<long, string> dic)
         {
@@ -150,7 +150,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetValue(Dictionary<long, string> dic, long key)
         {
-        	if(dic.ContainsKey(key))
+            if (dic.ContainsKey(key))
             {
                 return dic[key].Trim();
             }

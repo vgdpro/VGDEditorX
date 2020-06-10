@@ -1,8 +1,7 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.Collections.Generic;
 using System.IO;
-
-using FastColoredTextBoxNS;
 
 namespace DataEditorX.Config
 {
@@ -209,7 +208,7 @@ namespace DataEditorX.Config
                     nval += Environment.NewLine;
                 }
 
-                nval += Environment.NewLine +val;
+                nval += Environment.NewLine + val;
                 this.tooltipDic[skey] = nval;
             }
             else

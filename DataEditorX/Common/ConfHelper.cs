@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace DataEditorX.Common
 {
@@ -109,7 +108,7 @@ namespace DataEditorX.Common
                 i = int.Parse(GetValue(line));
                 return i;
             }
-            catch{}
+            catch { }
             return defalut;
         }
         /// <summary>

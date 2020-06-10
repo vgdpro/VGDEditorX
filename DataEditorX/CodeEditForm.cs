@@ -5,19 +5,19 @@
  * 时间: 19:16
  * 
  */
-using System;
-using System.IO;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
-using FastColoredTextBoxNS;
-using DataEditorX.Language;
-using System.Text.RegularExpressions;
-using DataEditorX.Core;
 using DataEditorX.Config;
 using DataEditorX.Controls;
+using DataEditorX.Core;
+using DataEditorX.Language;
+using FastColoredTextBoxNS;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace DataEditorX
 {
@@ -91,8 +91,8 @@ namespace DataEditorX
             this.popupMenu.ForeColor = this.fctb.ForeColor;
             this.popupMenu.Closed += new ToolStripDropDownClosedEventHandler(this.popupMenu_Closed);
             this.popupMenu.SelectedColor = Color.LightGray;
-            popupMenu.VisibleChanged += this.PopupMenu_VisibleChanged;
-            popupMenu.Items.FocussedItemIndexChanged += this.Items_FocussedItemIndexChanged;
+            this.popupMenu.VisibleChanged += this.PopupMenu_VisibleChanged;
+            this.popupMenu.Items.FocussedItemIndexChanged += this.Items_FocussedItemIndexChanged;
 
             this.title = this.Text;
         }
@@ -105,38 +105,38 @@ namespace DataEditorX
         private void PopupMenu_VisibleChanged(object sender, EventArgs e)
         {
             this.AdjustPopupMenuSize();
-            if (!popupMenu.Visible || popupMenu.Items.FocussedItem == null)
+            if (!this.popupMenu.Visible || this.popupMenu.Items.FocussedItem == null)
             {
                 return;
             }
-            this.fctb.ShowTooltipWithLabel(popupMenu.Items.FocussedItem.ToolTipTitle,
-                popupMenu.Items.FocussedItem.ToolTipText);
+            this.fctb.ShowTooltipWithLabel(this.popupMenu.Items.FocussedItem.ToolTipTitle,
+                this.popupMenu.Items.FocussedItem.ToolTipText);
         }
         private void AdjustPopupMenuSize()
         {
-            if (!popupMenu.Visible || popupMenu.Items.FocussedItem == null)
+            if (!this.popupMenu.Visible || this.popupMenu.Items.FocussedItem == null)
             {
-                popupMenu.Size = new Size(300, 0);
-                popupMenu.MinimumSize = new Size(300, 0);
+                this.popupMenu.Size = new Size(300, 0);
+                this.popupMenu.MinimumSize = new Size(300, 0);
             }
-            Size s = TextRenderer.MeasureText(popupMenu.Items.FocussedItem.ToolTipTitle,
-                popupMenu.Items.Font, new Size(0, 0), TextFormatFlags.NoPadding);
-            s = new Size(s.Width + 50, popupMenu.Size.Height);
-            if (popupMenu.Size.Width < s.Width)
+            Size s = TextRenderer.MeasureText(this.popupMenu.Items.FocussedItem.ToolTipTitle,
+                this.popupMenu.Items.Font, new Size(0, 0), TextFormatFlags.NoPadding);
+            s = new Size(s.Width + 50, this.popupMenu.Size.Height);
+            if (this.popupMenu.Size.Width < s.Width)
             {
-                popupMenu.Size = s;
-                popupMenu.MinimumSize = s;
+                this.popupMenu.Size = s;
+                this.popupMenu.MinimumSize = s;
             }
         }
         private void Items_FocussedItemIndexChanged(object sender, EventArgs e)
         {
-            if (popupMenu.Items.FocussedItem == null)
+            if (this.popupMenu.Items.FocussedItem == null)
             {
                 return;
             }
             this.AdjustPopupMenuSize();
-            this.fctb.ShowTooltipWithLabel(popupMenu.Items.FocussedItem.ToolTipTitle,
-                popupMenu.Items.FocussedItem.ToolTipText);
+            this.fctb.ShowTooltipWithLabel(this.popupMenu.Items.FocussedItem.ToolTipTitle,
+                this.popupMenu.Items.FocussedItem.ToolTipText);
         }
 
         void popupMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
@@ -258,7 +258,7 @@ namespace DataEditorX
             this.popupMenu.Items.SetAutocompleteItems(this.items);
         }
         #endregion
-       
+
         #region 悬停的函数说明
         //查找函数说明
         string FindTooltip(string word)

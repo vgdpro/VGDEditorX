@@ -5,127 +5,125 @@
  * 时间: 12:48
  * 
  */
+using DataEditorX.Common;
+using DataEditorX.Core.Info;
+using DataEditorX.Language;
+using Microsoft.VisualBasic;
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.VisualBasic;
-
-using System.Drawing;
-using DataEditorX.Core.Info;
-using DataEditorX.Config;
-using DataEditorX.Language;
-using DataEditorX.Common;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace DataEditorX.Core.Mse
 {
-	/// <summary>
-	/// MSE制作
-	/// </summary>
-	public class MseMaker
-	{
-		#region 常量
-		public const string TAG_CARD = "card";
-		public const string TAG_CARDTYPE = "card type";
-		public const string TAG_NAME = "name";
-		public const string TAG_ATTRIBUTE = "attribute";
-		public const string TAG_LEVEL = "level";
-		public const string TAG_IMAGE = "image";
-		/// <summary>种族</summary>
-		public const string TAG_TYPE1 = "type 1";
-		/// <summary>效果1</summary>
-		public const string TAG_TYPE2 = "type 2";
-		/// <summary>效果2/summary>
-		public const string TAG_TYPE3 = "type 3";
-		/// <summary>效果3</summary>
-		public const string TAG_TYPE4 = "type 4";
-		public const string TAG_TYPE5 = "type 5";
-		public const string TAG_TEXT = "rule text";
-		public const string TAG_ATK = "attack";
-		public const string TAG_DEF = "defense";
-		public const string TAG_NUMBER = "number";
-		public const string TAG_RARITY = "rarity";
-		public const string TAG_PENDULUM = "pendulum";
-		public const string TAG_PSCALE1 = "pendulum scale 1";
-		public const string TAG_PSCALE2 = "pendulum scale 2";
-		public const string TAG_PEND_TEXT = "pendulum text";
-		public const string TAG_CODE = "gamecode";
-		public const string UNKNOWN_ATKDEF = "?";
-		public const int UNKNOWN_ATKDEF_VALUE = -2;
-		public const string TAG_REP_TEXT = "%text%";
-		public const string TAG_REP_PTEXT = "%ptext%";
+    /// <summary>
+    /// MSE制作
+    /// </summary>
+    public class MseMaker
+    {
+        #region 常量
+        public const string TAG_CARD = "card";
+        public const string TAG_CARDTYPE = "card type";
+        public const string TAG_NAME = "name";
+        public const string TAG_ATTRIBUTE = "attribute";
+        public const string TAG_LEVEL = "level";
+        public const string TAG_IMAGE = "image";
+        /// <summary>种族</summary>
+        public const string TAG_TYPE1 = "type 1";
+        /// <summary>效果1</summary>
+        public const string TAG_TYPE2 = "type 2";
+        /// <summary>效果2/summary>
+        public const string TAG_TYPE3 = "type 3";
+        /// <summary>效果3</summary>
+        public const string TAG_TYPE4 = "type 4";
+        public const string TAG_TYPE5 = "type 5";
+        public const string TAG_TEXT = "rule text";
+        public const string TAG_ATK = "attack";
+        public const string TAG_DEF = "defense";
+        public const string TAG_NUMBER = "number";
+        public const string TAG_RARITY = "rarity";
+        public const string TAG_PENDULUM = "pendulum";
+        public const string TAG_PSCALE1 = "pendulum scale 1";
+        public const string TAG_PSCALE2 = "pendulum scale 2";
+        public const string TAG_PEND_TEXT = "pendulum text";
+        public const string TAG_CODE = "gamecode";
+        public const string UNKNOWN_ATKDEF = "?";
+        public const int UNKNOWN_ATKDEF_VALUE = -2;
+        public const string TAG_REP_TEXT = "%text%";
+        public const string TAG_REP_PTEXT = "%ptext%";
 
-		public const string TAG_Link_Marker_Up = "Link Marker Up";
-		public const string TAG_Link_Marker_UL = "Link Marker UL";
-		public const string TAG_Link_Marker_UR = "Link Marker UR";
-		public const string TAG_Link_Marker_Down = "Link Marker Down";
-		public const string TAG_Link_Marker_DL = "Link Marker DL";
-		public const string TAG_Link_Marker_DR = "Link Marker DR";
-		public const string TAG_Link_Marker_Left = "Link Marker Left";
-		public const string TAG_Link_Marker_Right = "Link Marker Right";
-		public const string TAG_Link_Number = "link number";
-		#endregion
+        public const string TAG_Link_Marker_Up = "Link Marker Up";
+        public const string TAG_Link_Marker_UL = "Link Marker UL";
+        public const string TAG_Link_Marker_UR = "Link Marker UR";
+        public const string TAG_Link_Marker_Down = "Link Marker Down";
+        public const string TAG_Link_Marker_DL = "Link Marker DL";
+        public const string TAG_Link_Marker_DR = "Link Marker DR";
+        public const string TAG_Link_Marker_Left = "Link Marker Left";
+        public const string TAG_Link_Marker_Right = "Link Marker Right";
+        public const string TAG_Link_Number = "link number";
+        #endregion
 
-		#region 成员，初始化
-		MSEConfig cfg;
-		public int MaxNum
-		{
-			get { return this.cfg.maxcount; }
-		}
+        #region 成员，初始化
+        MSEConfig cfg;
+        public int MaxNum
+        {
+            get { return this.cfg.maxcount; }
+        }
 
-		public string ImagePath
-		{
-			get { return this.cfg.imagepath; }
-		}
+        public string ImagePath
+        {
+            get { return this.cfg.imagepath; }
+        }
 
-		public MseMaker(MSEConfig mcfg)
-		{
+        public MseMaker(MSEConfig mcfg)
+        {
             this.SetConfig(mcfg);
-		}
-		public void SetConfig(MSEConfig mcfg)
-		{
+        }
+        public void SetConfig(MSEConfig mcfg)
+        {
             this.cfg = mcfg;
-		}
-		public MSEConfig GetConfig()
-		{
-			return this.cfg;
-		}
-		#endregion
+        }
+        public MSEConfig GetConfig()
+        {
+            return this.cfg;
+        }
+        #endregion
 
-		#region 数据处理
-		//合并
-		public string GetLine(string key, string word)
-		{
-			return "	" + key + ": " + word;
-		}
-		//特殊字
-		public string ReItalic(string str)
-		{
-			str = this.CN2TW(str);
-			foreach (string rs in this.cfg.replaces.Keys)
-			{
-				str = Regex.Replace(str, rs, this.cfg.replaces[rs]);
-			}
-			return str;
-		}
-		//简体转繁体
-		public string CN2TW(string str)
-		{
-			if (this.cfg.Iscn2tw)
-			{
-				str = Strings.StrConv(str, VbStrConv.TraditionalChinese, 0);
-				str = str.Replace("巖", "岩");
-			}
-			return str;
-		}
-		//获取魔法陷阱的类型符号
-		public string GetSpellTrapSymbol(Card c, bool isSpell)
-		{
-			string level;
-			if (c.IsType(CardType.TYPE_EQUIP))
+        #region 数据处理
+        //合并
+        public string GetLine(string key, string word)
+        {
+            return "	" + key + ": " + word;
+        }
+        //特殊字
+        public string ReItalic(string str)
+        {
+            str = this.CN2TW(str);
+            foreach (string rs in this.cfg.replaces.Keys)
+            {
+                str = Regex.Replace(str, rs, this.cfg.replaces[rs]);
+            }
+            return str;
+        }
+        //简体转繁体
+        public string CN2TW(string str)
+        {
+            if (this.cfg.Iscn2tw)
+            {
+                str = Strings.StrConv(str, VbStrConv.TraditionalChinese, 0);
+                str = str.Replace("巖", "岩");
+            }
+            return str;
+        }
+        //获取魔法陷阱的类型符号
+        public string GetSpellTrapSymbol(Card c, bool isSpell)
+        {
+            string level;
+            if (c.IsType(CardType.TYPE_EQUIP))
             {
                 level = MseSpellTrap.EQUIP;
             }
@@ -168,461 +166,490 @@ namespace DataEditorX.Core.Mse
             }
 
             return level;
-		}
-		//获取图片路径
-		public static string GetCardImagePath(string picpath, Card c)
-		{
-			//密码，带0密码，卡名
-			string jpg = MyPath.Combine(picpath, c.id + ".jpg");
-			string jpg2 = MyPath.Combine(picpath, c.IdString + ".jpg");
-			string jpg3 = MyPath.Combine(picpath, c.name + ".jpg");
-			string png = MyPath.Combine(picpath, c.id + ".png");
-			string png2 = MyPath.Combine(picpath, c.IdString + ".png");
-			string png3 = MyPath.Combine(picpath, c.name + ".png");
-			if (File.Exists(jpg))
-			{
-				return jpg;
-			}
-			else if (File.Exists(jpg2))
-			{
-				return jpg2;
-			}
-			else if (File.Exists(jpg3))
-			{
-				File.Copy(jpg3, jpg, true);
-				if (File.Exists(jpg))
-				{//复制失败
-					return jpg;
-				}
-			}
-			else if (File.Exists(png))
-			{
-				return png;
-			}
-			else if (File.Exists(png2))
-			{
-				return png2;
-			}
-			else if (File.Exists(png3))
-			{
-				File.Copy(png3, png, true);
-				if (File.Exists(png))
-				{//复制失败
-					return png;
-				}
-			}
-			return "";
-		}
-		//获取属性
-		public static string GetAttribute(int attr)
-		{
-			CardAttribute cattr = (CardAttribute)attr;
-			string sattr = MseAttribute.NONE;
-			switch (cattr)
-			{
-				case CardAttribute.ATTRIBUTE_DARK:
-					sattr = MseAttribute.DARK;
-					break;
-				case CardAttribute.ATTRIBUTE_DEVINE:
-					sattr = MseAttribute.DIVINE;
-					break;
-				case CardAttribute.ATTRIBUTE_EARTH:
-					sattr = MseAttribute.EARTH;
-					break;
-				case CardAttribute.ATTRIBUTE_FIRE:
-					sattr = MseAttribute.FIRE;
-					break;
-				case CardAttribute.ATTRIBUTE_LIGHT:
-					sattr = MseAttribute.LIGHT;
-					break;
-				case CardAttribute.ATTRIBUTE_WATER:
-					sattr = MseAttribute.WATER;
-					break;
-				case CardAttribute.ATTRIBUTE_WIND:
-					sattr = MseAttribute.WIND;
-					break;
-			}
-			return sattr;
-		}
-		//获取效果文本
-		public static string GetDesc(string cdesc, string regx)
-		{
-			string desc = cdesc;
-			desc = desc.Replace("\r\n", "\n");
-			desc = desc.Replace("\r", "\n");
-			Regex regex = new Regex(regx, RegexOptions.Multiline);
-			Match mc = regex.Match(desc);
-			if (mc.Success)
+        }
+        //获取图片路径
+        public static string GetCardImagePath(string picpath, Card c)
+        {
+            //密码，带0密码，卡名
+            string jpg = MyPath.Combine(picpath, c.id + ".jpg");
+            string jpg2 = MyPath.Combine(picpath, c.IdString + ".jpg");
+            string jpg3 = MyPath.Combine(picpath, c.name + ".jpg");
+            string png = MyPath.Combine(picpath, c.id + ".png");
+            string png2 = MyPath.Combine(picpath, c.IdString + ".png");
+            string png3 = MyPath.Combine(picpath, c.name + ".png");
+            if (File.Exists(jpg))
+            {
+                return jpg;
+            }
+            else if (File.Exists(jpg2))
+            {
+                return jpg2;
+            }
+            else if (File.Exists(jpg3))
+            {
+                File.Copy(jpg3, jpg, true);
+                if (File.Exists(jpg))
+                {//复制失败
+                    return jpg;
+                }
+            }
+            else if (File.Exists(png))
+            {
+                return png;
+            }
+            else if (File.Exists(png2))
+            {
+                return png2;
+            }
+            else if (File.Exists(png3))
+            {
+                File.Copy(png3, png, true);
+                if (File.Exists(png))
+                {//复制失败
+                    return png;
+                }
+            }
+            return "";
+        }
+        //获取属性
+        public static string GetAttribute(int attr)
+        {
+            CardAttribute cattr = (CardAttribute)attr;
+            string sattr = MseAttribute.NONE;
+            switch (cattr)
+            {
+                case CardAttribute.ATTRIBUTE_DARK:
+                    sattr = MseAttribute.DARK;
+                    break;
+                case CardAttribute.ATTRIBUTE_DEVINE:
+                    sattr = MseAttribute.DIVINE;
+                    break;
+                case CardAttribute.ATTRIBUTE_EARTH:
+                    sattr = MseAttribute.EARTH;
+                    break;
+                case CardAttribute.ATTRIBUTE_FIRE:
+                    sattr = MseAttribute.FIRE;
+                    break;
+                case CardAttribute.ATTRIBUTE_LIGHT:
+                    sattr = MseAttribute.LIGHT;
+                    break;
+                case CardAttribute.ATTRIBUTE_WATER:
+                    sattr = MseAttribute.WATER;
+                    break;
+                case CardAttribute.ATTRIBUTE_WIND:
+                    sattr = MseAttribute.WIND;
+                    break;
+            }
+            return sattr;
+        }
+        //获取效果文本
+        public static string GetDesc(string cdesc, string regx)
+        {
+            string desc = cdesc;
+            desc = desc.Replace("\r\n", "\n");
+            desc = desc.Replace("\r", "\n");
+            Regex regex = new Regex(regx, RegexOptions.Multiline);
+            Match mc = regex.Match(desc);
+            if (mc.Success)
             {
                 return ((mc.Groups.Count > 1) ?
-				        mc.Groups[1].Value : mc.Groups[0].Value);
+                        mc.Groups[1].Value : mc.Groups[0].Value);
             }
 
             return "";
-		}
+        }
 
-		public string ReText(string text)
-		{
-			StringBuilder sb = new StringBuilder(text);
-			sb.Replace("\r\n", "\n");
-			sb.Replace("\r", "");
-			sb.Replace("\n\n", "\n");
-			sb.Replace("\n", "\n\t\t");
-			return sb.ToString().Trim('\n');
-		}
-		//获取星星
-		public static string GetStar(long level)
-		{
-			long j = level & 0xff;
-			string star = "";
-			for (int i = 0; i < j; i++)
-			{
-				star += "*";
-			}
-			return star;
-		}
-		//获取种族
-		public string GetRace(long race)
-		{
-			if (this.cfg.raceDic.ContainsKey(race))
+        public string ReText(string text)
+        {
+            StringBuilder sb = new StringBuilder(text);
+            sb.Replace("\r\n", "\n");
+            sb.Replace("\r", "");
+            sb.Replace("\n\n", "\n");
+            sb.Replace("\n", "\n\t\t");
+            return sb.ToString().Trim('\n');
+        }
+        //获取星星
+        public static string GetStar(long level)
+        {
+            long j = level & 0xff;
+            string star = "";
+            for (int i = 0; i < j; i++)
+            {
+                star += "*";
+            }
+            return star;
+        }
+        //获取种族
+        public string GetRace(long race)
+        {
+            if (this.cfg.raceDic.ContainsKey(race))
             {
                 return this.cfg.raceDic[race].Trim();
             }
 
             return race.ToString("x");
-		}
-		//获取类型文字
-		public string GetType(CardType ctype)
-		{
-			long type = (long)ctype;
-			if (this.cfg.typeDic.ContainsKey(type))
+        }
+        //获取类型文字
+        public string GetType(CardType ctype)
+        {
+            long type = (long)ctype;
+            if (this.cfg.typeDic.ContainsKey(type))
             {
                 return this.cfg.typeDic[type].Trim();
             }
 
             return type.ToString("x");
-		}
+        }
 
-		//获取卡片类型
-		public string[] GetTypes(Card c)
-		{
-			//卡片类型，效果1，效果2，效果3
-			int MAX_TYPE= 5;
-			var types = new string[MAX_TYPE+1];
-			types[0] = MseCardType.CARD_NORMAL;
-			for(int i=1;i<types.Length;i++){
-				types[i]="";
-			}
-			if (c.IsType(CardType.TYPE_MONSTER))
-			{
-				CardType[] cardTypes = CardTypes.GetMonsterTypes(c.type, this.cfg.no10);
-				int count = cardTypes.Length;
-				for(int i=0; i<count && i<MAX_TYPE; i++){
-					types[i+1] = this.GetType(cardTypes[i]);
-				}
-				if(cardTypes.Length>0){
-					if(c.IsType(CardType.TYPE_LINK)){
-						types[0] = MseCardType.CARD_LINK;
-					}
-					else if (c.IsType(CardType.TYPE_TOKEN))
-					{
-						types[0] = (c.race == 0) ?
-							MseCardType.CARD_TOKEN2
-							: MseCardType.CARD_TOKEN;
-					}
-					else if (c.IsType(CardType.TYPE_RITUAL))
-					{
-						types[0] = MseCardType.CARD_RITUAL;
-					}
-					else if (c.IsType(CardType.TYPE_FUSION))
-					{
-						types[0] = MseCardType.CARD_FUSION;
-					}
-					else if (c.IsType(CardType.TYPE_SYNCHRO))
-					{
-						types[0] = MseCardType.CARD_SYNCHRO;
-					}
-					else if (c.IsType(CardType.TYPE_XYZ))
-					{
-						types[0] = MseCardType.CARD_XYZ;
-					}
-					else if (c.IsType(CardType.TYPE_EFFECT))
-					{
-						types[0] = MseCardType.CARD_EFFECT;
-					}
-					else{
-						types[0] = MseCardType.CARD_NORMAL;
-						if(cardTypes.Length==1){
-							//xxx/通常
-						}
-					}
-				}
-			}
-			if (c.race == 0)//如果没有种族
-			{
-				types[1] = "";
-				types[2] = "";
-				types[3] = "";
-				types[4] = "";
-			}
-			return types;
-		}
-		#endregion
-
-		#region 写存档
-		//写存档
-		public Dictionary<Card, string> WriteSet(string file, Card[] cards,string cardpack_db,bool rarity=true)
-		{
-//			MessageBox.Show(""+cfg.replaces.Keys[0]+"/"+cfg.replaces[cfg.replaces.Keys[0]]);
-			Dictionary<Card, string> list = new Dictionary<Card, string>();
-			string pic = this.cfg.imagepath;
-			using (FileStream fs = new FileStream(file,
-			                                      FileMode.Create, FileAccess.Write))
-			{
-				StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
-				sw.WriteLine(this.cfg.head);
-				foreach (Card c in cards)
-				{
-					string jpg = GetCardImagePath(pic, c);
-					if (!string.IsNullOrEmpty(jpg))
-					{
-						list.Add(c, jpg);
-						jpg = Path.GetFileName(jpg);
-					}
-					CardPack cardpack=DataBase.FindPack(cardpack_db, c.id);
-					if (c.IsType(CardType.TYPE_SPELL) || c.IsType(CardType.TYPE_TRAP))
+        //获取卡片类型
+        public string[] GetTypes(Card c)
+        {
+            //卡片类型，效果1，效果2，效果3
+            int MAX_TYPE= 5;
+            var types = new string[MAX_TYPE+1];
+            types[0] = MseCardType.CARD_NORMAL;
+            for (int i = 1; i < types.Length; i++)
+            {
+                types[i] = "";
+            }
+            if (c.IsType(CardType.TYPE_MONSTER))
+            {
+                CardType[] cardTypes = CardTypes.GetMonsterTypes(c.type, this.cfg.no10);
+                int count = cardTypes.Length;
+                for (int i = 0; i < count && i < MAX_TYPE; i++)
+                {
+                    types[i + 1] = this.GetType(cardTypes[i]);
+                }
+                if (cardTypes.Length > 0)
+                {
+                    if (c.IsType(CardType.TYPE_LINK))
                     {
-                        sw.WriteLine(this.getSpellTrap(c, jpg, c.IsType(CardType.TYPE_SPELL), cardpack,rarity));
+                        types[0] = MseCardType.CARD_LINK;
+                    }
+                    else if (c.IsType(CardType.TYPE_TOKEN))
+                    {
+                        types[0] = (c.race == 0) ?
+                            MseCardType.CARD_TOKEN2
+                            : MseCardType.CARD_TOKEN;
+                    }
+                    else if (c.IsType(CardType.TYPE_RITUAL))
+                    {
+                        types[0] = MseCardType.CARD_RITUAL;
+                    }
+                    else if (c.IsType(CardType.TYPE_FUSION))
+                    {
+                        types[0] = MseCardType.CARD_FUSION;
+                    }
+                    else if (c.IsType(CardType.TYPE_SYNCHRO))
+                    {
+                        types[0] = MseCardType.CARD_SYNCHRO;
+                    }
+                    else if (c.IsType(CardType.TYPE_XYZ))
+                    {
+                        types[0] = MseCardType.CARD_XYZ;
+                    }
+                    else if (c.IsType(CardType.TYPE_EFFECT))
+                    {
+                        types[0] = MseCardType.CARD_EFFECT;
                     }
                     else
                     {
-                        sw.WriteLine(this.getMonster(c, jpg, cardpack,rarity));
+                        types[0] = MseCardType.CARD_NORMAL;
+                        if (cardTypes.Length == 1)
+                        {
+                            //xxx/通常
+                        }
                     }
                 }
-				sw.WriteLine(this.cfg.end);
-				sw.Close();
-			}
+            }
+            if (c.race == 0)//如果没有种族
+            {
+                types[1] = "";
+                types[2] = "";
+                types[3] = "";
+                types[4] = "";
+            }
+            return types;
+        }
+        #endregion
 
-			return list;
-		}
-		int getLinkNumber(long link){
-			string str = Convert.ToString(link, 2);
-			char[] cs  = str.ToCharArray();
-			int i = 0;
-			foreach(char c in cs){
-				if(c == '1'){
-					i++;
-				}
-			}
-			return i;
-		}
-		//怪兽，pendulum怪兽
-		string getMonster(Card c, string img,CardPack cardpack=null,bool rarity=true)
-		{
-			StringBuilder sb = new StringBuilder();
-			string[] types = this.GetTypes(c);
-			string race = this.GetRace(c.race);
-			sb.AppendLine(TAG_CARD + ":");
-			sb.AppendLine(this.GetLine(TAG_CARDTYPE, types[0]));
-			sb.AppendLine(this.GetLine(TAG_NAME, this.ReItalic(c.name)));
-			sb.AppendLine(this.GetLine(TAG_ATTRIBUTE, GetAttribute(c.attribute)));
-			bool noStar = false;
-			if(this.cfg.noStartCards != null){
-				foreach(long id in this.cfg.noStartCards){
-					if(c.alias == id || c.id == id){
-						noStar = true;
-						break;
-					}
-				}
-			}
-			if(!noStar){
-				sb.AppendLine(this.GetLine(TAG_LEVEL, GetStar(c.level)));
-			}
-			sb.AppendLine(this.GetLine(TAG_IMAGE, img));
-			sb.AppendLine(this.GetLine(TAG_TYPE1, this.CN2TW(race)));
-			sb.AppendLine(this.GetLine(TAG_TYPE2, this.CN2TW(types[1])));
-			sb.AppendLine(this.GetLine(TAG_TYPE3, this.CN2TW(types[2])));
-			sb.AppendLine(this.GetLine(TAG_TYPE4, this.CN2TW(types[3])));
-			sb.AppendLine(this.GetLine(TAG_TYPE5, this.CN2TW(types[4])));
-			if(cardpack!=null){
-				sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
-				if(rarity){
-					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
-				}
-			}
-			if(c.IsType(CardType.TYPE_LINK)){
-				if(CardLink.IsLink(c.def, CardLink.DownLeft)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_DL, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.Down)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_Down, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.DownRight)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_DR, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.UpLeft)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_UL, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.Up)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_Up, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.UpRight)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_UR, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.Left)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_Left, "yes"));
-				}
-				if(CardLink.IsLink(c.def, CardLink.Right)){
-					sb.AppendLine(this.GetLine(TAG_Link_Marker_Right, "yes"));
-				}
-				sb.AppendLine(this.GetLine(TAG_Link_Number, ""+ this.getLinkNumber(c.def)));
-				sb.AppendLine("	" + TAG_TEXT + ":");
-				sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
-			}else{
-				if (c.IsType(CardType.TYPE_PENDULUM))//P怪兽
-				{
-					string text = GetDesc(c.desc, this.cfg.regx_monster);
-					if (string.IsNullOrEmpty(text))
+        #region 写存档
+        //写存档
+        public Dictionary<Card, string> WriteSet(string file, Card[] cards, string cardpack_db, bool rarity = true)
+        {
+            //			MessageBox.Show(""+cfg.replaces.Keys[0]+"/"+cfg.replaces[cfg.replaces.Keys[0]]);
+            Dictionary<Card, string> list = new Dictionary<Card, string>();
+            string pic = this.cfg.imagepath;
+            using (FileStream fs = new FileStream(file,
+                                                  FileMode.Create, FileAccess.Write))
+            {
+                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+                sw.WriteLine(this.cfg.head);
+                foreach (Card c in cards)
+                {
+                    string jpg = GetCardImagePath(pic, c);
+                    if (!string.IsNullOrEmpty(jpg))
+                    {
+                        list.Add(c, jpg);
+                        jpg = Path.GetFileName(jpg);
+                    }
+                    CardPack cardpack=DataBase.FindPack(cardpack_db, c.id);
+                    if (c.IsType(CardType.TYPE_SPELL) || c.IsType(CardType.TYPE_TRAP))
+                    {
+                        sw.WriteLine(this.getSpellTrap(c, jpg, c.IsType(CardType.TYPE_SPELL), cardpack, rarity));
+                    }
+                    else
+                    {
+                        sw.WriteLine(this.getMonster(c, jpg, cardpack, rarity));
+                    }
+                }
+                sw.WriteLine(this.cfg.end);
+                sw.Close();
+            }
+
+            return list;
+        }
+        int getLinkNumber(long link)
+        {
+            string str = Convert.ToString(link, 2);
+            char[] cs  = str.ToCharArray();
+            int i = 0;
+            foreach (char c in cs)
+            {
+                if (c == '1')
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+        //怪兽，pendulum怪兽
+        string getMonster(Card c, string img, CardPack cardpack = null, bool rarity = true)
+        {
+            StringBuilder sb = new StringBuilder();
+            string[] types = this.GetTypes(c);
+            string race = this.GetRace(c.race);
+            sb.AppendLine(TAG_CARD + ":");
+            sb.AppendLine(this.GetLine(TAG_CARDTYPE, types[0]));
+            sb.AppendLine(this.GetLine(TAG_NAME, this.ReItalic(c.name)));
+            sb.AppendLine(this.GetLine(TAG_ATTRIBUTE, GetAttribute(c.attribute)));
+            bool noStar = false;
+            if (this.cfg.noStartCards != null)
+            {
+                foreach (long id in this.cfg.noStartCards)
+                {
+                    if (c.alias == id || c.id == id)
+                    {
+                        noStar = true;
+                        break;
+                    }
+                }
+            }
+            if (!noStar)
+            {
+                sb.AppendLine(this.GetLine(TAG_LEVEL, GetStar(c.level)));
+            }
+            sb.AppendLine(this.GetLine(TAG_IMAGE, img));
+            sb.AppendLine(this.GetLine(TAG_TYPE1, this.CN2TW(race)));
+            sb.AppendLine(this.GetLine(TAG_TYPE2, this.CN2TW(types[1])));
+            sb.AppendLine(this.GetLine(TAG_TYPE3, this.CN2TW(types[2])));
+            sb.AppendLine(this.GetLine(TAG_TYPE4, this.CN2TW(types[3])));
+            sb.AppendLine(this.GetLine(TAG_TYPE5, this.CN2TW(types[4])));
+            if (cardpack != null)
+            {
+                sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
+                if (rarity)
+                {
+                    sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
+                }
+            }
+            if (c.IsType(CardType.TYPE_LINK))
+            {
+                if (CardLink.IsLink(c.def, CardLink.DownLeft))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_DL, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.Down))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_Down, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.DownRight))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_DR, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.UpLeft))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_UL, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.Up))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_Up, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.UpRight))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_UR, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.Left))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_Left, "yes"));
+                }
+                if (CardLink.IsLink(c.def, CardLink.Right))
+                {
+                    sb.AppendLine(this.GetLine(TAG_Link_Marker_Right, "yes"));
+                }
+                sb.AppendLine(this.GetLine(TAG_Link_Number, "" + this.getLinkNumber(c.def)));
+                sb.AppendLine("	" + TAG_TEXT + ":");
+                sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
+            }
+            else
+            {
+                if (c.IsType(CardType.TYPE_PENDULUM))//P怪兽
+                {
+                    string text = GetDesc(c.desc, this.cfg.regx_monster);
+                    if (string.IsNullOrEmpty(text))
                     {
                         text = c.desc;
                     }
 
                     sb.AppendLine("	" + TAG_TEXT + ":");
-					//sb.AppendLine(cfg.regx_monster + ":" + cfg.regx_pendulum);
-					sb.AppendLine("		" + this.ReText(this.ReItalic(text)));
-					sb.AppendLine(this.GetLine(TAG_PENDULUM, "medium"));
-					sb.AppendLine(this.GetLine(TAG_PSCALE1, ((c.level >> 0x18) & 0xff).ToString()));
-					sb.AppendLine(this.GetLine(TAG_PSCALE2, ((c.level >> 0x10) & 0xff).ToString()));
-					sb.AppendLine("	" + TAG_PEND_TEXT + ":");
-					sb.AppendLine("		" + this.ReText(this.ReItalic(GetDesc(c.desc, this.cfg.regx_pendulum))));
-				}else//一般怪兽
-				{
-					sb.AppendLine("	" + TAG_TEXT + ":");
-					sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
-				}
-				sb.AppendLine(this.GetLine(TAG_DEF, (c.def < 0) ? UNKNOWN_ATKDEF : c.def.ToString()));
-			}
-			sb.AppendLine(this.GetLine(TAG_ATK, (c.atk < 0) ? UNKNOWN_ATKDEF : c.atk.ToString()));
+                    //sb.AppendLine(cfg.regx_monster + ":" + cfg.regx_pendulum);
+                    sb.AppendLine("		" + this.ReText(this.ReItalic(text)));
+                    sb.AppendLine(this.GetLine(TAG_PENDULUM, "medium"));
+                    sb.AppendLine(this.GetLine(TAG_PSCALE1, ((c.level >> 0x18) & 0xff).ToString()));
+                    sb.AppendLine(this.GetLine(TAG_PSCALE2, ((c.level >> 0x10) & 0xff).ToString()));
+                    sb.AppendLine("	" + TAG_PEND_TEXT + ":");
+                    sb.AppendLine("		" + this.ReText(this.ReItalic(GetDesc(c.desc, this.cfg.regx_pendulum))));
+                }
+                else//一般怪兽
+                {
+                    sb.AppendLine("	" + TAG_TEXT + ":");
+                    sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
+                }
+                sb.AppendLine(this.GetLine(TAG_DEF, (c.def < 0) ? UNKNOWN_ATKDEF : c.def.ToString()));
+            }
+            sb.AppendLine(this.GetLine(TAG_ATK, (c.atk < 0) ? UNKNOWN_ATKDEF : c.atk.ToString()));
 
-			sb.AppendLine(this.GetLine(TAG_CODE, c.IdString));
-			return sb.ToString();
-		}
-		//魔法陷阱
-		string getSpellTrap(Card c, string img, bool isSpell,CardPack cardpack=null,bool rarity=true)
-		{
-			StringBuilder sb = new StringBuilder();
-			sb.AppendLine(TAG_CARD + ":");
-			sb.AppendLine(this.GetLine(TAG_CARDTYPE, isSpell ? "spell card" : "trap card"));
-			sb.AppendLine(this.GetLine(TAG_NAME, this.ReItalic(c.name)));
-			sb.AppendLine(this.GetLine(TAG_ATTRIBUTE, isSpell ? "spell" : "trap"));
-			sb.AppendLine(this.GetLine(TAG_LEVEL, this.GetSpellTrapSymbol(c, isSpell)));
-			sb.AppendLine(this.GetLine(TAG_IMAGE, img));
-			if(cardpack!=null){
-				sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
-				if(rarity){
-					sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
-				}
-			}
-			sb.AppendLine("	" + TAG_TEXT + ":");
-			sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
-			sb.AppendLine(this.GetLine(TAG_CODE, c.IdString));
-			return sb.ToString();
-		}
-		#endregion
+            sb.AppendLine(this.GetLine(TAG_CODE, c.IdString));
+            return sb.ToString();
+        }
+        //魔法陷阱
+        string getSpellTrap(Card c, string img, bool isSpell, CardPack cardpack = null, bool rarity = true)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(TAG_CARD + ":");
+            sb.AppendLine(this.GetLine(TAG_CARDTYPE, isSpell ? "spell card" : "trap card"));
+            sb.AppendLine(this.GetLine(TAG_NAME, this.ReItalic(c.name)));
+            sb.AppendLine(this.GetLine(TAG_ATTRIBUTE, isSpell ? "spell" : "trap"));
+            sb.AppendLine(this.GetLine(TAG_LEVEL, this.GetSpellTrapSymbol(c, isSpell)));
+            sb.AppendLine(this.GetLine(TAG_IMAGE, img));
+            if (cardpack != null)
+            {
+                sb.AppendLine(this.GetLine(TAG_NUMBER, cardpack.pack_id));
+                if (rarity)
+                {
+                    sb.AppendLine(this.GetLine(TAG_RARITY, cardpack.GetMseRarity()));
+                }
+            }
+            sb.AppendLine("	" + TAG_TEXT + ":");
+            sb.AppendLine("		" + this.ReText(this.ReItalic(c.desc)));
+            sb.AppendLine(this.GetLine(TAG_CODE, c.IdString));
+            return sb.ToString();
+        }
+        #endregion
 
-		#region 读存档
-		public static int GetAttributeInt(string cattr)
-		{
-			int iattr = 0;
-			switch (cattr)
-			{
-				case MseAttribute.DARK:
-					iattr = (int)CardAttribute.ATTRIBUTE_DARK;
-					break;
-				case MseAttribute.DIVINE:
-					iattr = (int)CardAttribute.ATTRIBUTE_DEVINE;
-					break;
-				case MseAttribute.EARTH:
-					iattr = (int)CardAttribute.ATTRIBUTE_EARTH;
-					break;
-				case MseAttribute.FIRE:
-					iattr = (int)CardAttribute.ATTRIBUTE_FIRE;
-					break;
-				case MseAttribute.LIGHT:
-					iattr = (int)CardAttribute.ATTRIBUTE_LIGHT;
-					break;
-				case MseAttribute.WATER:
-					iattr = (int)CardAttribute.ATTRIBUTE_WATER;
-					break;
-				case MseAttribute.WIND:
-					iattr = (int)CardAttribute.ATTRIBUTE_WIND;
-					break;
-			}
-			return iattr;
-		}
-		long GetRaceInt(string race)
-		{
-			if (!string.IsNullOrEmpty(race))
-			{
-				foreach (long key in this.cfg.raceDic.Keys)
-				{
-					if (race.Equals(this.cfg.raceDic[key]))
+        #region 读存档
+        public static int GetAttributeInt(string cattr)
+        {
+            int iattr = 0;
+            switch (cattr)
+            {
+                case MseAttribute.DARK:
+                    iattr = (int)CardAttribute.ATTRIBUTE_DARK;
+                    break;
+                case MseAttribute.DIVINE:
+                    iattr = (int)CardAttribute.ATTRIBUTE_DEVINE;
+                    break;
+                case MseAttribute.EARTH:
+                    iattr = (int)CardAttribute.ATTRIBUTE_EARTH;
+                    break;
+                case MseAttribute.FIRE:
+                    iattr = (int)CardAttribute.ATTRIBUTE_FIRE;
+                    break;
+                case MseAttribute.LIGHT:
+                    iattr = (int)CardAttribute.ATTRIBUTE_LIGHT;
+                    break;
+                case MseAttribute.WATER:
+                    iattr = (int)CardAttribute.ATTRIBUTE_WATER;
+                    break;
+                case MseAttribute.WIND:
+                    iattr = (int)CardAttribute.ATTRIBUTE_WIND;
+                    break;
+            }
+            return iattr;
+        }
+        long GetRaceInt(string race)
+        {
+            if (!string.IsNullOrEmpty(race))
+            {
+                foreach (long key in this.cfg.raceDic.Keys)
+                {
+                    if (race.Equals(this.cfg.raceDic[key]))
                     {
                         return key;
                     }
                 }
-			}
-			return (long)CardRace.RACE_NONE;
-		}
-		long GetTypeInt(string type)
-		{
-			if (!string.IsNullOrEmpty(type))
-			{
-				foreach (long key in this.cfg.typeDic.Keys)
-				{
-					if (type.Equals(this.cfg.typeDic[key]))
+            }
+            return (long)CardRace.RACE_NONE;
+        }
+        long GetTypeInt(string type)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                foreach (long key in this.cfg.typeDic.Keys)
+                {
+                    if (type.Equals(this.cfg.typeDic[key]))
                     {
                         return key;
                     }
                 }
-			}
-			return 0;
-		}
-		static string GetValue(string content, string tag)
-		{
-			Regex regx = new Regex(@"^[\t]+?" + tag + @":([\s\S]*?)$", RegexOptions.Multiline);
-			Match m = regx.Match(content);
-			if (m.Success)
-			{
-				if (m.Groups.Count >= 2)
+            }
+            return 0;
+        }
+        static string GetValue(string content, string tag)
+        {
+            Regex regx = new Regex(@"^[\t]+?" + tag + @":([\s\S]*?)$", RegexOptions.Multiline);
+            Match m = regx.Match(content);
+            if (m.Success)
+            {
+                if (m.Groups.Count >= 2)
                 {
                     return RemoveTag(m.Groups[1].Value);
                 }
             }
-			return "";
-		}
-		//多行
-		static string GetMultiValue(string content, string tag)
-		{
-			//TODO
-			content = content.Replace("\t\t", "");
-			Regex regx = new Regex(@"^[\t]+?" + tag + @":([\S\s]*?)^\t[\S\s]+?:", RegexOptions.Multiline);
-			Match m = regx.Match(content);
-			if (m.Success)
-			{
-				if (m.Groups.Count >= 2)
-				{
-					string word = m.Groups[1].Value;
-					return RemoveTag(word).Replace("^", "").Replace("\t", "");
-				}
-			}
-			return "";
-		}
-		long GetSpellTrapType(string level)
-		{
-			long type = 0;
-			//魔法陷阱
-			if (level.Contains(MseSpellTrap.EQUIP))
+            return "";
+        }
+        //多行
+        static string GetMultiValue(string content, string tag)
+        {
+            //TODO
+            content = content.Replace("\t\t", "");
+            Regex regx = new Regex(@"^[\t]+?" + tag + @":([\S\s]*?)^\t[\S\s]+?:", RegexOptions.Multiline);
+            Match m = regx.Match(content);
+            if (m.Success)
+            {
+                if (m.Groups.Count >= 2)
+                {
+                    string word = m.Groups[1].Value;
+                    return RemoveTag(word).Replace("^", "").Replace("\t", "");
+                }
+            }
+            return "";
+        }
+        long GetSpellTrapType(string level)
+        {
+            long type = 0;
+            //魔法陷阱
+            if (level.Contains(MseSpellTrap.EQUIP))
             {
                 type = (long)CardType.TYPE_EQUIP;
             }
@@ -653,10 +680,10 @@ namespace DataEditorX.Core.Mse
             }
 
             return type;
-		}
+        }
 
-		long GetMonsterType(string cardtype)
-		{
+        long GetMonsterType(string cardtype)
+        {
             long type;
             if (cardtype.Equals(MseCardType.CARD_SPELL))
             {
@@ -667,66 +694,66 @@ namespace DataEditorX.Core.Mse
                 type = (long)CardType.TYPE_TRAP;
             }
             else
-			{
-				type = (long)CardType.TYPE_MONSTER;
-				switch (cardtype)
-				{
-					case MseCardType.CARD_NORMAL:
-						type |= (long)CardType.TYPE_NORMAL;
-						break;
-					case MseCardType.CARD_EFFECT:
-						type |= (long)CardType.TYPE_EFFECT;
-						break;
-					case MseCardType.CARD_XYZ:
-						type |= (long)CardType.TYPE_XYZ;
-						break;
-					case MseCardType.CARD_RITUAL:
-						type |= (long)CardType.TYPE_RITUAL;
-						break;
-					case MseCardType.CARD_FUSION:
-						type |= (long)CardType.TYPE_FUSION;
-						break;
-					case MseCardType.CARD_TOKEN:
-					case MseCardType.CARD_TOKEN2:
-						type |= (long)CardType.TYPE_TOKEN;
-						break;
-					case MseCardType.CARD_SYNCHRO:
-						type |= (long)CardType.TYPE_SYNCHRO;
-						break;
-					default:
-						type |= (long)CardType.TYPE_NORMAL;
-						break;
-				}
-			}
-			return type;
-		}
-		//卡片类型
-		long GetCardType(string cardtype, string level, params string[] types)
-		{
-			long type = 0;
-			//魔法陷阱
-			type |= this.GetSpellTrapType(level);
-			//怪兽
-			type |= this.GetMonsterType(cardtype);
-			//types是识别怪兽效果类型
-			foreach(string typ in types)
+            {
+                type = (long)CardType.TYPE_MONSTER;
+                switch (cardtype)
+                {
+                    case MseCardType.CARD_NORMAL:
+                        type |= (long)CardType.TYPE_NORMAL;
+                        break;
+                    case MseCardType.CARD_EFFECT:
+                        type |= (long)CardType.TYPE_EFFECT;
+                        break;
+                    case MseCardType.CARD_XYZ:
+                        type |= (long)CardType.TYPE_XYZ;
+                        break;
+                    case MseCardType.CARD_RITUAL:
+                        type |= (long)CardType.TYPE_RITUAL;
+                        break;
+                    case MseCardType.CARD_FUSION:
+                        type |= (long)CardType.TYPE_FUSION;
+                        break;
+                    case MseCardType.CARD_TOKEN:
+                    case MseCardType.CARD_TOKEN2:
+                        type |= (long)CardType.TYPE_TOKEN;
+                        break;
+                    case MseCardType.CARD_SYNCHRO:
+                        type |= (long)CardType.TYPE_SYNCHRO;
+                        break;
+                    default:
+                        type |= (long)CardType.TYPE_NORMAL;
+                        break;
+                }
+            }
+            return type;
+        }
+        //卡片类型
+        long GetCardType(string cardtype, string level, params string[] types)
+        {
+            long type = 0;
+            //魔法陷阱
+            type |= this.GetSpellTrapType(level);
+            //怪兽
+            type |= this.GetMonsterType(cardtype);
+            //types是识别怪兽效果类型
+            foreach (string typ in types)
             {
                 type |= this.GetTypeInt(typ);
             }
 
             return type;
-		}
+        }
 
-		static string RemoveTag(string word)
-		{
-			//移除标签<>
-			word = Regex.Replace(word, "<[^>]+?>", "");
-			return word.Trim().Replace("\t", "");
-		}
-		//解析卡片
-		public Card ReadCard(string content, out string img)
-		{
-			string tmp;
+        static string RemoveTag(string word)
+        {
+            //移除标签<>
+            word = Regex.Replace(word, "<[^>]+?>", "");
+            return word.Trim().Replace("\t", "");
+        }
+        //解析卡片
+        public Card ReadCard(string content, out string img)
+        {
+            string tmp;
             Card c = new Card
             {
                 ot = (int)CardRule.OCGTCG,
@@ -734,29 +761,29 @@ namespace DataEditorX.Core.Mse
                 name = GetValue(content, TAG_NAME)
             };
             tmp = GetValue(content, TAG_LEVEL);
-			//卡片种族
-			c.race = this.GetRaceInt(GetValue(content, TAG_TYPE1));
-			//卡片类型
-			c.type = this.GetCardType(GetValue(content, TAG_CARDTYPE), tmp,
-			                     GetValue(content, TAG_TYPE2),
-			                     GetValue(content, TAG_TYPE3),
-			                     GetValue(content, TAG_TYPE4),
-			                     GetValue(content, TAG_TYPE5));
-			long t = this.GetSpellTrapType(GetValue(content, TAG_LEVEL));
-			//不是魔法，陷阱卡片的星数
-			if (!(c.IsType(CardType.TYPE_SPELL)
-			      || c.IsType(CardType.TYPE_TRAP)) && t == 0)
+            //卡片种族
+            c.race = this.GetRaceInt(GetValue(content, TAG_TYPE1));
+            //卡片类型
+            c.type = this.GetCardType(GetValue(content, TAG_CARDTYPE), tmp,
+                                 GetValue(content, TAG_TYPE2),
+                                 GetValue(content, TAG_TYPE3),
+                                 GetValue(content, TAG_TYPE4),
+                                 GetValue(content, TAG_TYPE5));
+            long t = this.GetSpellTrapType(GetValue(content, TAG_LEVEL));
+            //不是魔法，陷阱卡片的星数
+            if (!(c.IsType(CardType.TYPE_SPELL)
+                  || c.IsType(CardType.TYPE_TRAP)) && t == 0)
             {
                 c.level = GetValue(content, TAG_LEVEL).Length;
             }
 
             //属性
             c.attribute = GetAttributeInt(GetValue(content, TAG_ATTRIBUTE));
-			//密码
-			long.TryParse(GetValue(content, TAG_CODE), out c.id);
-			//ATK
-			tmp = GetValue(content, TAG_ATK);
-			if (tmp == UNKNOWN_ATKDEF)
+            //密码
+            long.TryParse(GetValue(content, TAG_CODE), out c.id);
+            //ATK
+            tmp = GetValue(content, TAG_ATK);
+            if (tmp == UNKNOWN_ATKDEF)
             {
                 c.atk = UNKNOWN_ATKDEF_VALUE;
             }
@@ -766,7 +793,7 @@ namespace DataEditorX.Core.Mse
             }
             //DEF
             tmp = GetValue(content, TAG_DEF);
-			if (tmp == UNKNOWN_ATKDEF)
+            if (tmp == UNKNOWN_ATKDEF)
             {
                 c.def = UNKNOWN_ATKDEF_VALUE;
             }
@@ -776,46 +803,46 @@ namespace DataEditorX.Core.Mse
             }
             //图片
             img = GetValue(content, TAG_IMAGE);
-			//摇摆
-			if (c.IsType(CardType.TYPE_PENDULUM))
-			{//根据预设的模版，替换内容
-				tmp = this.cfg.temp_text.Replace(TAG_REP_TEXT,
-				                            GetMultiValue(content,TAG_TEXT));
-				tmp = tmp.Replace(TAG_REP_PTEXT,
-				                  GetMultiValue(content, TAG_PEND_TEXT));
-				c.desc = tmp;
-			}
-			else
+            //摇摆
+            if (c.IsType(CardType.TYPE_PENDULUM))
+            {//根据预设的模版，替换内容
+                tmp = this.cfg.temp_text.Replace(TAG_REP_TEXT,
+                                            GetMultiValue(content, TAG_TEXT));
+                tmp = tmp.Replace(TAG_REP_PTEXT,
+                                  GetMultiValue(content, TAG_PEND_TEXT));
+                c.desc = tmp;
+            }
+            else
             {
-                c.desc = GetMultiValue(content,TAG_TEXT);
+                c.desc = GetMultiValue(content, TAG_TEXT);
             }
             //摇摆刻度
             int.TryParse(GetValue(content, TAG_PSCALE1), out int itmp);
-			c.level += (itmp << 0x18);
-			int.TryParse(GetValue(content, TAG_PSCALE2), out itmp);
-			c.level += (itmp << 0x10);
-			return c;
-		}
-		//读取所有卡片
-		public Card[] ReadCards(string set, bool repalceOld)
-		{
-			List<Card> cards = new List<Card>();
-			if (!File.Exists(set))
+            c.level += (itmp << 0x18);
+            int.TryParse(GetValue(content, TAG_PSCALE2), out itmp);
+            c.level += (itmp << 0x10);
+            return c;
+        }
+        //读取所有卡片
+        public Card[] ReadCards(string set, bool repalceOld)
+        {
+            List<Card> cards = new List<Card>();
+            if (!File.Exists(set))
             {
                 return null;
             }
 
             string allcontent = File.ReadAllText(set, Encoding.UTF8);
 
-			Regex regx = new Regex(@"^card:[\S\s]+?gamecode:[\S\s]+?$",
-			                       RegexOptions.Multiline);
-			MatchCollection matchs = regx.Matches(allcontent);
-			int i = 0;
-			
-			foreach (Match match in matchs)
-			{
-				string content = match.Groups[0].Value;
-				i++;
+            Regex regx = new Regex(@"^card:[\S\s]+?gamecode:[\S\s]+?$",
+                                   RegexOptions.Multiline);
+            MatchCollection matchs = regx.Matches(allcontent);
+            int i = 0;
+
+            foreach (Match match in matchs)
+            {
+                string content = match.Groups[0].Value;
+                i++;
                 Card c = this.ReadCard(content, out string img);
                 if (c.id <= 0)
                 {
@@ -823,145 +850,168 @@ namespace DataEditorX.Core.Mse
                 }
                 //添加卡片
                 cards.Add(c);
-				//已经解压出来的图片
-				string saveimg = MyPath.Combine(this.cfg.imagepath, img);
-				if (!File.Exists(saveimg))//没有解压相应的图片
+                //已经解压出来的图片
+                string saveimg = MyPath.Combine(this.cfg.imagepath, img);
+                if (!File.Exists(saveimg))//没有解压相应的图片
                 {
                     continue;
                 }
                 //改名后的图片
                 img = MyPath.Combine(this.cfg.imagepath, c.IdString + ".jpg");
-				if (img == saveimg)//文件名相同
+                if (img == saveimg)//文件名相同
                 {
                     continue;
                 }
 
                 if (File.Exists(img))
-				{
-					if (repalceOld)//如果存在，则备份原图
-					{
-						File.Delete(img + ".bak");//删除备份
-						File.Move(img, img + ".bak");//备份
-						File.Move(saveimg, img);//改名
-					}
-				}
-				else
+                {
+                    if (repalceOld)//如果存在，则备份原图
+                    {
+                        File.Delete(img + ".bak");//删除备份
+                        File.Move(img, img + ".bak");//备份
+                        File.Move(saveimg, img);//改名
+                    }
+                }
+                else
                 {
                     File.Move(saveimg, img);
                 }
             }
-			File.Delete(set);
-			return cards.ToArray();
-		}
-		#endregion
-		
-		#region images
-		/// <summary>
-		/// 图片缓存
-		/// </summary>
-		/// <param name="img"></param>
-		/// <param name="card"></param>
-		/// <returns></returns>
-		public string GetImageCache(string img,Card card){
-			if(!this.cfg.reimage){
-				//不需要调整
-				return img;
-			}
-			bool isPendulum = card.IsType(CardType.TYPE_PENDULUM);
-			if(isPendulum){
-				if(this.cfg.pwidth<=0 && this.cfg.pheight<=0)
+            File.Delete(set);
+            return cards.ToArray();
+        }
+        #endregion
+
+        #region images
+        /// <summary>
+        /// 图片缓存
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public string GetImageCache(string img, Card card)
+        {
+            if (!this.cfg.reimage)
+            {
+                //不需要调整
+                return img;
+            }
+            bool isPendulum = card.IsType(CardType.TYPE_PENDULUM);
+            if (isPendulum)
+            {
+                if (this.cfg.pwidth <= 0 && this.cfg.pheight <= 0)
                 {
                     return img;
                 }
             }
-            else{
-				if(this.cfg.width<=0 && this.cfg.height<=0)
+            else
+            {
+                if (this.cfg.width <= 0 && this.cfg.height <= 0)
                 {
                     return img;
                 }
             }
-			string md5=MyUtils.GetMD5HashFromFile(img);
-			if(MyUtils.Md5isEmpty(md5)|| this.cfg.imagecache==null){
-				//md5为空
-				return img;
-			}
-			string file = MyPath.Combine(this.cfg.imagecache, md5);
-			if(!File.Exists(file)){
-				//生成缓存
-				Bitmap bmp=MyBitmap.ReadImage(img);
-				//缩放
-				if(isPendulum){
-					bmp=MyBitmap.Zoom(bmp, this.cfg.pwidth, this.cfg.pheight);
-				}else{
-					bmp=MyBitmap.Zoom(bmp, this.cfg.width, this.cfg.height);
-				}
-				//保存文件
-				MyBitmap.SaveAsJPEG(bmp, file,100);
-			}
-			return file;
-		}
-		#endregion
-		
-		#region export
-		static System.Diagnostics.Process _mseProcess;
-		static EventHandler _exitHandler;
-		private static void exportSetThread(object obj){
-			string[] args=(string[])obj;
-			if(args==null||args.Length<3){
+            string md5=MyUtils.GetMD5HashFromFile(img);
+            if (MyUtils.Md5isEmpty(md5) || this.cfg.imagecache == null)
+            {
+                //md5为空
+                return img;
+            }
+            string file = MyPath.Combine(this.cfg.imagecache, md5);
+            if (!File.Exists(file))
+            {
+                //生成缓存
+                Bitmap bmp=MyBitmap.ReadImage(img);
+                //缩放
+                if (isPendulum)
+                {
+                    bmp = MyBitmap.Zoom(bmp, this.cfg.pwidth, this.cfg.pheight);
+                }
+                else
+                {
+                    bmp = MyBitmap.Zoom(bmp, this.cfg.width, this.cfg.height);
+                }
+                //保存文件
+                MyBitmap.SaveAsJPEG(bmp, file, 100);
+            }
+            return file;
+        }
+        #endregion
+
+        #region export
+        static System.Diagnostics.Process _mseProcess;
+        static EventHandler _exitHandler;
+        private static void exportSetThread(object obj)
+        {
+            string[] args=(string[])obj;
+            if (args == null || args.Length < 3)
+            {
                 MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
-				return;
-			}
-			string mse_path=args[0];
-			string setfile=args[1];
-			string path=args[2];
-			if(string.IsNullOrEmpty(mse_path)||string.IsNullOrEmpty(setfile)){
+                return;
+            }
+            string mse_path=args[0];
+            string setfile=args[1];
+            string path=args[2];
+            if (string.IsNullOrEmpty(mse_path) || string.IsNullOrEmpty(setfile))
+            {
                 MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImagesErr));
-				return;
-			}else{
-				string cmd=" --export "+setfile.Replace("\\\\","\\").Replace("\\","/")+" {card.gamecode}.png";
-				_mseProcess   =   new   System.Diagnostics.Process();
-				_mseProcess.StartInfo.FileName   =   mse_path;
-				_mseProcess.StartInfo.Arguments   =  cmd;
-				_mseProcess.StartInfo.WorkingDirectory=path;
-				_mseProcess.EnableRaisingEvents=true;
-				MyPath.CreateDir(path);
-				try{
-					_mseProcess.Start();
-					//等待结束，需要把当前方法放到线程里面
-					_mseProcess.WaitForExit();
-					_mseProcess.Exited += new EventHandler(_exitHandler);
-					_mseProcess.Close();
-					_mseProcess=null;
+                return;
+            }
+            else
+            {
+                string cmd=" --export "+setfile.Replace("\\\\","\\").Replace("\\","/")+" {card.gamecode}.png";
+                _mseProcess = new System.Diagnostics.Process();
+                _mseProcess.StartInfo.FileName = mse_path;
+                _mseProcess.StartInfo.Arguments = cmd;
+                _mseProcess.StartInfo.WorkingDirectory = path;
+                _mseProcess.EnableRaisingEvents = true;
+                MyPath.CreateDir(path);
+                try
+                {
+                    _mseProcess.Start();
+                    //等待结束，需要把当前方法放到线程里面
+                    _mseProcess.WaitForExit();
+                    _mseProcess.Exited += new EventHandler(_exitHandler);
+                    _mseProcess.Close();
+                    _mseProcess = null;
                     MessageBox.Show(LanguageHelper.GetMsg(LMSG.exportMseImages));
-				}catch{
-					
-				}
-			}
-		}
-		
-		public static bool MseIsRunning(){
-			return _mseProcess != null;
-		}
-		public static void MseStop(){
-			try{
-				_mseProcess.Kill();
-				_mseProcess.Close();
-			}catch{}
-		}
-		public static void ExportSet(string mse_path,string setfile,string path,EventHandler handler){
-			if(string.IsNullOrEmpty(mse_path)||setfile==null||setfile.Length==0){
-				return;
-			}
-			ParameterizedThreadStart ParStart = new ParameterizedThreadStart(exportSetThread);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        public static bool MseIsRunning()
+        {
+            return _mseProcess != null;
+        }
+        public static void MseStop()
+        {
+            try
+            {
+                _mseProcess.Kill();
+                _mseProcess.Close();
+            }
+            catch { }
+        }
+        public static void ExportSet(string mse_path, string setfile, string path, EventHandler handler)
+        {
+            if (string.IsNullOrEmpty(mse_path) || setfile == null || setfile.Length == 0)
+            {
+                return;
+            }
+            ParameterizedThreadStart ParStart = new ParameterizedThreadStart(exportSetThread);
             Thread myThread = new Thread(ParStart)
             {
                 IsBackground = true
             };
-            myThread.Start(new string[]{mse_path,setfile,path});
-			_exitHandler = handler;
-		}
-		#endregion
-		
+            myThread.Start(new string[] { mse_path, setfile, path });
+            _exitHandler = handler;
+        }
+        #endregion
+
         public void TestPendulum(string desc)
         {
             List<string> table = this.GetMPText(desc);
@@ -975,7 +1025,7 @@ namespace DataEditorX.Core.Mse
                 MessageBox.Show(this.ReItalic(table[1]), "Pendulum Effect");
             }
         }
-		
+
         public List<string> GetMPText(string desc)
         {
             if (string.IsNullOrEmpty(desc))
@@ -1002,12 +1052,12 @@ namespace DataEditorX.Core.Mse
                     text = desc;
                 }
 
-				List<string> val = new List<string>
-				{
-					text,
-					ptext
-				};
-				return val;
+                List<string> val = new List<string>
+                {
+                    text,
+                    ptext
+                };
+                return val;
             }
         }
 
@@ -1068,10 +1118,10 @@ namespace DataEditorX.Core.Mse
                 text = Regex.Replace(text, thisname + @"的灵摆效果在决斗中", "这个卡名的灵摆效果在决斗中");
                 text = Regex.Replace(text, thisname + @"的([①②③④⑤⑥⑦⑧⑨⑩]+)的", "这个卡名的$1的");
                 text = Regex.Replace(text, thisname + @"的([①②③④⑤⑥⑦⑧⑨⑩]+)的", "这个卡名的$1的");
-				text = Regex.Replace(text, @"作为([①②③④⑤⑥⑦⑧⑨⑩]+)的", "$1的");
+                text = Regex.Replace(text, @"作为([①②③④⑤⑥⑦⑧⑨⑩]+)的", "$1的");
             }
 
             return text;
         }
-	}
+    }
 }

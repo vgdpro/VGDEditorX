@@ -1,11 +1,10 @@
-﻿using System;
-using System.Xml;
-using System.IO;
-using System.Globalization;
-using DataEditorX.Common;
-using System.Windows.Forms;
+﻿using DataEditorX.Common;
+using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace DataEditorX.Config
 {
@@ -88,10 +87,10 @@ namespace DataEditorX.Config
         /// 用本程序打开文件
         /// </summary>
         public const string TAG_OPEN_IN_THIS = "open_file_in_this";
-		/// <summary>
-		/// 自动检查更新
-		/// </summary>
-		public const string TAG_AUTO_CHECK_UPDATE = "auto_check_update";
+        /// <summary>
+        /// 自动检查更新
+        /// </summary>
+        public const string TAG_AUTO_CHECK_UPDATE = "auto_check_update";
         /// <summary>
         /// add require automatically
         /// </summary>
@@ -259,20 +258,22 @@ namespace DataEditorX.Config
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static bool ReadBoolean(string key,bool def=false)
+        public static bool ReadBoolean(string key, bool def = false)
         {
-        	string val= ReadString(key);
-        	if("true".Equals(val, StringComparison.OrdinalIgnoreCase)){
-        		return true;
-        	}
-        	if("false".Equals(val, StringComparison.OrdinalIgnoreCase)){
-        		return false;
-        	}
+            string val= ReadString(key);
+            if ("true".Equals(val, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            if ("false".Equals(val, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
             return def;
         }
-        #endregion 
+        #endregion
 
-        
+
         /// <summary>
         /// 语言配置文件名
         /// </summary>
@@ -280,27 +281,27 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetLanguageFile(string path)
         {
-			if (ReadBoolean(TAG_CHECK_SYSLANG) && Directory.Exists(path))
-			{
-				Save(TAG_CHECK_SYSLANG, "false");
-				string[] words = CultureInfo.InstalledUICulture.EnglishName.Split(' ');
-				string syslang = words[0];
-				string[] files = Directory.GetFiles(path);
-				foreach (string file in files)
-				{
-					string name = MyPath.GetFullFileName(TAG_LANGUAGE, file);
-					if (string.IsNullOrEmpty(name))
+            if (ReadBoolean(TAG_CHECK_SYSLANG) && Directory.Exists(path))
+            {
+                Save(TAG_CHECK_SYSLANG, "false");
+                string[] words = CultureInfo.InstalledUICulture.EnglishName.Split(' ');
+                string syslang = words[0];
+                string[] files = Directory.GetFiles(path);
+                foreach (string file in files)
+                {
+                    string name = MyPath.GetFullFileName(TAG_LANGUAGE, file);
+                    if (string.IsNullOrEmpty(name))
                     {
                         continue;
                     }
 
                     if (syslang.Equals(name, StringComparison.OrdinalIgnoreCase))
-					{
-						Save(TAG_LANGUAGE, syslang);
-						break;
-					}
-				}
-			}
+                    {
+                        Save(TAG_LANGUAGE, syslang);
+                        break;
+                    }
+                }
+            }
             return MyPath.Combine(path, MyPath.GetFileName(TAG_LANGUAGE, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
@@ -310,7 +311,7 @@ namespace DataEditorX.Config
         /// <returns></returns>
         public static string GetCardInfoFile(string path)
         {
-            return MyPath.Combine(path,  MyPath.GetFileName(TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
+            return MyPath.Combine(path, MyPath.GetFileName(TAG_CARDINFO, GetAppConfig(TAG_LANGUAGE)));
         }
         /// <summary>
         /// 发送消息打开文件

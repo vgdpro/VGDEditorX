@@ -15,11 +15,13 @@ namespace System.IO.Compression
         /// <summary>
         /// Compression method enumeration
         /// </summary>
-        public enum Compression : ushort { 
+        public enum Compression : ushort
+        {
             /// <summary>Uncompressed storage</summary> 
-            Store = 0, 
+            Store = 0,
             /// <summary>Deflate compression method</summary>
-            Deflate = 8 }
+            Deflate = 8
+        }
 
         #region ZipFileEntry
         /// <summary>
@@ -28,7 +30,7 @@ namespace System.IO.Compression
         public struct ZipFileEntry
         {
             /// <summary>Compression method</summary>
-            public Compression Method; 
+            public Compression Method;
             /// <summary>Full path and filename as stored in Zip</summary>
             public string FilenameInZip;
             /// <summary>Original file size</summary>
@@ -151,7 +153,7 @@ namespace System.IO.Compression
         /// <returns>A valid ZipStorer object</returns>
         public static ZipStorer Open(string _filename, FileAccess _access)
         {
-            Stream stream = (Stream)new FileStream(_filename, FileMode.Open, _access == FileAccess.Read ? FileAccess.Read : FileAccess.ReadWrite);
+            Stream stream = new FileStream(_filename, FileMode.Open, _access == FileAccess.Read ? FileAccess.Read : FileAccess.ReadWrite);
 
             ZipStorer zip = Open(stream, _access);
             zip.fileName = _filename;
@@ -185,7 +187,7 @@ namespace System.IO.Compression
 
             throw new InvalidDataException();
         }
-                /// <summary>
+        /// <summary>
         /// Add full contents of a file into the Zip storage
         /// </summary>
         /// <param name="_method">Compression method</param>
@@ -194,7 +196,7 @@ namespace System.IO.Compression
         /// <param name="_comment">Comment for stored file</param>        
         public void AddFile(string _pathname, string _filenameInZip, string _comment)
         {
-        	Compression _method=Compression.Deflate;
+            Compression _method=Compression.Deflate;
             if (this.access == FileAccess.Read)
             {
                 throw new InvalidOperationException("Writing is not alowed");
@@ -237,7 +239,7 @@ namespace System.IO.Compression
                 throw new InvalidOperationException("Writing is not alowed");
             }
 
-            if (this.files.Count==0)
+            if (this.files.Count == 0)
             {
             }
             else
@@ -325,7 +327,7 @@ namespace System.IO.Compression
 
             List<ZipFileEntry> result = new List<ZipFileEntry>();
 
-            for (int pointer = 0; pointer < this.centralDirImage.Length; )
+            for (int pointer = 0; pointer < this.centralDirImage.Length;)
             {
                 uint signature = BitConverter.ToUInt32(this.centralDirImage, pointer);
                 if (signature != 0x02014b50)
@@ -401,7 +403,7 @@ namespace System.IO.Compression
 
             File.SetCreationTime(_filename, _zfe.ModifyTime);
             File.SetLastWriteTime(_filename, _zfe.ModifyTime);
-            
+
             return result;
         }
         /// <summary>
@@ -561,7 +563,7 @@ namespace System.IO.Compression
             Encoding encoder = _zfe.EncodeUTF8 ? Encoding.UTF8 : _defaultEncoding;
             byte[] encodedFilename = encoder.GetBytes(_zfe.FilenameInZip);
 
-            this.zipFileStream.Write(new byte[] { 80, 75, 3, 4, 20, 0}, 0, 6); // No extra header
+            this.zipFileStream.Write(new byte[] { 80, 75, 3, 4, 20, 0 }, 0, 6); // No extra header
             this.zipFileStream.Write(BitConverter.GetBytes((ushort)(_zfe.EncodeUTF8 ? 0x0800 : 0)), 0, 2); // filename and comment encoding 
             this.zipFileStream.Write(BitConverter.GetBytes((ushort)_zfe.Method), 0, 2);  // zipping method
             this.zipFileStream.Write(BitConverter.GetBytes(this.DateTimeToDosTime(_zfe.ModifyTime)), 0, 4); // zipping date and time
@@ -643,8 +645,8 @@ namespace System.IO.Compression
             byte[] encodedComment = encoder.GetBytes(this.comment);
 
             this.zipFileStream.Write(new byte[] { 80, 75, 5, 6, 0, 0, 0, 0 }, 0, 8);
-            this.zipFileStream.Write(BitConverter.GetBytes((ushort)this.files.Count+ this.existingFiles), 0, 2);
-            this.zipFileStream.Write(BitConverter.GetBytes((ushort)this.files.Count+ this.existingFiles), 0, 2);
+            this.zipFileStream.Write(BitConverter.GetBytes((ushort)this.files.Count + this.existingFiles), 0, 2);
+            this.zipFileStream.Write(BitConverter.GetBytes((ushort)this.files.Count + this.existingFiles), 0, 2);
             this.zipFileStream.Write(BitConverter.GetBytes(_size), 0, 4);
             this.zipFileStream.Write(BitConverter.GetBytes(_offset), 0, 4);
             this.zipFileStream.Write(BitConverter.GetBytes((ushort)encodedComment.Length), 0, 2);
@@ -671,7 +673,7 @@ namespace System.IO.Compression
             }
 
             _zfe.Crc32 = 0 ^ 0xffffffff;
-            
+
             do
             {
                 bytesRead = _source.Read(buffer, 0, buffer.Length);
@@ -721,8 +723,8 @@ namespace System.IO.Compression
         private uint DateTimeToDosTime(DateTime _dt)
         {
             return (uint)(
-                (_dt.Second / 2) | (_dt.Minute << 5) | (_dt.Hour << 11) | 
-                (_dt.Day<<16) | (_dt.Month << 21) | ((_dt.Year - 1980) << 25));
+                (_dt.Second / 2) | (_dt.Minute << 5) | (_dt.Hour << 11) |
+                (_dt.Day << 16) | (_dt.Month << 21) | ((_dt.Year - 1980) << 25));
         }
         private DateTime DosTimeToDateTime(uint _dt)
         {

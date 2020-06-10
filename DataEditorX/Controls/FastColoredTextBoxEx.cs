@@ -7,20 +7,17 @@
  */
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FastColoredTextBoxNS
 {
-	public class FastColoredTextBoxEx : FastColoredTextBox
+    public class FastColoredTextBoxEx : FastColoredTextBox
     {
         public Label lbTooltip;
         Point lastMouseCoord;
- 
-		public FastColoredTextBoxEx() : base()
-		{
+
+        public FastColoredTextBoxEx() : base()
+        {
             this.SyntaxHighlighter = new MySyntaxHighlighter();
             this.TextChanged += this.FctbTextChanged;
             this.ToolTipDelay = 1;
@@ -30,15 +27,15 @@ namespace FastColoredTextBoxNS
         }
 
         public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
             this.lastMouseCoord = e.Location;
-		}
-		//函数悬停提示
-		protected override void OnToolTip()
-		{
-			if (this.ToolTip == null)
+        }
+        //函数悬停提示
+        protected override void OnToolTip()
+        {
+            if (this.ToolTip == null)
             {
                 return;
             }
@@ -51,36 +48,36 @@ namespace FastColoredTextBoxNS
             //get place under mouse
             Place place = this.PointToPlace(this.lastMouseCoord);
 
-			//check distance
-			Point p = this.PlaceToPoint(place);
-			if (Math.Abs(p.X - this.lastMouseCoord.X) > this.CharWidth *2 ||
-			    Math.Abs(p.Y - this.lastMouseCoord.Y) > this.CharHeight *2)
+            //check distance
+            Point p = this.PlaceToPoint(place);
+            if (Math.Abs(p.X - this.lastMouseCoord.X) > this.CharWidth * 2 ||
+                Math.Abs(p.Y - this.lastMouseCoord.Y) > this.CharHeight * 2)
             {
                 return;
             }
             //get word under mouse
             var r = new Range(this, place, place);
-			string hoveredWord = r.GetFragment("[a-zA-Z0-9_]").Text;
-			//event handler
-			var ea = new ToolTipNeededEventArgs(place, hoveredWord);
-			ToolTipNeeded(this, ea);
+            string hoveredWord = r.GetFragment("[a-zA-Z0-9_]").Text;
+            //event handler
+            var ea = new ToolTipNeededEventArgs(place, hoveredWord);
+            ToolTipNeeded(this, ea);
 
-			if (ea.ToolTipText != null)
-			{
+            if (ea.ToolTipText != null)
+            {
                 this.ShowTooltipWithLabel(ea.ToolTipTitle, ea.ToolTipText);
             }
         }
 
         public void ShowTooltipWithLabel(string title, string text, int height)
         {
-            lbTooltip.Visible = true;
-            lbTooltip.Text = $"{title}\r\n\r\n{text}";
-            lbTooltip.Location = new Point(this.Size.Width - 500, height);
+            this.lbTooltip.Visible = true;
+            this.lbTooltip.Text = $"{title}\r\n\r\n{text}";
+            this.lbTooltip.Location = new Point(this.Size.Width - 500, height);
         }
 
         public void ShowTooltipWithLabel(string title, string text)
         {
-            this.ShowTooltipWithLabel(title,text, this.lastMouseCoord.Y + this.CharHeight);
+            this.ShowTooltipWithLabel(title, text, this.lastMouseCoord.Y + this.CharHeight);
         }
 
         //高亮当前词
@@ -127,7 +124,7 @@ namespace FastColoredTextBoxNS
             // 
             this.lbTooltip.AutoSize = true;
             this.lbTooltip.BackColor = SystemColors.Desktop;
-            this.lbTooltip.Font = new Font("微软雅黑", 15.75F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.lbTooltip.Font = new Font("微软雅黑", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             this.lbTooltip.ForeColor = SystemColors.Control;
             this.lbTooltip.Location = new Point(221, 117);
             this.lbTooltip.MaximumSize = new Size(480, 0);
@@ -157,7 +154,7 @@ namespace FastColoredTextBoxNS
 
         private void lbTooltip_MouseMove(object sender, MouseEventArgs e)
         {
-            lbTooltip.Visible = false;
+            this.lbTooltip.Visible = false;
         }
     }
 }

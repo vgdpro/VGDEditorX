@@ -64,30 +64,30 @@ namespace DataEditorX.Common
 		public static bool CheckVersion(string ver, string oldver)
 		{
 			bool hasNew = false;
-			#if DEBUG
-			System.Windows.Forms.MessageBox.Show(oldver+"=>"+ver);
-			#endif
+#if DEBUG
+			System.Windows.Forms.MessageBox.Show(oldver + "=>" + ver);
+#endif
 			string[] vers = ver.Split('.');
 			string[] oldvers = oldver.Split('.');
 			if (vers.Length == oldvers.Length)
 			{
-                //从左到右比较数字
-                for (int i = 0; i < oldvers.Length; i++)
-                {
-                    int.TryParse(vers[i], out int j);
-                    int.TryParse(oldvers[i], out int k);
-                    if (j > k)//新的版本号大于旧的
-                    {
-                        hasNew = true;
-                        break;
-                    }
-                    else if (j < k)
-                    {
-                        hasNew = false;
-                        break;
-                    }
-                }
-            }
+				//从左到右比较数字
+				for (int i = 0; i < oldvers.Length; i++)
+				{
+					int.TryParse(vers[i], out int j);
+					int.TryParse(oldvers[i], out int k);
+					if (j > k)//新的版本号大于旧的
+					{
+						hasNew = true;
+						break;
+					}
+					else if (j < k)
+					{
+						hasNew = false;
+						break;
+					}
+				}
+			}
 			return hasNew;
 		}
 		#endregion
@@ -107,12 +107,12 @@ namespace DataEditorX.Common
 					(HttpWebRequest)WebRequest.Create(url);
 				httpWebRequest.Timeout = 15000;
 				using (HttpWebResponse httpWebResponse =
-				       (HttpWebResponse)httpWebRequest.GetResponse())
+					   (HttpWebResponse)httpWebRequest.GetResponse())
 				{
 					using (Stream stream = httpWebResponse.GetResponseStream())
 					{
 						using (StreamReader streamReader =
-						       new StreamReader(stream, Encoding.UTF8))
+							   new StreamReader(stream, Encoding.UTF8))
 						{
 							htmlContent = streamReader.ReadToEnd();
 							streamReader.Close();
@@ -142,11 +142,11 @@ namespace DataEditorX.Common
 			try
 			{
 				if (File.Exists(filename))
-                {
-                    File.Delete(filename);
-                }
+				{
+					File.Delete(filename);
+				}
 
-                HttpWebRequest Myrq = (HttpWebRequest)WebRequest.Create(URL);
+				HttpWebRequest Myrq = (HttpWebRequest)WebRequest.Create(URL);
 				HttpWebResponse myrp = (HttpWebResponse)Myrq.GetResponse();
 				long totalBytes = myrp.ContentLength;
 

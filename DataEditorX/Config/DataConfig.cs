@@ -18,7 +18,7 @@ namespace DataEditorX.Config
     {
         public DataConfig()
         {
-            this.InitMember(MyPath.Combine(Application.StartupPath, MyConfig.TAG_CARDINFO+".txt"));
+            this.InitMember(MyPath.Combine(Application.StartupPath, MyConfig.TAG_CARDINFO + ".txt"));
         }
         public DataConfig(string conf)
         {
@@ -31,7 +31,7 @@ namespace DataEditorX.Config
         public void InitMember(string conf)
         {
             //conf = MyPath.Combine(datapath, MyConfig.FILE_INFO);
-            if(!File.Exists(conf))
+            if (!File.Exists(conf))
             {
                 this.dicCardRules = new Dictionary<long, string>();
                 this.dicSetnames = new Dictionary<long, string>();
@@ -54,7 +54,7 @@ namespace DataEditorX.Config
             this.dicCardRaces = DataManager.Read(text, MyConfig.TAG_RACE);
             this.dicCardLevels = DataManager.Read(text, MyConfig.TAG_LEVEL);
 
-		}
+        }
         /// <summary>
         /// 规则
         /// </summary>

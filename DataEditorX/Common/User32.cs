@@ -1,11 +1,10 @@
-﻿﻿/*
- * 由SharpDevelop创建。
- * 用户： Acer
- * 日期: 2014-10-25
- * 时间: 21:30
- * 
- */
-using System;
+﻿/*
+* 由SharpDevelop创建。
+* 用户： Acer
+* 日期: 2014-10-25
+* 时间: 21:30
+* 
+*/
 using System.Runtime.InteropServices;
 
 namespace System

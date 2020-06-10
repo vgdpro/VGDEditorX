@@ -5,9 +5,6 @@
  * 时间: 9:02
  * 
  */
-using System;
-using System.Configuration;
-using DataEditorX.Config;
 using DataEditorX.Common;
 
 namespace DataEditorX.Config
@@ -16,13 +13,14 @@ namespace DataEditorX.Config
     /// 裁剪图片是、配置
     /// </summary>
 	public class ImageSet
-	{
-		public ImageSet(){
+    {
+        public ImageSet()
+        {
             this.Init();
-		}
+        }
         //初始化
-		void Init()
-		{
+        void Init()
+        {
             this.normalArea = MyConfig.ReadArea(MyConfig.TAG_IMAGE_OTHER);
 
             this.xyzArea = MyConfig.ReadArea(MyConfig.TAG_IMAGE_XYZ);
@@ -37,7 +35,7 @@ namespace DataEditorX.Config
             this.H = ints[3];
 
             this.quilty = MyConfig.ReadInteger(MyConfig.TAG_IMAGE_QUILTY, 95);
-		}
+        }
         /// <summary>
         /// jpeg质量
         /// </summary>
@@ -70,5 +68,5 @@ namespace DataEditorX.Config
         /// p怪的中间图
         /// </summary>
         public Area pendulumArea;
-	}
+    }
 }

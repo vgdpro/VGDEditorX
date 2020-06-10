@@ -5,17 +5,15 @@
  * 时间: 9:19
  * 
  */
-using System;
-using System.IO;
-using System.Drawing;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-
-using DataEditorX.Language;
-using DataEditorX.Core;
 using DataEditorX.Config;
 using DataEditorX.Controls;
+using DataEditorX.Core;
+using DataEditorX.Language;
+using System;
+using System.IO;
 using System.Threading;
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace DataEditorX
 {
@@ -106,17 +104,17 @@ namespace DataEditorX
         }
         void InitForm()
         {
-           LanguageHelper.SetFormLabel(this);
-           
-           //设置所有窗口的语言
-           DockContentCollection contents = this.dockPanel1.Contents;
-           foreach (DockContent dc in contents)
-           {
-               if (dc is Form)
-               {
-                   LanguageHelper.SetFormLabel((Form)dc);
-               }
-           }
+            LanguageHelper.SetFormLabel(this);
+
+            //设置所有窗口的语言
+            DockContentCollection contents = this.dockPanel1.Contents;
+            foreach (DockContent dc in contents)
+            {
+                if (dc is Form)
+                {
+                    LanguageHelper.SetFormLabel(dc);
+                }
+            }
             //添加历史菜单
             this.history.MenuHistory();
 
@@ -385,7 +383,7 @@ namespace DataEditorX
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string file = dlg.FileName;
-                    if(File.Exists(file))
+                    if (File.Exists(file))
                     {
                         File.Delete(file);
                     }
@@ -536,7 +534,7 @@ namespace DataEditorX
         {
             this.Init();
         }
-        
+
 
         private void bgWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
@@ -548,7 +546,7 @@ namespace DataEditorX
         private void MainForm_Load(object sender, EventArgs e)
         {
             //检查更新
-			if (MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
+            if (MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
             {
                 Thread th = new Thread(this.CheckUpdate)
                 {

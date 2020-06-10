@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DataEditorX.Config;
+using DataEditorX.Core;
+using DataEditorX.Language;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using DataEditorX.Core;
-using DataEditorX.Config;
 using System.Windows.Forms;
-using DataEditorX.Language;
 
 namespace DataEditorX.Controls
 {
@@ -108,7 +108,7 @@ namespace DataEditorX.Controls
                     texts += Environment.NewLine + str;
                 }
             }
-            if(File.Exists(this.historyFile))
+            if (File.Exists(this.historyFile))
             {
                 File.Delete(this.historyFile);
             }
@@ -143,7 +143,7 @@ namespace DataEditorX.Controls
             tsmiclear2.Click += this.MenuHistoryClear2_Click;
             this.mainForm.AddLuaMenu(tsmiclear2);
         }
-        
+
         void MenuHistoryClear2_Click(object sender, EventArgs e)
         {
             this.luahistory.Clear();
