@@ -616,9 +616,9 @@ namespace DataEditorX
 
                 Lua lua = new Lua();
                 var env = lua.CreateEnvironment();
-                env.DoChunk("Duel={} Effect={} Card={} aux={} Auxiliary={} _G={}" + cCode + "={} " + this.fctb.Text,"test.lua");
+                env.DoChunk("Duel={} Effect={} Card={} aux={} Auxiliary={} _G={}" + cCode + "={} " + this.fctb.Text, "test.lua");
             }
-            catch(LuaException ex)
+            catch (LuaException ex)
             {
                 MessageBox.Show($"LINE{ex.Line} - {ex.Message}");
                 error = true;
