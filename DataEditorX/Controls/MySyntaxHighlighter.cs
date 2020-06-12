@@ -5,10 +5,8 @@
  * 时间: 23:14
  * 
  */
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text.RegularExpressions;
 
 namespace FastColoredTextBoxNS
 {
