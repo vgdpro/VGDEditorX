@@ -24,7 +24,6 @@ namespace FastColoredTextBoxNS
 		readonly TextStyle mFunStyle = new TextStyle(Brushes.MediumAquamarine, null, FontStyle.Regular);
 		readonly TextStyle mErrorStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
 		readonly TextStyle mErrorStyle2 = new TextStyle(Brushes.Red, null, FontStyle.Bold);
-		readonly TextStyle mErrorStyle3 = new TextStyle(Brushes.Red, null, FontStyle.Bold);
 
 		public MySyntaxHighlighter(FastColoredTextBox currentTb) : base(currentTb)
 		{
