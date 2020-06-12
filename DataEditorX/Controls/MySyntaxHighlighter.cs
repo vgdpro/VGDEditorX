@@ -23,6 +23,10 @@ namespace FastColoredTextBoxNS
 		readonly TextStyle mFunStyle = new TextStyle(Brushes.LightGray, null, FontStyle.Bold);
 		readonly TextStyle mErrorStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
 
+		public MySyntaxHighlighter(FastColoredTextBox currentTb) : base(currentTb)
+		{
+		}
+
 		/// <summary>
 		/// Highlights Lua code
 		/// </summary>

@@ -17,7 +17,7 @@ namespace FastColoredTextBoxNS
         Point lastMouseCoord;
         public FastColoredTextBoxEx() : base()
         {
-            this.SyntaxHighlighter = new MySyntaxHighlighter();
+            this.SyntaxHighlighter = new MySyntaxHighlighter(this);
             this.TextChanged += this.FctbTextChanged;
             this.ToolTipDelay = 1;
             this.DelayedEventsInterval = 1;
