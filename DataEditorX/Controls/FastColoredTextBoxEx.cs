@@ -22,7 +22,13 @@ namespace FastColoredTextBoxNS
             this.ToolTipDelay = 1;
             this.DelayedEventsInterval = 1;
             this.DelayedTextChangedInterval = 1;
+            this.Selection.ColumnSelectionMode = true;
             this.InitializeComponent();
+        }
+
+        public override void OnTextChanged()
+        {
+
         }
 
         public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
