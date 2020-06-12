@@ -10,6 +10,7 @@ using DataEditorX.Controls;
 using DataEditorX.Core;
 using DataEditorX.Language;
 using FastColoredTextBoxNS;
+using Neo.IronLua;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -601,5 +602,31 @@ namespace DataEditorX
         }
         #endregion
 
+        private void menuitem_testlua_Click(object sender, EventArgs e)
+        {
+            string fn = new FileInfo(this.nowFile).Name;
+            if (!fn.ToUpper().EndsWith(".LUA"))
+            {
+                return;
+            }
+            string cCode = fn.Substring(0,fn.Length - 4);
+            bool error=false;
+            try
+            {
+
+                Lua lua = new Lua();
+                var env = lua.CreateEnvironment();
+                env.DoChunk("Duel={} Effect={} Card={} aux={} Auxiliary={} _G={}" + cCode + "={} " + this.fctb.Text,"test.lua");
+            }
+            catch(LuaException ex)
+            {
+                MessageBox.Show($"LINE{ex.Line} - {ex.Message}");
+                error = true;
+            }
+            if (!error)
+            {
+                MyMsg.Show(LMSG.syntaxCheckPassed);
+            }
+        }
     }
 }

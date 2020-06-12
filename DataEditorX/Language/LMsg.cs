@@ -93,6 +93,7 @@ namespace DataEditorX.Language
         PlzRestart = 0x49,
         exportMseImages = 0x4a,
         exportMseImagesErr = 0x4b,
+        syntaxCheckPassed = 0x4c,
         COUNT,
     }
 }
