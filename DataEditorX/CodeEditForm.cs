@@ -83,6 +83,7 @@ namespace DataEditorX
             {
                 MinFragmentLength = 2
             };
+            this.fctb.TextChanged += this.Fctb_TextChanged;
             this.popupMenu.ToolTip.Popup += this.ToolTip_Popup;
             this.popupMenu.Items.Font = ft;
             this.popupMenu.AutoSize = true;
@@ -92,9 +93,14 @@ namespace DataEditorX
             this.popupMenu.Closed += new ToolStripDropDownClosedEventHandler(this.popupMenu_Closed);
             this.popupMenu.SelectedColor = Color.LightGray;
             this.popupMenu.VisibleChanged += this.PopupMenu_VisibleChanged;
+            this.popupMenu.Opened += this.PopupMenu_VisibleChanged;
             this.popupMenu.Items.FocussedItemIndexChanged += this.Items_FocussedItemIndexChanged;
-
             this.title = this.Text;
+        }
+
+        private void Fctb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.PopupMenu_VisibleChanged(null, null);
         }
 
         private void ToolTip_Popup(object sender, PopupEventArgs e)
@@ -104,13 +110,22 @@ namespace DataEditorX
 
         private void PopupMenu_VisibleChanged(object sender, EventArgs e)
         {
-            this.AdjustPopupMenuSize();
-            if (!this.popupMenu.Visible || this.popupMenu.Items.FocussedItem == null)
+            if (!this.popupMenu.Visible)
             {
+                this.AdjustPopupMenuSize();
                 return;
+            }
+            if (this.popupMenu.Items.FocussedItem == null)
+            {
+                if (this.popupMenu.Items.Count == 0)
+                {
+                    return;
+                }
+                this.popupMenu.Items.FocussedItemIndex = 0;
             }
             this.fctb.ShowTooltipWithLabel(this.popupMenu.Items.FocussedItem.ToolTipTitle,
                 this.popupMenu.Items.FocussedItem.ToolTipText);
+            this.AdjustPopupMenuSize();
         }
         private void AdjustPopupMenuSize()
         {
@@ -118,6 +133,7 @@ namespace DataEditorX
             {
                 this.popupMenu.Size = new Size(300, 0);
                 this.popupMenu.MinimumSize = new Size(300, 0);
+                return;
             }
             Size s = TextRenderer.MeasureText(this.popupMenu.Items.FocussedItem.ToolTipTitle,
                 this.popupMenu.Items.Font, new Size(0, 0), TextFormatFlags.NoPadding);
@@ -176,6 +192,12 @@ namespace DataEditorX
                     fs.Close();
                 }
                 this.nowFile = file;
+                FileInfo fi = new FileInfo(file);
+                if (fi.Name.ToUpper().EndsWith(".LUA"))
+                {
+                    (this.fctb.SyntaxHighlighter as MySyntaxHighlighter).cCode
+                        = fi.Name.Substring(0, fi.Name.Length - 4);
+                }
                 string cdb = MyPath.Combine(
                     Path.GetDirectoryName(file), "../cards.cdb");
                 this.SetCardDB(cdb);//后台加载卡片数据

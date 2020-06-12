@@ -15,7 +15,6 @@ namespace FastColoredTextBoxNS
     {
         public Label lbTooltip;
         Point lastMouseCoord;
-
         public FastColoredTextBoxEx() : base()
         {
             this.SyntaxHighlighter = new MySyntaxHighlighter();
@@ -67,7 +66,10 @@ namespace FastColoredTextBoxNS
                 this.ShowTooltipWithLabel(ea.ToolTipTitle, ea.ToolTipText);
             }
         }
-
+        public void ShowTooltipWithLabel(AutocompleteItem item)
+        {
+            this.ShowTooltipWithLabel(item.ToolTipTitle, item.ToolTipText);
+        }
         public void ShowTooltipWithLabel(string title, string text, int height)
         {
             this.lbTooltip.Visible = true;

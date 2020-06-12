@@ -14,13 +14,14 @@ namespace FastColoredTextBoxNS
 	/// </summary>
 	public class MySyntaxHighlighter : SyntaxHighlighter
 	{
+		public string cCode = "";
 		readonly TextStyle mNumberStyle = new TextStyle(Brushes.Orange, null, FontStyle.Regular);
 		readonly TextStyle mStrStyle = new TextStyle(Brushes.Gold, null, FontStyle.Regular);
 		readonly TextStyle conStyle = new TextStyle(Brushes.YellowGreen, null, FontStyle.Regular);
 		readonly TextStyle mKeywordStyle = new TextStyle(Brushes.DeepSkyBlue, null, FontStyle.Regular);
 		readonly TextStyle mGrayStyle = new TextStyle(Brushes.Gray, null, FontStyle.Regular);
 		readonly TextStyle mFunStyle = new TextStyle(Brushes.LightGray, null, FontStyle.Bold);
-
+		readonly TextStyle mErrorStyle = new TextStyle(Brushes.Red, null, FontStyle.Bold);
 
 		/// <summary>
 		/// Highlights Lua code
@@ -39,7 +40,7 @@ namespace FastColoredTextBoxNS
 				= @"^\s*[\w\.]+(\s\w+)?\s*(?<range>=)\s*(?<range>.+)";
 
 			//clear style of changed range
-			range.ClearStyle(this.mStrStyle, this.mGrayStyle, this.conStyle, this.mNumberStyle, this.mKeywordStyle, this.mFunStyle);
+			range.ClearStyle(this.mStrStyle, this.mGrayStyle, this.conStyle, this.mNumberStyle, this.mKeywordStyle, this.mFunStyle, this.mErrorStyle);
 			//
 			if (this.LuaStringRegex == null)
 			{
@@ -58,7 +59,8 @@ namespace FastColoredTextBoxNS
 			range.SetStyle(this.mKeywordStyle, this.LuaKeywordRegex);
 			//functions highlighting
 			range.SetStyle(this.mFunStyle, this.LuaFunctionsRegex);
-			range.SetStyle(this.mNumberStyle, @"\bc\d+\b");
+			range.SetStyle(this.mErrorStyle, @"\bc\d+\b");
+			range.SetStyle(this.mNumberStyle, $@"\b{cCode}\b");
 
 			range.SetStyle(this.conStyle, @"[\s|\(|+|,]{0,1}(?<range>[A-Z_]+?)[\)|+|\s|,|;]");
 			//range.SetStyle(mFunStyle, @"[:|\.|\s](?<range>[a-zA-Z0-9_]*?)[\(|\)|\s]");
