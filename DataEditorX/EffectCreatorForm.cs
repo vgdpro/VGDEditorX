@@ -137,9 +137,9 @@ namespace DataEditorX
             }
             if (extraOptions.Count > 0)
             {
-                return $"e{numEffectNum}:SetCountLimit({countLimit.Count},{this.LinkStrings(extraOptions)})";
+                return $"e{numEffectNum.Value}:SetCountLimit({countLimit.Count},{this.LinkStrings(extraOptions)})";
             }
-            return $"e{numEffectNum}:SetCountLimit({countLimit.Count})";
+            return $"e{numEffectNum.Value}:SetCountLimit({countLimit.Count})";
         }
         private string ProcessEffectProperty()
         {
@@ -312,6 +312,22 @@ namespace DataEditorX
 
         EffectCountLimit countLimit = null;
         private void checkCountLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkCountLimit.Checked)
+            {
+                if (countLimit == null)
+                {
+                    countLimit = new EffectCountLimit(numCardCode.Value);
+                }
+                CountLimitForm form = new CountLimitForm(countLimit);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    countLimit = form.CountLimit;
+                }
+            }
+        }
+
+        private void checkReset_CheckedChanged(object sender, EventArgs e)
         {
             if (checkCountLimit.Checked)
             {

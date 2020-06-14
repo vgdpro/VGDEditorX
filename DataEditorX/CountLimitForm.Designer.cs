@@ -30,18 +30,18 @@
         {
             this.checkIsOath = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.checkIsSingle = new System.Windows.Forms.CheckBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.checkIsHasCode = new System.Windows.Forms.CheckBox();
             this.checkIsInDuel = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.numCount = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCount)).BeginInit();
             this.SuspendLayout();
             // 
             // checkIsOath
@@ -69,6 +69,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "效果特点";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(156, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "code偏移";
+            // 
             // checkIsSingle
             // 
             this.checkIsSingle.AutoSize = true;
@@ -78,6 +87,18 @@
             this.checkIsSingle.TabIndex = 3;
             this.checkIsSingle.Text = "与其他效果共用次数，且没有同名卡限制";
             this.checkIsSingle.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(215, 61);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(57, 21);
+            this.numericUpDown1.TabIndex = 6;
             // 
             // checkIsHasCode
             // 
@@ -122,7 +143,7 @@
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // numCode
+            // numCount
             // 
             this.numCount.Location = new System.Drawing.Point(75, 130);
             this.numCount.Minimum = new decimal(new int[] {
@@ -130,7 +151,7 @@
             0,
             0,
             0});
-            this.numCount.Name = "numCode";
+            this.numCount.Name = "numCount";
             this.numCount.Size = new System.Drawing.Size(57, 21);
             this.numCount.TabIndex = 4;
             this.numCount.Value = new decimal(new int[] {
@@ -148,27 +169,6 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "次数限制";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(156, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "code偏移";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(215, 61);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(57, 21);
-            this.numericUpDown1.TabIndex = 6;
-            // 
             // CountLimitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -185,10 +185,11 @@
             this.Name = "CountLimitForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "使用次数限制";
+            this.TopMost = true;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

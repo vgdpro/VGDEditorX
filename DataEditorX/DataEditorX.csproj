@@ -167,6 +167,12 @@
     <Compile Include="EffectCreatorForm.Designer.cs">
       <DependentUpon>EffectCreatorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ResetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResetForm.Designer.cs">
+      <DependentUpon>ResetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Language\LanguageHelper.cs" />
     <Compile Include="Language\LMsg.cs" />
     <Compile Include="Language\MyMsg.cs" />
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResetForm.resx">
+      <DependentUpon>ResetForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

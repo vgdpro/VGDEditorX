@@ -32,9 +32,9 @@ namespace DataEditorX
         public bool IsInDuel = false;
         public bool IsHasCode = false;
         public bool IsSingle = false;
-        public decimal Code;
-        public decimal Offset;
-        public decimal Count;
+        public decimal Code = 1000;
+        public decimal Offset = 0;
+        public decimal Count = 1;
         public EffectCountLimit(decimal code)
         {
             Code = code;

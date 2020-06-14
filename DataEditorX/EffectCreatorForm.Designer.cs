@@ -479,6 +479,7 @@
             this.checkReset.TabIndex = 2;
             this.checkReset.Text = "这个效果在满足某种条件后会消失(Reset)";
             this.checkReset.UseVisualStyleBackColor = true;
+            this.checkReset.CheckedChanged += new System.EventHandler(this.checkReset_CheckedChanged);
             // 
             // checkCountLimit
             // 
