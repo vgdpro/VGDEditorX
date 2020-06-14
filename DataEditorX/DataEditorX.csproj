@@ -149,6 +149,12 @@
     <Compile Include="Core\TaskHelper.cs" />
     <Compile Include="Core\TCGEditor\CardSet.cs" />
     <Compile Include="Core\YGOUtil.cs" />
+    <Compile Include="CountLimitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CountLimitForm.Designer.cs">
+      <DependentUpon>CountLimitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\FastColoredTextBoxEx.resx">
       <DependentUpon>FastColoredTextBoxEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CountLimitForm.resx">
+      <DependentUpon>CountLimitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataEditForm.resx">
       <DependentUpon>DataEditForm.cs</DependentUpon>

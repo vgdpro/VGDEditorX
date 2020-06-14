@@ -90,11 +90,57 @@ namespace DataEditorX
             sb.Append(this.ProcessSpecialOptions());
             sb.Append(this.ProcessEffectType());
             sb.Append(this.ProcessEffectCategory());
+            sb.Append(this.ProcessEffectCountLimit());
             sb.Append(this.ProcessEffectProperty());
             sb.Append(this.ProcessEffectCode());
             txtOutput.Text = sb.ToString();
         }
-
+        private string LinkStrings(List<string> list)
+        {
+            if (list.Count == 0)
+            {
+                return "";
+            }
+            string result = list[0];
+            for (int i = 1; i < list.Count; i++)
+            {
+                result += $"+{list[i]}";
+            }
+            return result;
+        }
+        private string ProcessEffectCountLimit()
+        {
+            if (!checkCountLimit.Checked || countLimit == null)
+            {
+                return "";
+            }
+            List<string> extraOptions = new List<string>();
+            if (countLimit.IsHasCode)
+            {
+                extraOptions.Add(countLimit.Code.ToString());
+                if (countLimit.Offset > 0)
+                {
+                    extraOptions.Add(countLimit.Offset.ToString());
+                }
+            }
+            if (countLimit.IsInDuel)
+            {
+                extraOptions.Add("EFFECT_COUNT_CODE_DUEL");
+            }
+            if (countLimit.IsOath)
+            {
+                extraOptions.Add("EFFECT_COUNT_CODE_OATH");
+            }
+            if (countLimit.IsSingle)
+            {
+                extraOptions.Add("EFFECT_COUNT_CODE_SINGLE");
+            }
+            if (extraOptions.Count > 0)
+            {
+                return $"e{numEffectNum}:SetCountLimit({countLimit.Count},{this.LinkStrings(extraOptions)})";
+            }
+            return $"e{numEffectNum}:SetCountLimit({countLimit.Count})";
+        }
         private string ProcessEffectProperty()
         {
             var selected = (from EffectCreatorItem item in listEffectProperty.Items.Cast<EffectCreatorItem>()
@@ -262,6 +308,23 @@ namespace DataEditorX
         private void txtSearchProperty_TextChanged(object sender, EventArgs e)
         {
             this.SearchListBoxWithTextBox(ref listEffectProperty, txtSearchProperty);
+        }
+
+        EffectCountLimit countLimit = null;
+        private void checkCountLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkCountLimit.Checked)
+            {
+                if (countLimit == null)
+                {
+                    countLimit = new EffectCountLimit(numCardCode.Value);
+                }
+                CountLimitForm form = new CountLimitForm(countLimit);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    countLimit = form.CountLimit;
+                }
+            }
         }
     }
 }

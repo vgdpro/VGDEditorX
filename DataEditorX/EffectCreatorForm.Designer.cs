@@ -53,15 +53,14 @@
             this.radioEffectTypeActivate = new System.Windows.Forms.RadioButton();
             this.radioEffectTypeEquip = new System.Windows.Forms.RadioButton();
             this.相关函数 = new System.Windows.Forms.GroupBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkOperation = new System.Windows.Forms.CheckBox();
+            this.checkCost = new System.Windows.Forms.CheckBox();
+            this.checkTarget = new System.Windows.Forms.CheckBox();
+            this.checkCondition = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkTargetRange = new System.Windows.Forms.CheckBox();
+            this.checkRange = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkHintTiming = new System.Windows.Forms.CheckBox();
             this.checkReset = new System.Windows.Forms.CheckBox();
@@ -79,7 +78,8 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.txtSearchProperty = new System.Windows.Forms.TextBox();
             this.listEffectProperty = new System.Windows.Forms.CheckedListBox();
-            this.btnAddIndent = new System.Windows.Forms.Button();
+            this.numFunctionNum = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.gbSpecialOptions.SuspendLayout();
             this.gbEffectType.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -92,6 +92,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numDescription)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numEffectNum)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFunctionNum)).BeginInit();
             this.SuspendLayout();
             // 
             // txtOutput
@@ -224,7 +225,7 @@
             // 
             this.radio_EffectTypeNone.AutoSize = true;
             this.radio_EffectTypeNone.Checked = true;
-            this.radio_EffectTypeNone.Location = new System.Drawing.Point(336, 76);
+            this.radio_EffectTypeNone.Location = new System.Drawing.Point(336, 94);
             this.radio_EffectTypeNone.Name = "radio_EffectTypeNone";
             this.radio_EffectTypeNone.Size = new System.Drawing.Size(71, 16);
             this.radio_EffectTypeNone.TabIndex = 12;
@@ -315,7 +316,7 @@
             // radioEffectTypeIgnition
             // 
             this.radioEffectTypeIgnition.AutoSize = true;
-            this.radioEffectTypeIgnition.Location = new System.Drawing.Point(336, 54);
+            this.radioEffectTypeIgnition.Location = new System.Drawing.Point(336, 64);
             this.radioEffectTypeIgnition.Name = "radioEffectTypeIgnition";
             this.radioEffectTypeIgnition.Size = new System.Drawing.Size(71, 16);
             this.radioEffectTypeIgnition.TabIndex = 3;
@@ -354,10 +355,10 @@
             // 
             // 相关函数
             // 
-            this.相关函数.Controls.Add(this.checkBox5);
-            this.相关函数.Controls.Add(this.checkBox4);
-            this.相关函数.Controls.Add(this.checkBox3);
-            this.相关函数.Controls.Add(this.checkBox2);
+            this.相关函数.Controls.Add(this.checkOperation);
+            this.相关函数.Controls.Add(this.checkCost);
+            this.相关函数.Controls.Add(this.checkTarget);
+            this.相关函数.Controls.Add(this.checkCondition);
             this.相关函数.Location = new System.Drawing.Point(12, 387);
             this.相关函数.Name = "相关函数";
             this.相关函数.Size = new System.Drawing.Size(413, 111);
@@ -365,52 +366,51 @@
             this.相关函数.TabStop = false;
             this.相关函数.Text = "效果处理相关2";
             // 
-            // checkBox5
+            // checkOperation
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 86);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(186, 16);
-            this.checkBox5.TabIndex = 3;
-            this.checkBox5.Text = "有Operation(发动后具体动作)";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkOperation.AutoSize = true;
+            this.checkOperation.Location = new System.Drawing.Point(6, 86);
+            this.checkOperation.Name = "checkOperation";
+            this.checkOperation.Size = new System.Drawing.Size(186, 16);
+            this.checkOperation.TabIndex = 3;
+            this.checkOperation.Text = "有Operation(发动后具体动作)";
+            this.checkOperation.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // checkCost
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 42);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(216, 16);
-            this.checkBox4.TabIndex = 2;
-            this.checkBox4.Text = "有Cost(发动条件，被复制后不检查)";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkCost.AutoSize = true;
+            this.checkCost.Location = new System.Drawing.Point(6, 42);
+            this.checkCost.Name = "checkCost";
+            this.checkCost.Size = new System.Drawing.Size(216, 16);
+            this.checkCost.TabIndex = 2;
+            this.checkCost.Text = "有Cost(发动条件，被复制后不检查)";
+            this.checkCost.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // checkTarget
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 64);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(240, 16);
-            this.checkBox3.TabIndex = 1;
-            this.checkBox3.Text = "有Target(防止空发，被复制后也要检查)";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkTarget.AutoSize = true;
+            this.checkTarget.Location = new System.Drawing.Point(6, 64);
+            this.checkTarget.Name = "checkTarget";
+            this.checkTarget.Size = new System.Drawing.Size(240, 16);
+            this.checkTarget.TabIndex = 1;
+            this.checkTarget.Text = "有Target(防止空发，被复制后也要检查)";
+            this.checkTarget.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // checkCondition
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 20);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(246, 16);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.Text = "有Condition(发动前提，被复制后不检查)";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkCondition.AutoSize = true;
+            this.checkCondition.Location = new System.Drawing.Point(6, 20);
+            this.checkCondition.Name = "checkCondition";
+            this.checkCondition.Size = new System.Drawing.Size(246, 16);
+            this.checkCondition.TabIndex = 0;
+            this.checkCondition.Text = "有Condition(发动前提，被复制后不检查)";
+            this.checkCondition.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBox6);
-            this.groupBox3.Controls.Add(this.checkBox7);
-            this.groupBox3.Controls.Add(this.checkBox8);
-            this.groupBox3.Controls.Add(this.checkBox9);
+            this.groupBox3.Controls.Add(this.checkTargetRange);
+            this.groupBox3.Controls.Add(this.checkRange);
             this.groupBox3.Location = new System.Drawing.Point(435, 387);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(280, 111);
@@ -421,42 +421,32 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 86);
+            this.checkBox6.Location = new System.Drawing.Point(6, 64);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(186, 16);
             this.checkBox6.TabIndex = 3;
             this.checkBox6.Text = "有Operation(发动后具体动作)";
             this.checkBox6.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // checkTargetRange
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(6, 42);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(162, 16);
-            this.checkBox7.TabIndex = 2;
-            this.checkBox7.Text = "有TargetRange(影响范围)";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkTargetRange.AutoSize = true;
+            this.checkTargetRange.Location = new System.Drawing.Point(6, 42);
+            this.checkTargetRange.Name = "checkTargetRange";
+            this.checkTargetRange.Size = new System.Drawing.Size(162, 16);
+            this.checkTargetRange.TabIndex = 2;
+            this.checkTargetRange.Text = "有TargetRange(影响范围)";
+            this.checkTargetRange.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // checkRange
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 64);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(240, 16);
-            this.checkBox8.TabIndex = 1;
-            this.checkBox8.Text = "有Target(防止空发，被复制后也要检查)";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(6, 20);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(198, 16);
-            this.checkBox9.TabIndex = 0;
-            this.checkBox9.Text = "有Range(位于某些位置才能发动)";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.checkRange.AutoSize = true;
+            this.checkRange.Location = new System.Drawing.Point(6, 20);
+            this.checkRange.Name = "checkRange";
+            this.checkRange.Size = new System.Drawing.Size(198, 16);
+            this.checkRange.TabIndex = 0;
+            this.checkRange.Text = "有Range(位于某些位置才能发动)";
+            this.checkRange.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -499,6 +489,7 @@
             this.checkCountLimit.TabIndex = 1;
             this.checkCountLimit.Text = "每回合最多使用X次(CountLimit)";
             this.checkCountLimit.UseVisualStyleBackColor = true;
+            this.checkCountLimit.CheckedChanged += new System.EventHandler(this.checkCountLimit_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -625,7 +616,7 @@
             // 
             this.btnStart.Location = new System.Drawing.Point(721, 196);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 36);
+            this.btnStart.Size = new System.Drawing.Size(277, 36);
             this.btnStart.TabIndex = 15;
             this.btnStart.Text = "生成效果";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -650,30 +641,53 @@
             this.txtSearchProperty.TabIndex = 2;
             this.txtSearchProperty.TextChanged += new System.EventHandler(this.txtSearchProperty_TextChanged);
             // 
-            // listProperty
+            // listEffectProperty
             // 
             this.listEffectProperty.CheckOnClick = true;
             this.listEffectProperty.FormattingEnabled = true;
             this.listEffectProperty.Location = new System.Drawing.Point(6, 52);
-            this.listEffectProperty.Name = "listProperty";
+            this.listEffectProperty.Name = "listEffectProperty";
             this.listEffectProperty.Size = new System.Drawing.Size(268, 116);
             this.listEffectProperty.TabIndex = 1;
             // 
-            // btnAddIndent
+            // numFunctionNum
             // 
-            this.btnAddIndent.Location = new System.Drawing.Point(802, 196);
-            this.btnAddIndent.Name = "btnAddIndent";
-            this.btnAddIndent.Size = new System.Drawing.Size(75, 36);
-            this.btnAddIndent.TabIndex = 16;
-            this.btnAddIndent.Text = "增加缩进";
-            this.btnAddIndent.UseVisualStyleBackColor = true;
+            this.numFunctionNum.Location = new System.Drawing.Point(261, 29);
+            this.numFunctionNum.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numFunctionNum.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.numFunctionNum.Name = "numFunctionNum";
+            this.numFunctionNum.Size = new System.Drawing.Size(63, 21);
+            this.numFunctionNum.TabIndex = 18;
+            this.numFunctionNum.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(259, 12);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(113, 12);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "函数识别码(-1禁用)";
             // 
             // EffectCreatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 510);
-            this.Controls.Add(this.btnAddIndent);
+            this.Controls.Add(this.numFunctionNum);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.numEffectNum);
@@ -718,6 +732,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numEffectNum)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFunctionNum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -749,15 +764,14 @@
         private System.Windows.Forms.RadioButton radioEffectTypeActivate;
         private System.Windows.Forms.RadioButton radioEffectTypeEquip;
         private System.Windows.Forms.GroupBox 相关函数;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkOperation;
+        private System.Windows.Forms.CheckBox checkCost;
+        private System.Windows.Forms.CheckBox checkTarget;
+        private System.Windows.Forms.CheckBox checkCondition;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkTargetRange;
+        private System.Windows.Forms.CheckBox checkRange;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox checkReset;
         private System.Windows.Forms.CheckBox checkCountLimit;
@@ -776,6 +790,7 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TextBox txtSearchProperty;
         private System.Windows.Forms.CheckedListBox listEffectProperty;
-        private System.Windows.Forms.Button btnAddIndent;
+        private System.Windows.Forms.NumericUpDown numFunctionNum;
+        private System.Windows.Forms.Label label4;
     }
 }
