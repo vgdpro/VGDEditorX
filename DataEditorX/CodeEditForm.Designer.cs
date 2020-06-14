@@ -212,7 +212,6 @@ namespace DataEditorX
             this.effectCreatorToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.effectCreatorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.effectCreatorToolStripMenuItem.Text = "Effect Creator";
-            this.effectCreatorToolStripMenuItem.Visible = false;
             this.effectCreatorToolStripMenuItem.Click += new System.EventHandler(this.effectCreatorToolStripMenuItem_Click);
             // 
             // tb_input
