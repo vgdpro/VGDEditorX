@@ -94,6 +94,7 @@ namespace DataEditorX.Language
         exportMseImages = 0x4a,
         exportMseImagesErr = 0x4b,
         syntaxCheckPassed = 0x4c,
+        IfOpenLotsOfFile = 0x4d,
         COUNT,
     }
 }
