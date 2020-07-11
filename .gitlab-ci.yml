@@ -9,12 +9,19 @@ build_dex:
   stage: build
   dependencies: []
   tags:
-    - linux
-  #only:
-  #  - master
-  image: mono
+    - windows
   script:
-    - ./ci/build.sh
+    - curl -L -o DataEditorX/data/constant.lua https://koishi.pro/ygopro/script/constant.lua
+    - curl -L -o DataEditorX/data/strings.conf https://koishi.pro/ygopro/strings.conf
+    - rm -rf win32
+    - nuget restore
+    - msbuild /p:Configuration=Release /p:Platform="Any CPU" /m DataEditorX.sln
+    - ren win32 output
+    - mkdir -p dist/releases
+    - cd output
+    - 7z a -mx9 ../dist/releases/DataEditorX-test-vc.zip ./*
+    - cd ..
+    - cp -rf DataEditorX/readme.txt dist/version.txt
   artifacts:
     paths:
       - dist/
