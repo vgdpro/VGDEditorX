@@ -323,7 +323,6 @@ namespace DataEditorX
 				this.InitCheckPanel(this.pl_cardtype, datacfg.dicCardTypes);
 				this.InitCheckPanel(this.pl_markers, datacfg.dicLinkMarkers);
 				this.InitCheckPanel(this.pl_category, datacfg.dicCardcategorys);
-				this.SetEnabled(this.pl_markers, false);
 				this.InitComboBox(this.cb_setname1, setcodes, setnames);
 				this.InitComboBox(this.cb_setname2, setcodes, setnames);
 				this.InitComboBox(this.cb_setname3, setcodes, setnames);
