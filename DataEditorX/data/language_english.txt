@@ -1,4 +1,4 @@
-#
+﻿#
 CodeEditForm.mainMenu.menuitem_file	File(&F)
 CodeEditForm.mainMenu.menuitem_open	Open
 CodeEditForm.mainMenu.menuitem_save	Save
@@ -169,4 +169,4 @@ MainForm.mainMenu.menuitem_closeall	Close All
 0x4b	Failed to export MSE-set to images fail.
 0x4c	No syntax error found.
 0x4d	It is not recommended to open lots of file at a time. Continue?
-0x4e	Download completed; the application will be restarted.
+0x4e	Are you sure to undo? All unsaved contents will be lost.

@@ -6,7 +6,7 @@ namespace DataEditorX.Core
     public delegate void StatusBool(bool val);
     public interface ICommand : ICloneable
     {
-        bool Excute(params object[] args);
+        bool Execute(params object[] args);
     }
     public interface IBackableCommand : ICommand
     {
@@ -46,7 +46,7 @@ namespace DataEditorX.Core
         #region ICommandManager 成员
         public void ExcuteCommand(ICommand command, params object[] args)
         {
-            if (!command.Excute(args))
+            if (!command.Execute(args))
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace DataEditorX.Core
                 return;
             }
 
-            command.Excute();
+            command.Execute();
             this.undoStack.Push((ICommand)command.Clone());
 
             UndoStateChanged(this.undoStack.Count > 0);
