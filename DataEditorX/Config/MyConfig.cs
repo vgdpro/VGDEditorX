@@ -172,6 +172,10 @@ namespace DataEditorX.Config
         /// 连接标志
         /// </summary>
         public const string TAG_MARKER = "link marker";
+        /// <summary>
+        /// 临时文件
+        /// </summary>
+        public const string TOOLTIP_FONT = "tooltip_font";
         #endregion
 
         #region 读取内容

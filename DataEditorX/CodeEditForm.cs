@@ -17,6 +17,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -420,8 +421,7 @@ namespace DataEditorX
 
         void CodeEditFormLoad(object sender, EventArgs e)
         {
-            this.HideMenu();
-            this.fctb.OnTextChangedDelayed(this.fctb.Range);
+
         }
         void Menuitem_findClick(object sender, EventArgs e)
         {
@@ -678,6 +678,24 @@ namespace DataEditorX
             foreach (string file in files)
             {
                 (this.DockPanel.Parent as MainForm).Open(file);
+            }
+        }
+        private void menuitem_tooltipFont_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
+            Font f = new Font("微软雅黑",10);
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            try
+            {
+                f = jss.Deserialize<Font>(fontJson);
+            }
+            catch { }
+            fd.Font = f;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                Common.XMLReader.Save(MyConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
+                this.fctb.lbTooltip.Font = fd.Font;
             }
         }
     }

@@ -5,6 +5,7 @@ CodeEditForm.mainMenu.menuitem_save	保存
 CodeEditForm.mainMenu.menuitem_saveas	另存为
 CodeEditForm.mainMenu.menuitem_quit	退出
 CodeEditForm.mainMenu.menuitem_setting	选项(&S)
+CodeEditForm.mainMenu.menuitem_tooltipFont	设置函数提示字体
 CodeEditForm.mainMenu.menuitem_showmap	显示/隐藏结构图
 CodeEditForm.mainMenu.menuitem_showinput	显示/隐藏输入框
 CodeEditForm.mainMenu.menuitem_find	查找
