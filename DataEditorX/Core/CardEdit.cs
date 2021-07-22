@@ -34,7 +34,7 @@ namespace DataEditorX.Core
                 this.dataform = cardedit.dataform;
             }
 
-            public bool Excute(params object[] args)
+            public bool Execute(params object[] args)
             {
                 if (!this.dataform.CheckOpen())
                 {
@@ -95,7 +95,7 @@ namespace DataEditorX.Core
                 this.dataform = cardedit.dataform;
             }
 
-            public bool Excute(params object[] args)
+            public bool Execute(params object[] args)
             {
                 if (!this.dataform.CheckOpen())
                 {
@@ -211,7 +211,7 @@ namespace DataEditorX.Core
                 this.dataform = cardedit.dataform;
             }
 
-            public bool Excute(params object[] args)
+            public bool Execute(params object[] args)
             {
                 if (!this.dataform.CheckOpen())
                 {
@@ -362,7 +362,7 @@ namespace DataEditorX.Core
                 this.dataform = cardedit.dataform;
             }
 
-            public bool Excute(params object[] args)
+            public bool Execute(params object[] args)
             {
                 if (!this.dataform.CheckOpen())
                 {

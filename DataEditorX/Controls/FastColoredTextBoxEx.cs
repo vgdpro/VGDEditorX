@@ -7,6 +7,7 @@
  */
 using System;
 using System.Drawing;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
@@ -14,6 +15,7 @@ namespace FastColoredTextBoxNS
     public class FastColoredTextBoxEx : FastColoredTextBox
     {
         public Label lbTooltip;
+        private Label lbSizeController;
         Point lastMouseCoord;
         public FastColoredTextBoxEx() : base()
         {
@@ -25,12 +27,6 @@ namespace FastColoredTextBoxNS
             this.Selection.ColumnSelectionMode = true;
             this.InitializeComponent();
         }
-
-        public override void OnTextChanged()
-        {
-
-        }
-
         public new event EventHandler<ToolTipNeededEventArgs> ToolTipNeeded;
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -124,31 +120,46 @@ namespace FastColoredTextBoxNS
 
         private void InitializeComponent()
         {
-            this.lbTooltip = new Label();
+            this.lbTooltip = new System.Windows.Forms.Label();
+            this.lbSizeController = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
             // lbTooltip
             // 
             this.lbTooltip.AutoSize = true;
-            this.lbTooltip.BackColor = SystemColors.Desktop;
-            this.lbTooltip.Font = new Font("微软雅黑", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            this.lbTooltip.ForeColor = SystemColors.Control;
-            this.lbTooltip.Location = new Point(221, 117);
-            this.lbTooltip.MaximumSize = new Size(480, 0);
+            this.lbTooltip.BackColor = System.Drawing.SystemColors.Desktop;
+            this.lbTooltip.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTooltip.ForeColor = System.Drawing.SystemColors.Control;
+            this.lbTooltip.Location = new System.Drawing.Point(221, 117);
+            this.lbTooltip.MaximumSize = new System.Drawing.Size(480, 0);
             this.lbTooltip.Name = "lbTooltip";
-            this.lbTooltip.Size = new Size(0, 28);
+            this.lbTooltip.Size = new System.Drawing.Size(0, 28);
             this.lbTooltip.TabIndex = 1;
-            this.lbTooltip.MouseMove += new MouseEventHandler(this.lbTooltip_MouseMove);
+            this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
+            // 
+            // lbSizeController
+            // 
+            this.lbSizeController.AutoSize = true;
+            this.lbSizeController.BackColor = System.Drawing.Color.Transparent;
+            this.lbSizeController.ForeColor = System.Drawing.Color.Transparent;
+            this.lbSizeController.Location = new System.Drawing.Point(179, 293);
+            this.lbSizeController.Name = "lbSizeController";
+            this.lbSizeController.Size = new System.Drawing.Size(136, 16);
+            this.lbSizeController.TabIndex = 2;
+            this.lbSizeController.Text = "lbSizeController";
             // 
             // FastColoredTextBoxEx
             // 
-            this.AutoScrollMinSize = new Size(27, 14);
-            this.BackColor = SystemColors.Control;
+            this.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.lbSizeController);
             this.Controls.Add(this.lbTooltip);
             this.Name = "FastColoredTextBoxEx";
-            this.Size = new Size(584, 327);
-            this.Load += new EventHandler(this.FastColoredTextBoxEx_Load);
+            this.Size = new System.Drawing.Size(584, 327);
+            this.Load += new System.EventHandler(this.FastColoredTextBoxEx_Load);
+            this.Scroll += new System.Windows.Forms.ScrollEventHandler(this.FastColoredTextBoxEx_Scroll);
+            this.SizeChanged += new System.EventHandler(this.FastColoredTextBoxEx_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -163,6 +174,21 @@ namespace FastColoredTextBoxNS
         private void lbTooltip_MouseMove(object sender, MouseEventArgs e)
         {
             this.lbTooltip.Visible = false;
+        }
+        private void ResizeWindow()
+        {
+            lbSizeController.Location = new Point(0, this.Height);
+            lbSizeController.Text = "\r\n\r\n";
+        }
+        private void FastColoredTextBoxEx_SizeChanged(object sender, EventArgs e)
+        {
+            lbTooltip.Visible = false;
+            this.ResizeWindow();
+        }
+
+        private void FastColoredTextBoxEx_Scroll(object sender, ScrollEventArgs e)
+        {
+            this.ResizeWindow();
         }
     }
 }

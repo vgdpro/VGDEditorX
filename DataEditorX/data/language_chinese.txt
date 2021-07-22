@@ -5,6 +5,7 @@ CodeEditForm.mainMenu.menuitem_save	保存
 CodeEditForm.mainMenu.menuitem_saveas	另存为
 CodeEditForm.mainMenu.menuitem_quit	退出
 CodeEditForm.mainMenu.menuitem_setting	选项(&S)
+CodeEditForm.mainMenu.menuitem_tooltipFont	设置函数提示字体
 CodeEditForm.mainMenu.menuitem_showmap	显示/隐藏结构图
 CodeEditForm.mainMenu.menuitem_showinput	显示/隐藏输入框
 CodeEditForm.mainMenu.menuitem_find	查找
@@ -173,4 +174,4 @@ MainForm.mainMenu.menuitem_closeall	关闭所有
 0x4b	从MSE存档导出图片失败。
 0x4c	测试完成，没有发现语法错误。
 0x4d	一次性打开大量文件将导致卡顿，是否继续？
-0x4e	下载完成，即将重新启动程序以完成更新。
+0x4e	确定要进行撤销吗？所有未保存的内容都将丢失。
