@@ -13,5 +13,9 @@ namespace DataEditorX.Core.Info
         OCGTCG = 3,
         /// <summary>DIY,原创卡</summary>
         DIY = 4,
+        /// <summary>简体中文</summary>
+        CCG = 9,
+        /// <summary>简体中文/TCG</summary>
+        CCG = 0xa,
     }
 }
