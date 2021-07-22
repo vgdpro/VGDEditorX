@@ -16,6 +16,6 @@ namespace DataEditorX.Core.Info
         /// <summary>简体中文</summary>
         CCG = 9,
         /// <summary>简体中文/TCG</summary>
-        CCG = 0xa,
+        CCGTCG = 0xa,
     }
 }
