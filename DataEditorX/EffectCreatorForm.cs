@@ -342,5 +342,10 @@ namespace DataEditorX
                 }
             }
         }
+
+        private void checkHintTiming_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

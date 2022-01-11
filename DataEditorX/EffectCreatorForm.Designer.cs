@@ -163,7 +163,7 @@
             this.radioEffectTypeField.AutoSize = true;
             this.radioEffectTypeField.Location = new System.Drawing.Point(6, 43);
             this.radioEffectTypeField.Name = "radioEffectTypeField";
-            this.radioEffectTypeField.Size = new System.Drawing.Size(251, 16);
+            this.radioEffectTypeField.Size = new System.Drawing.Size(247, 16);
             this.radioEffectTypeField.TabIndex = 1;
             this.radioEffectTypeField.Text = "对其他卡也有效，或任何卡发生事件都触发";
             this.radioEffectTypeField.UseVisualStyleBackColor = true;
@@ -174,7 +174,7 @@
             this.radioEffectTypeSingle.Checked = true;
             this.radioEffectTypeSingle.Location = new System.Drawing.Point(6, 21);
             this.radioEffectTypeSingle.Name = "radioEffectTypeSingle";
-            this.radioEffectTypeSingle.Size = new System.Drawing.Size(251, 16);
+            this.radioEffectTypeSingle.Size = new System.Drawing.Size(247, 16);
             this.radioEffectTypeSingle.TabIndex = 0;
             this.radioEffectTypeSingle.TabStop = true;
             this.radioEffectTypeSingle.Text = "只对自己有效，或只有自身状态变化时触发";
@@ -195,7 +195,7 @@
             // 
             this.txtSearchEffectCode.Location = new System.Drawing.Point(6, 20);
             this.txtSearchEffectCode.Name = "txtSearchEffectCode";
-            this.txtSearchEffectCode.Size = new System.Drawing.Size(268, 21);
+            this.txtSearchEffectCode.Size = new System.Drawing.Size(268, 19);
             this.txtSearchEffectCode.TabIndex = 2;
             this.txtSearchEffectCode.TextChanged += new System.EventHandler(this.txtSearchEffectCode_TextChanged);
             // 
@@ -225,12 +225,12 @@
             // 
             this.radio_EffectTypeNone.AutoSize = true;
             this.radio_EffectTypeNone.Checked = true;
-            this.radio_EffectTypeNone.Location = new System.Drawing.Point(336, 94);
+            this.radio_EffectTypeNone.Location = new System.Drawing.Point(292, 108);
             this.radio_EffectTypeNone.Name = "radio_EffectTypeNone";
-            this.radio_EffectTypeNone.Size = new System.Drawing.Size(71, 16);
+            this.radio_EffectTypeNone.Size = new System.Drawing.Size(115, 16);
             this.radio_EffectTypeNone.TabIndex = 12;
             this.radio_EffectTypeNone.TabStop = true;
-            this.radio_EffectTypeNone.Text = "永续效果";
+            this.radio_EffectTypeNone.Text = "永续效果(无连锁)";
             this.radio_EffectTypeNone.UseVisualStyleBackColor = true;
             // 
             // radioEffectTypeTarget
@@ -258,7 +258,7 @@
             this.radioEffectTypeXMaterial.AutoSize = true;
             this.radioEffectTypeXMaterial.Location = new System.Drawing.Point(6, 108);
             this.radioEffectTypeXMaterial.Name = "radioEffectTypeXMaterial";
-            this.radioEffectTypeXMaterial.Size = new System.Drawing.Size(233, 16);
+            this.radioEffectTypeXMaterial.Size = new System.Drawing.Size(232, 16);
             this.radioEffectTypeXMaterial.TabIndex = 9;
             this.radioEffectTypeXMaterial.Text = "作为素材使用的场合，XYZ怪兽获得效果";
             this.radioEffectTypeXMaterial.UseVisualStyleBackColor = true;
@@ -278,7 +278,7 @@
             this.radioEffectTypeQuick_F.AutoSize = true;
             this.radioEffectTypeQuick_F.Location = new System.Drawing.Point(6, 86);
             this.radioEffectTypeQuick_F.Name = "radioEffectTypeQuick_F";
-            this.radioEffectTypeQuick_F.Size = new System.Drawing.Size(149, 16);
+            this.radioEffectTypeQuick_F.Size = new System.Drawing.Size(145, 16);
             this.radioEffectTypeQuick_F.TabIndex = 7;
             this.radioEffectTypeQuick_F.Text = "诱发即时必发效果(2速)";
             this.radioEffectTypeQuick_F.UseVisualStyleBackColor = true;
@@ -288,7 +288,7 @@
             this.radioEffectTypeQuick_O.AutoSize = true;
             this.radioEffectTypeQuick_O.Location = new System.Drawing.Point(158, 86);
             this.radioEffectTypeQuick_O.Name = "radioEffectTypeQuick_O";
-            this.radioEffectTypeQuick_O.Size = new System.Drawing.Size(149, 16);
+            this.radioEffectTypeQuick_O.Size = new System.Drawing.Size(145, 16);
             this.radioEffectTypeQuick_O.TabIndex = 6;
             this.radioEffectTypeQuick_O.Text = "诱发即时选发效果(2速)";
             this.radioEffectTypeQuick_O.UseVisualStyleBackColor = true;
@@ -298,7 +298,7 @@
             this.radioEffectTypeTrigger_F.AutoSize = true;
             this.radioEffectTypeTrigger_F.Location = new System.Drawing.Point(6, 64);
             this.radioEffectTypeTrigger_F.Name = "radioEffectTypeTrigger_F";
-            this.radioEffectTypeTrigger_F.Size = new System.Drawing.Size(125, 16);
+            this.radioEffectTypeTrigger_F.Size = new System.Drawing.Size(121, 16);
             this.radioEffectTypeTrigger_F.TabIndex = 5;
             this.radioEffectTypeTrigger_F.Text = "诱发必发效果(1速)";
             this.radioEffectTypeTrigger_F.UseVisualStyleBackColor = true;
@@ -308,7 +308,7 @@
             this.radioEffectTypeTrigger_O.AutoSize = true;
             this.radioEffectTypeTrigger_O.Location = new System.Drawing.Point(137, 64);
             this.radioEffectTypeTrigger_O.Name = "radioEffectTypeTrigger_O";
-            this.radioEffectTypeTrigger_O.Size = new System.Drawing.Size(125, 16);
+            this.radioEffectTypeTrigger_O.Size = new System.Drawing.Size(121, 16);
             this.radioEffectTypeTrigger_O.TabIndex = 4;
             this.radioEffectTypeTrigger_O.Text = "诱发选发效果(1速)";
             this.radioEffectTypeTrigger_O.UseVisualStyleBackColor = true;
@@ -316,11 +316,11 @@
             // radioEffectTypeIgnition
             // 
             this.radioEffectTypeIgnition.AutoSize = true;
-            this.radioEffectTypeIgnition.Location = new System.Drawing.Point(336, 64);
+            this.radioEffectTypeIgnition.Location = new System.Drawing.Point(292, 64);
             this.radioEffectTypeIgnition.Name = "radioEffectTypeIgnition";
-            this.radioEffectTypeIgnition.Size = new System.Drawing.Size(71, 16);
+            this.radioEffectTypeIgnition.Size = new System.Drawing.Size(115, 16);
             this.radioEffectTypeIgnition.TabIndex = 3;
-            this.radioEffectTypeIgnition.Text = "起动效果";
+            this.radioEffectTypeIgnition.Text = "起动效果(入连锁)";
             this.radioEffectTypeIgnition.UseVisualStyleBackColor = true;
             // 
             // radioEffectTypeFlip
@@ -338,9 +338,9 @@
             this.radioEffectTypeActivate.AutoSize = true;
             this.radioEffectTypeActivate.Location = new System.Drawing.Point(167, 20);
             this.radioEffectTypeActivate.Name = "radioEffectTypeActivate";
-            this.radioEffectTypeActivate.Size = new System.Drawing.Size(215, 16);
+            this.radioEffectTypeActivate.Size = new System.Drawing.Size(163, 16);
             this.radioEffectTypeActivate.TabIndex = 1;
-            this.radioEffectTypeActivate.Text = "魔法陷阱卡从手卡往场上放置并发动";
+            this.radioEffectTypeActivate.Text = "魔法陷阱卡的发动(入连锁)";
             this.radioEffectTypeActivate.UseVisualStyleBackColor = true;
             // 
             // radioEffectTypeEquip
@@ -371,7 +371,7 @@
             this.checkOperation.AutoSize = true;
             this.checkOperation.Location = new System.Drawing.Point(6, 86);
             this.checkOperation.Name = "checkOperation";
-            this.checkOperation.Size = new System.Drawing.Size(186, 16);
+            this.checkOperation.Size = new System.Drawing.Size(177, 16);
             this.checkOperation.TabIndex = 3;
             this.checkOperation.Text = "有Operation(发动后具体动作)";
             this.checkOperation.UseVisualStyleBackColor = true;
@@ -381,7 +381,7 @@
             this.checkCost.AutoSize = true;
             this.checkCost.Location = new System.Drawing.Point(6, 42);
             this.checkCost.Name = "checkCost";
-            this.checkCost.Size = new System.Drawing.Size(216, 16);
+            this.checkCost.Size = new System.Drawing.Size(208, 16);
             this.checkCost.TabIndex = 2;
             this.checkCost.Text = "有Cost(发动条件，被复制后不检查)";
             this.checkCost.UseVisualStyleBackColor = true;
@@ -391,7 +391,7 @@
             this.checkTarget.AutoSize = true;
             this.checkTarget.Location = new System.Drawing.Point(6, 64);
             this.checkTarget.Name = "checkTarget";
-            this.checkTarget.Size = new System.Drawing.Size(240, 16);
+            this.checkTarget.Size = new System.Drawing.Size(229, 16);
             this.checkTarget.TabIndex = 1;
             this.checkTarget.Text = "有Target(防止空发，被复制后也要检查)";
             this.checkTarget.UseVisualStyleBackColor = true;
@@ -401,7 +401,7 @@
             this.checkCondition.AutoSize = true;
             this.checkCondition.Location = new System.Drawing.Point(6, 20);
             this.checkCondition.Name = "checkCondition";
-            this.checkCondition.Size = new System.Drawing.Size(246, 16);
+            this.checkCondition.Size = new System.Drawing.Size(232, 16);
             this.checkCondition.TabIndex = 0;
             this.checkCondition.Text = "有Condition(发动前提，被复制后不检查)";
             this.checkCondition.UseVisualStyleBackColor = true;
@@ -423,7 +423,7 @@
             this.checkBox6.AutoSize = true;
             this.checkBox6.Location = new System.Drawing.Point(6, 64);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(186, 16);
+            this.checkBox6.Size = new System.Drawing.Size(177, 16);
             this.checkBox6.TabIndex = 3;
             this.checkBox6.Text = "有Operation(发动后具体动作)";
             this.checkBox6.UseVisualStyleBackColor = true;
@@ -433,7 +433,7 @@
             this.checkTargetRange.AutoSize = true;
             this.checkTargetRange.Location = new System.Drawing.Point(6, 42);
             this.checkTargetRange.Name = "checkTargetRange";
-            this.checkTargetRange.Size = new System.Drawing.Size(162, 16);
+            this.checkTargetRange.Size = new System.Drawing.Size(157, 16);
             this.checkTargetRange.TabIndex = 2;
             this.checkTargetRange.Text = "有TargetRange(影响范围)";
             this.checkTargetRange.UseVisualStyleBackColor = true;
@@ -443,7 +443,7 @@
             this.checkRange.AutoSize = true;
             this.checkRange.Location = new System.Drawing.Point(6, 20);
             this.checkRange.Name = "checkRange";
-            this.checkRange.Size = new System.Drawing.Size(198, 16);
+            this.checkRange.Size = new System.Drawing.Size(196, 16);
             this.checkRange.TabIndex = 0;
             this.checkRange.Text = "有Range(位于某些位置才能发动)";
             this.checkRange.UseVisualStyleBackColor = true;
@@ -465,17 +465,18 @@
             this.checkHintTiming.AutoSize = true;
             this.checkHintTiming.Location = new System.Drawing.Point(10, 64);
             this.checkHintTiming.Name = "checkHintTiming";
-            this.checkHintTiming.Size = new System.Drawing.Size(276, 16);
+            this.checkHintTiming.Size = new System.Drawing.Size(267, 16);
             this.checkHintTiming.TabIndex = 3;
             this.checkHintTiming.Text = "某些额外时点要询问玩家是否发动(HintTiming)";
             this.checkHintTiming.UseVisualStyleBackColor = true;
+            this.checkHintTiming.CheckedChanged += new System.EventHandler(this.checkHintTiming_CheckedChanged);
             // 
             // checkReset
             // 
             this.checkReset.AutoSize = true;
             this.checkReset.Location = new System.Drawing.Point(10, 42);
             this.checkReset.Name = "checkReset";
-            this.checkReset.Size = new System.Drawing.Size(246, 16);
+            this.checkReset.Size = new System.Drawing.Size(242, 16);
             this.checkReset.TabIndex = 2;
             this.checkReset.Text = "这个效果在满足某种条件后会消失(Reset)";
             this.checkReset.UseVisualStyleBackColor = true;
@@ -486,7 +487,7 @@
             this.checkCountLimit.AutoSize = true;
             this.checkCountLimit.Location = new System.Drawing.Point(10, 20);
             this.checkCountLimit.Name = "checkCountLimit";
-            this.checkCountLimit.Size = new System.Drawing.Size(198, 16);
+            this.checkCountLimit.Size = new System.Drawing.Size(190, 16);
             this.checkCountLimit.TabIndex = 1;
             this.checkCountLimit.Text = "每回合最多使用X次(CountLimit)";
             this.checkCountLimit.UseVisualStyleBackColor = true;
@@ -507,7 +508,7 @@
             // 
             this.txtSearchEffectCategory.Location = new System.Drawing.Point(6, 20);
             this.txtSearchEffectCategory.Name = "txtSearchEffectCategory";
-            this.txtSearchEffectCategory.Size = new System.Drawing.Size(268, 21);
+            this.txtSearchEffectCategory.Size = new System.Drawing.Size(268, 19);
             this.txtSearchEffectCategory.TabIndex = 2;
             this.txtSearchEffectCategory.TextChanged += new System.EventHandler(this.txtSearchEffectCategory_TextChanged);
             // 
@@ -543,7 +544,7 @@
             0,
             0});
             this.numCardCode.Name = "numCardCode";
-            this.numCardCode.Size = new System.Drawing.Size(98, 21);
+            this.numCardCode.Size = new System.Drawing.Size(98, 19);
             this.numCardCode.TabIndex = 10;
             this.numCardCode.Value = new decimal(new int[] {
             1000,
@@ -565,7 +566,7 @@
             0,
             -2147483648});
             this.numDescription.Name = "numDescription";
-            this.numDescription.Size = new System.Drawing.Size(70, 21);
+            this.numDescription.Size = new System.Drawing.Size(70, 19);
             this.numDescription.TabIndex = 12;
             this.numDescription.Value = new decimal(new int[] {
             1,
@@ -578,7 +579,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(113, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.Size = new System.Drawing.Size(73, 12);
             this.label2.TabIndex = 11;
             this.label2.Text = "描述(-1禁用)";
             // 
@@ -596,7 +597,7 @@
             0,
             0});
             this.numEffectNum.Name = "numEffectNum";
-            this.numEffectNum.Size = new System.Drawing.Size(63, 21);
+            this.numEffectNum.Size = new System.Drawing.Size(63, 19);
             this.numEffectNum.TabIndex = 14;
             this.numEffectNum.Value = new decimal(new int[] {
             1,
@@ -638,7 +639,7 @@
             // 
             this.txtSearchProperty.Location = new System.Drawing.Point(6, 20);
             this.txtSearchProperty.Name = "txtSearchProperty";
-            this.txtSearchProperty.Size = new System.Drawing.Size(268, 21);
+            this.txtSearchProperty.Size = new System.Drawing.Size(268, 19);
             this.txtSearchProperty.TabIndex = 2;
             this.txtSearchProperty.TextChanged += new System.EventHandler(this.txtSearchProperty_TextChanged);
             // 
@@ -665,7 +666,7 @@
             0,
             -2147483648});
             this.numFunctionNum.Name = "numFunctionNum";
-            this.numFunctionNum.Size = new System.Drawing.Size(63, 21);
+            this.numFunctionNum.Size = new System.Drawing.Size(63, 19);
             this.numFunctionNum.TabIndex = 18;
             this.numFunctionNum.Value = new decimal(new int[] {
             1,
@@ -678,7 +679,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(259, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 12);
+            this.label4.Size = new System.Drawing.Size(109, 12);
             this.label4.TabIndex = 17;
             this.label4.Text = "函数识别码(-1禁用)";
             // 

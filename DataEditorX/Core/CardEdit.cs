@@ -314,10 +314,10 @@ namespace DataEditorX.Core
                         {
                             // DIY script
                             sw.WriteLine("--" + c.name);
-                            sw.WriteLine("local m=" + id.ToString());
-                            sw.WriteLine("local cm=_G[\"c\"..m]");
+                            sw.WriteLine("local id=" + id.ToString());
+                            sw.WriteLine("local this=_G[\"c\"..m]");
                             sw.WriteLine("Duel.LoadScript(\"" + addrequire + ".lua\")");
-                            sw.WriteLine("function cm.initial_effect(c)");
+                            sw.WriteLine("function this.initial_effect(c)");
                             sw.WriteLine("\t");
                             sw.WriteLine("end");
                         }

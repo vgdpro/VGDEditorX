@@ -49,7 +49,7 @@
             this.checkIsOath.AutoSize = true;
             this.checkIsOath.Location = new System.Drawing.Point(6, 20);
             this.checkIsOath.Name = "checkIsOath";
-            this.checkIsOath.Size = new System.Drawing.Size(276, 16);
+            this.checkIsOath.Size = new System.Drawing.Size(268, 16);
             this.checkIsOath.TabIndex = 0;
             this.checkIsOath.Text = "誓约效果(发动被无效不计数，效果被无效计数)";
             this.checkIsOath.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(156, 64);
+            this.label2.Location = new System.Drawing.Point(132, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 7;
@@ -83,21 +83,26 @@
             this.checkIsSingle.AutoSize = true;
             this.checkIsSingle.Location = new System.Drawing.Point(6, 86);
             this.checkIsSingle.Name = "checkIsSingle";
-            this.checkIsSingle.Size = new System.Drawing.Size(240, 16);
+            this.checkIsSingle.Size = new System.Drawing.Size(236, 16);
             this.checkIsSingle.TabIndex = 3;
             this.checkIsSingle.Text = "与其他效果共用次数，且没有同名卡限制";
             this.checkIsSingle.UseVisualStyleBackColor = true;
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(215, 61);
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(185, 61);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(57, 21);
+            this.numericUpDown1.Size = new System.Drawing.Size(57, 19);
             this.numericUpDown1.TabIndex = 6;
             // 
             // checkIsHasCode
@@ -105,7 +110,7 @@
             this.checkIsHasCode.AutoSize = true;
             this.checkIsHasCode.Location = new System.Drawing.Point(6, 64);
             this.checkIsHasCode.Name = "checkIsHasCode";
-            this.checkIsHasCode.Size = new System.Drawing.Size(108, 16);
+            this.checkIsHasCode.Size = new System.Drawing.Size(109, 16);
             this.checkIsHasCode.TabIndex = 2;
             this.checkIsHasCode.Text = "同名卡1回合X次";
             this.checkIsHasCode.UseVisualStyleBackColor = true;
@@ -115,7 +120,7 @@
             this.checkIsInDuel.AutoSize = true;
             this.checkIsInDuel.Location = new System.Drawing.Point(6, 42);
             this.checkIsInDuel.Name = "checkIsInDuel";
-            this.checkIsInDuel.Size = new System.Drawing.Size(126, 16);
+            this.checkIsInDuel.Size = new System.Drawing.Size(127, 16);
             this.checkIsInDuel.TabIndex = 1;
             this.checkIsInDuel.Text = "决斗中只能发动X次";
             this.checkIsInDuel.UseVisualStyleBackColor = true;
@@ -152,7 +157,7 @@
             0,
             0});
             this.numCount.Name = "numCount";
-            this.numCount.Size = new System.Drawing.Size(57, 21);
+            this.numCount.Size = new System.Drawing.Size(57, 19);
             this.numCount.TabIndex = 4;
             this.numCount.Value = new decimal(new int[] {
             1,
