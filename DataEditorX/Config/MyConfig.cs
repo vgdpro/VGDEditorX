@@ -125,6 +125,10 @@ namespace DataEditorX.Config
         /// </summary>
         public const string TAG_FONT_NAME = "fontname";
         /// <summary>
+        /// 使用的编辑器
+        /// </summary>
+        public const string USE_EDITOR = "editor";
+        /// <summary>
         /// 字体大小
         /// </summary>
         public const string TAG_FONT_SIZE = "fontsize";

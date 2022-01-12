@@ -17,6 +17,32 @@ CodeEditForm.mainMenu.menuitem_tools	工具(&T)
 CodeEditForm.mainMenu.menuitem_testlua	语法错误检查
 CodeEditForm.mainMenu.menuitem_effectcreator	效果生成器
 #
+FindReplaceForm	查找/替换
+FindReplaceForm.btnFind	查找
+FindReplaceForm.btnReplace	替换
+FindReplaceForm.btnReplaceAll	替换所有
+FindReplaceForm.btnClose	关闭
+FindReplaceForm.lbFind	查找
+FindReplaceForm.lbReplace	替换
+#
+CodeEditForm_Avalon.mainMenu.menuitem_file	文件(&F)
+CodeEditForm_Avalon.mainMenu.menuitem_open	打开
+CodeEditForm_Avalon.mainMenu.menuitem_save	保存
+CodeEditForm_Avalon.mainMenu.menuitem_saveas	另存为
+CodeEditForm_Avalon.mainMenu.menuitem_quit	退出
+CodeEditForm_Avalon.mainMenu.menuitem_setting	选项(&S)
+CodeEditForm_Avalon.mainMenu.menuitem_tooltipFont	设置函数提示字体
+CodeEditForm_Avalon.mainMenu.menuitem_showmap	显示/隐藏结构图
+CodeEditForm_Avalon.mainMenu.menuitem_showinput	显示/隐藏输入框
+CodeEditForm_Avalon.mainMenu.menuitem_find	查找
+CodeEditForm_Avalon.mainMenu.menuitem_replace	替换
+CodeEditForm_Avalon.mainMenu.menuitem_setcard	设置卡片库
+CodeEditForm_Avalon.mainMenu.menuitem_help	帮助(&H)
+CodeEditForm_Avalon.mainMenu.menuitem_about	关于
+CodeEditForm_Avalon.mainMenu.menuitem_tools	工具(&T)
+CodeEditForm_Avalon.mainMenu.menuitem_testlua	语法错误检查
+CodeEditForm_Avalon.mainMenu.menuitem_effectcreator	效果生成器
+#
 DataEditForm.pl_bottom.btn_img	导入图片
 DataEditForm.pl_main.splitContainer..lb_types	卡片类型
 DataEditForm.pl_main.splitContainer..lb_markers	连接标记
