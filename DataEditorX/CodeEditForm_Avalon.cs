@@ -25,6 +25,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Search;
 using System.Windows.Threading;
 using System.Text.RegularExpressions;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 
 namespace DataEditorX
 {
@@ -39,9 +40,8 @@ namespace DataEditorX
 
         #region init 函数提示菜单
         //自动完成
-        AutocompleteMenu popupMenu;
         string nowFile;
-        string title;
+        string title = "CodeEditor";
         string oldtext;
         public SortedList<string, string> tooltipDic;
         AutocompleteItem[] items;
@@ -59,8 +59,11 @@ namespace DataEditorX
             editor.ShowLineNumbers = true;
             editor.TextArea.TextEntered += editor_TextArea_TextEntered;
             editor.TextArea.TextEntering += editor_TextArea_TextEntering;
-            editor.TextArea.KeyDown += TextArea_KeyDown;
+            editor.PreviewKeyDown += TextArea_KeyDown;
+            //editor.TextArea.KeyDown += TextArea_KeyDown;
+            //editor.KeyDown += TextArea_KeyDown;
             editor.TextChanged += Editor_TextChanged;
+            editor.MouseMove += Editor_MouseMove;
 
             editor.FontFamily = new System.Windows.Media.FontFamily(MyConfig.TAG_FONT_NAME);
             editor.FontSize = MyConfig.ReadFloat(MyConfig.TAG_FONT_SIZE, (float)editor.FontSize);
@@ -69,6 +72,62 @@ namespace DataEditorX
             editor.Foreground = System.Windows.Media.Brushes.GhostWhite;
             this.RefreshHighlighting();
         }
+
+        private void Editor_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var ePos = e.GetPosition(editor);
+            var pos = editor.GetPositionFromPoint(ePos);
+            if (pos != null)
+            {
+                int offset = editor.Document.GetOffset(pos.Value.Location);
+                int nowOffset = offset;
+                string c;
+                try
+                {
+                    c = editor.Document.GetCharAt(nowOffset).ToString();
+                }
+                catch
+                {
+                    return;
+                }
+                if (sep.Contains(c))
+                {
+                    return;
+                }
+                while (!sep.Contains(c) && nowOffset > 0)
+                {
+                    nowOffset--;
+                    c = editor.Document.GetCharAt(nowOffset).ToString();
+                    if (sep.Contains(c))
+                    {
+                        break;
+                    }
+                }
+                c = editor.Document.GetCharAt(offset).ToString();
+                int maxlen = editor.Document.TextLength - 1;
+                while (!sep.Contains(c) && offset < maxlen)
+                {
+                    offset++;
+                    c = editor.Document.GetCharAt(offset).ToString();
+                    if (sep.Contains(c))
+                    {
+                        offset--;
+                        break;
+                    }
+                }
+                string find = editor.Document.GetText(nowOffset + 1, offset - nowOffset);
+                if (string.IsNullOrWhiteSpace(find))
+                {
+                    return;
+                }
+                if (tooltipDic.ContainsKey(find))
+                {
+                    lbTooltip.Text = find + "\n" + tooltipDic[find];
+                    lbTooltip.Location = new Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
+                }
+            }
+        }
+
         int lastCaret = 0;
         private void Editor_TextChanged(object sender, EventArgs e)
         {
@@ -81,7 +140,16 @@ namespace DataEditorX
 
         private void TextArea_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (!e.Key.Equals(System.Windows.Input.Key.LeftCtrl))
+            if (e.Key.Equals(System.Windows.Input.Key.Back))
+            {
+                if (completionWindowUse != null)
+                {
+                    completionWindowUse.Close();
+                    completionWindowUse = null;
+                    return;
+                }
+            }
+            if (!e.Key.Equals(System.Windows.Input.Key.Tab))
             {
                 return;
             }
@@ -152,72 +220,14 @@ namespace DataEditorX
             }
         }
 
-        private void Fctb_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            PopupMenu_VisibleChanged(null, null);
-        }
-
-        private void ToolTip_Popup(object sender, PopupEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
-        private void PopupMenu_VisibleChanged(object sender, EventArgs e)
-        {
-            if (!popupMenu.Visible)
-            {
-                AdjustPopupMenuSize();
-                return;
-            }
-            if (popupMenu.Items.FocussedItem == null)
-            {
-                if (popupMenu.Items.Count == 0)
-                {
-                    return;
-                }
-                popupMenu.Items.FocussedItemIndex = 0;
-            }
-            //this.fctb.ShowTooltipWithLabel(this.popupMenu.Items.FocussedItem.ToolTipTitle,
-            //    this.popupMenu.Items.FocussedItem.ToolTipText);
-            AdjustPopupMenuSize();
-        }
-        private void AdjustPopupMenuSize()
-        {
-            if (!popupMenu.Visible || popupMenu.Items.FocussedItem == null)
-            {
-                popupMenu.Size = new Size(300, 0);
-                popupMenu.MinimumSize = new Size(300, 0);
-                return;
-            }
-            Size s = TextRenderer.MeasureText(popupMenu.Items.FocussedItem.ToolTipTitle,
-                popupMenu.Items.Font, new Size(0, 0), TextFormatFlags.NoPadding);
-            s = new Size(s.Width + 50, popupMenu.Size.Height);
-            if (popupMenu.Size.Width < s.Width)
-            {
-                popupMenu.Size = s;
-                popupMenu.MinimumSize = s;
-            }
-        }
-
         internal void InitTooltip(CodeConfig codecfg)
         {
             this.tooltipDic = codecfg.TooltipDic;
-        }
-
-        private void Items_FocussedItemIndexChanged(object sender, EventArgs e)
-        {
-            if (popupMenu.Items.FocussedItem == null)
+            foreach(var item in this.tooltipDic)
             {
-                return;
+                AutocompleteItem it = new AutocompleteItem();
+                this.items = codecfg.Items;
             }
-            AdjustPopupMenuSize();
-            //this.fctb.ShowTooltipWithLabel(this.popupMenu.Items.FocussedItem.ToolTipTitle,
-            //    this.popupMenu.Items.FocussedItem.ToolTipText);
-        }
-
-        void popupMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
-        {
-            popupMenu.Items.SetAutocompleteItems(items);
         }
         #endregion
 
@@ -450,6 +460,15 @@ namespace DataEditorX
         {
             ICSharpCode.AvalonEdit.TextEditor editor = new ICSharpCode.AvalonEdit.TextEditor();
             ICSharpCode.AvalonEdit.Rendering.TextView eView = new ICSharpCode.AvalonEdit.Rendering.TextView();
+            Font f = new Font("微软雅黑", 14, FontStyle.Bold);
+            string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            try
+            {
+                f = jss.Deserialize<FontHelper>(fontJson).ToFont();
+            }
+            catch { }
+            lbTooltip.Font = f;
         }
         SearchPanel sp = null;
         void Menuitem_findClick(object sender, EventArgs e)
@@ -575,8 +594,35 @@ namespace DataEditorX
                         list.Add(item);
                     }
                 }
-                popupMenu.Items.SetAutocompleteItems(list.ToArray());
-                popupMenu.Show(true);
+                completionWindowUse = new CompletionWindow(editor.TextArea);
+                completionWindowUse.StartOffset = editor.CaretOffset;
+                completionWindowUse.EndOffset = editor.CaretOffset;
+                IList<ICompletionData> data = completionWindowUse.CompletionList.CompletionData;
+                if (string.IsNullOrEmpty(key))
+                {
+                    return;
+                }
+                foreach (var d in tooltipDic)
+                {
+                    if (d.Key.ToLower().StartsWith(key.ToLower()))
+                    {
+                        data.Add(new YGOProAutoCompletion(d.Key, d.Value));
+                    }
+                }
+                if (data.Count > 0)
+                {
+                    completionWindowUse.Show();
+                    string find2 = data[0].Text;
+                    var ePos = editor.TextArea.Caret.CalculateCaretRectangle();
+                    if (tooltipDic.ContainsKey(find2))
+                    {
+                        lbTooltip.Text = find2 + "\n" + tooltipDic[find2];
+                        lbTooltip.Location = new Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
+                    }
+                    completionWindowUse.Closed += delegate {
+                        completionWindowUse = null;
+                    };
+                }
             }
         }
         #endregion
@@ -677,19 +723,45 @@ namespace DataEditorX
         {
             FontDialog fd = new FontDialog();
             string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
-            Font f = new Font("微软雅黑", 10);
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            try
-            {
-                f = jss.Deserialize<Font>(fontJson);
-            }
-            catch { }
-            fd.Font = f;
+            fd.Font = lbTooltip.Font;
             if (fd.ShowDialog() == DialogResult.OK)
             {
                 Common.XMLReader.Save(MyConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
-                //this.fctb.lbTooltip.Font = fd.Font;
+                lbTooltip.Font = fd.Font;
             }
+        }
+        public class FontFamilyHelper
+        {
+            public string Name;
+        }
+        public class FontHelper
+        {
+            public FontFamilyHelper FontFamily;
+            public bool Bold;
+            public bool Italic;
+            public string Name;
+            public bool Strikeout;
+            public bool Underline;
+            public float Size;
+            public int Unit;
+            public int Height;
+
+            public Font ToFont()
+            {
+                var style = (Bold ? FontStyle.Bold : FontStyle.Regular) | (Italic ? FontStyle.Italic : FontStyle.Regular) | (Strikeout ? FontStyle.Strikeout : FontStyle.Regular) | (Underline ? FontStyle.Underline : FontStyle.Regular);
+                return new Font(FontFamily.Name, Size, style);
+            }
+
+        }
+        private void lbTooltip_MouseMove(object sender, MouseEventArgs e)
+        {
+            lbTooltip.Text = "";
+        }
+
+        private void CodeEditForm_Avalon_KeyDown(object sender, KeyEventArgs e)
+        {
+            ;
         }
     }
 }

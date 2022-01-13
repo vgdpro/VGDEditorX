@@ -260,7 +260,6 @@ namespace DataEditorX
             this.fctb.AutoScrollMinSize = new System.Drawing.Size(0, 22);
             this.fctb.BackBrush = null;
             this.fctb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.fctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
             this.fctb.CharHeight = 22;
             this.fctb.CharWidth = 10;
             this.fctb.CommentPrefix = "--";
@@ -330,6 +329,7 @@ namespace DataEditorX
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnDragDtop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragEnter);
             this.Enter += new System.EventHandler(this.CodeEditFormEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_inputKeyDown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fctb)).EndInit();

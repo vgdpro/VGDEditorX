@@ -10,6 +10,7 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
@@ -58,16 +59,18 @@ namespace DataEditorX
             this.menuitem_showinput = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_find = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_replace = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuitem_help = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuitem_about = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_tooltipFont = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_tools = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_testlua = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_effectcreator = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_help = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_about = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_input = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.documentMap1 = new FastColoredTextBoxNS.DocumentMap();
             this.host = new System.Windows.Forms.Integration.ElementHost();
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
+            this.lbTooltip = new System.Windows.Forms.Label();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +83,7 @@ namespace DataEditorX
             this.menuitem_help});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(705, 24);
+            this.mainMenu.Size = new System.Drawing.Size(816, 24);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "mainMenu";
             // 
@@ -136,7 +139,8 @@ namespace DataEditorX
             this.menuitem_setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuitem_showinput,
             this.menuitem_find,
-            this.menuitem_replace});
+            this.menuitem_replace,
+            this.menuitem_tooltipFont});
             this.menuitem_setting.Name = "menuitem_setting";
             this.menuitem_setting.Size = new System.Drawing.Size(75, 20);
             this.menuitem_setting.Text = "Settings(&S)";
@@ -166,20 +170,12 @@ namespace DataEditorX
             this.menuitem_replace.Text = "Replace";
             this.menuitem_replace.Click += new System.EventHandler(this.Menuitem_replaceClick);
             // 
-            // menuitem_help
+            // menuitem_tooltipFont
             // 
-            this.menuitem_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuitem_about});
-            this.menuitem_help.Name = "menuitem_help";
-            this.menuitem_help.Size = new System.Drawing.Size(61, 20);
-            this.menuitem_help.Text = "Help(&H)";
-            // 
-            // menuitem_about
-            // 
-            this.menuitem_about.Name = "menuitem_about";
-            this.menuitem_about.Size = new System.Drawing.Size(180, 22);
-            this.menuitem_about.Text = "About";
-            this.menuitem_about.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
+            this.menuitem_tooltipFont.Name = "menuitem_tooltipFont";
+            this.menuitem_tooltipFont.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_tooltipFont.Text = "Set Toolltip Font";
+            this.menuitem_tooltipFont.Click += new System.EventHandler(this.menuitem_tooltipFont_Click);
             // 
             // menuitem_tools
             // 
@@ -194,7 +190,7 @@ namespace DataEditorX
             // 
             this.menuitem_testlua.Name = "menuitem_testlua";
             this.menuitem_testlua.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.menuitem_testlua.Size = new System.Drawing.Size(180, 22);
+            this.menuitem_testlua.Size = new System.Drawing.Size(164, 22);
             this.menuitem_testlua.Text = "Syntax Check";
             this.menuitem_testlua.Click += new System.EventHandler(this.menuitem_testlua_Click);
             // 
@@ -202,19 +198,34 @@ namespace DataEditorX
             // 
             this.menuitem_effectcreator.Name = "menuitem_effectcreator";
             this.menuitem_effectcreator.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.menuitem_effectcreator.Size = new System.Drawing.Size(180, 22);
+            this.menuitem_effectcreator.Size = new System.Drawing.Size(164, 22);
             this.menuitem_effectcreator.Text = "Effect Creator";
             this.menuitem_effectcreator.Visible = false;
             this.menuitem_effectcreator.Click += new System.EventHandler(this.effectCreatorToolStripMenuItem_Click);
+            // 
+            // menuitem_help
+            // 
+            this.menuitem_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuitem_about});
+            this.menuitem_help.Name = "menuitem_help";
+            this.menuitem_help.Size = new System.Drawing.Size(61, 20);
+            this.menuitem_help.Text = "Help(&H)";
+            // 
+            // menuitem_about
+            // 
+            this.menuitem_about.Name = "menuitem_about";
+            this.menuitem_about.Size = new System.Drawing.Size(107, 22);
+            this.menuitem_about.Text = "About";
+            this.menuitem_about.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
             // tb_input
             // 
             this.tb_input.BackColor = System.Drawing.SystemColors.Control;
             this.tb_input.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tb_input.Location = new System.Drawing.Point(0, 394);
+            this.tb_input.Location = new System.Drawing.Point(0, 486);
             this.tb_input.Margin = new System.Windows.Forms.Padding(0);
             this.tb_input.Name = "tb_input";
-            this.tb_input.Size = new System.Drawing.Size(514, 21);
+            this.tb_input.Size = new System.Drawing.Size(625, 21);
             this.tb_input.TabIndex = 1;
             this.tb_input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Tb_inputKeyDown);
             // 
@@ -223,9 +234,9 @@ namespace DataEditorX
             this.documentMap1.BackColor = System.Drawing.Color.DimGray;
             this.documentMap1.Dock = System.Windows.Forms.DockStyle.Right;
             this.documentMap1.ForeColor = System.Drawing.Color.Maroon;
-            this.documentMap1.Location = new System.Drawing.Point(514, 24);
+            this.documentMap1.Location = new System.Drawing.Point(625, 24);
             this.documentMap1.Name = "documentMap1";
-            this.documentMap1.Size = new System.Drawing.Size(191, 391);
+            this.documentMap1.Size = new System.Drawing.Size(191, 483);
             this.documentMap1.TabIndex = 5;
             this.documentMap1.Target = null;
             this.documentMap1.Text = "documentMap1";
@@ -236,15 +247,29 @@ namespace DataEditorX
             this.host.Dock = System.Windows.Forms.DockStyle.Fill;
             this.host.Location = new System.Drawing.Point(0, 24);
             this.host.Name = "host";
-            this.host.Size = new System.Drawing.Size(514, 370);
+            this.host.Size = new System.Drawing.Size(625, 462);
             this.host.TabIndex = 0;
             this.host.Child = this.editor;
+            // 
+            // lbTooltip
+            // 
+            this.lbTooltip.AutoSize = true;
+            this.lbTooltip.BackColor = System.Drawing.SystemColors.Desktop;
+            this.lbTooltip.Font = new System.Drawing.Font("宋体", 10F);
+            this.lbTooltip.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbTooltip.Location = new System.Drawing.Point(556, 230);
+            this.lbTooltip.MaximumSize = new System.Drawing.Size(400, 0);
+            this.lbTooltip.Name = "lbTooltip";
+            this.lbTooltip.Size = new System.Drawing.Size(0, 14);
+            this.lbTooltip.TabIndex = 6;
+            this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
             // 
             // CodeEditForm_Avalon
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(705, 415);
+            this.ClientSize = new System.Drawing.Size(816, 507);
+            this.Controls.Add(this.lbTooltip);
             this.Controls.Add(this.host);
             this.Controls.Add(this.tb_input);
             this.Controls.Add(this.documentMap1);
@@ -260,6 +285,7 @@ namespace DataEditorX
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnDragDtop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragEnter);
             this.Enter += new System.EventHandler(this.CodeEditFormEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CodeEditForm_Avalon_KeyDown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -267,7 +293,7 @@ namespace DataEditorX
 
         }
 
-        string sep = "()[]{}., :\t\n";
+        const string sep = "+-*/()[]{}., :\t\n";
 
         CompletionWindow completionWindowUse = null;
         int lastOffset = 0;
@@ -275,7 +301,16 @@ namespace DataEditorX
         {
             // Open code completion after the user has pressed dot:
             completionWindowUse = new CompletionWindow(editor.TextArea);
+            completionWindowUse.Closed += delegate
+            {
+                completionWindowUse = null;
+            };
+            completionWindowUse.CompletionList.ListBox.SelectionChanged += ListBox_SelectionChanged;
             completionWindowUse.StartOffset = lastOffset;
+            if (completionWindowUse.EndOffset < completionWindowUse.StartOffset)
+            {
+                completionWindowUse.EndOffset = completionWindowUse.StartOffset;
+            }
             IList<ICompletionData> data = completionWindowUse.CompletionList.CompletionData;
             string find = editor.Document.GetText(lastOffset, completionWindowUse.EndOffset - completionWindowUse.StartOffset);
             if (string.IsNullOrEmpty(find))
@@ -292,12 +327,35 @@ namespace DataEditorX
             if (data.Count > 0)
             {
                 completionWindowUse.Show();
+                string find2 = data[0].Text;
+                var ePos = editor.TextArea.Caret.CalculateCaretRectangle();
+                if (tooltipDic.ContainsKey(find2))
+                {
+                    lbTooltip.Text = find2 + "\n" + tooltipDic[find2];
+                    lbTooltip.Location = new System.Drawing.Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
+                }
                 completionWindowUse.Closed += delegate {
                     completionWindowUse = null;
                 };
             }
         }
-        CompletionWindow completionWindow = null;
+
+        private void ListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            CompletionListBox lb = (CompletionListBox)sender;
+            if (lb.SelectedItem == null)
+            {
+                return;
+            }
+            string find = (lb.SelectedItem as YGOProAutoCompletion).Text;
+            var ePos = editor.TextArea.Caret.CalculateCaretRectangle();
+            if (tooltipDic.ContainsKey(find))
+            {
+                lbTooltip.Text = find + "\n" + tooltipDic[find];
+                lbTooltip.Location = new System.Drawing.Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
+            }
+        }
+
         private void editor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
         {
             if (!char.IsLetterOrDigit(e.Text[0]))
@@ -324,7 +382,7 @@ namespace DataEditorX
             }
         }
 
-        public class YGOProAutoCompletion : ICompletionData
+        internal class YGOProAutoCompletion : ICompletionData
         {
             public YGOProAutoCompletion(string text, string description)
             {
@@ -383,5 +441,7 @@ namespace DataEditorX
         private System.Windows.Forms.ToolStripMenuItem menuitem_effectcreator;
         private ElementHost host;
         ICSharpCode.AvalonEdit.TextEditor editor;
+        private Label lbTooltip;
+        private ToolStripMenuItem menuitem_tooltipFont;
     }
 }
