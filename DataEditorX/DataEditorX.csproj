@@ -145,7 +145,7 @@
     <Compile Include="Common\User32.cs" />
     <Compile Include="Common\ZipStorer.cs" />
     <Compile Include="Common\Area.cs" />
-    <Compile Include="Config\MyConfig.cs" />
+    <Compile Include="Config\DEXConfig.cs" />
     <Compile Include="Core\Card.cs" />
     <Compile Include="Core\Info\CardAttribute.cs" />
     <Compile Include="Core\CardEdit.cs" />
