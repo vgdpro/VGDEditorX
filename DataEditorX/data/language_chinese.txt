@@ -42,6 +42,7 @@ CodeEditForm_Avalon.mainMenu.menuitem_about	关于
 CodeEditForm_Avalon.mainMenu.menuitem_tools	工具(&T)
 CodeEditForm_Avalon.mainMenu.menuitem_testlua	语法错误检查
 CodeEditForm_Avalon.mainMenu.menuitem_effectcreator	效果生成器
+CodeEditForm_Avalon.mainMenu.menuitem_CEFont	设置CodeEditor字体
 #
 DataEditForm.pl_bottom.btn_img	导入图片
 DataEditForm.pl_main.splitContainer..lb_types	卡片类型
