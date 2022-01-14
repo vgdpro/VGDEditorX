@@ -222,7 +222,7 @@ namespace DataEditorX.Core
         /// <returns>结果</returns>
         public bool Equals(Card other)
         {
-            bool equalBool=this.EqualsData(other);
+            bool equalBool = this.EqualsData(other);
             if (!equalBool)
             {
                 return false;

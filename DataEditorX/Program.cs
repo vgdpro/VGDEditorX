@@ -20,14 +20,14 @@ namespace DataEditorX
         private static void Main(string[] args)
         {
             string arg = (args.Length > 0) ? args[0] : "";
-            if (arg == MyConfig.TAG_SAVE_LAGN || arg == MyConfig.TAG_SAVE_LAGN2)
+            if (arg == DEXConfig.TAG_SAVE_LAGN || arg == DEXConfig.TAG_SAVE_LAGN2)
             {
                 //保存语言
                 SaveLanguage();
                 MessageBox.Show("Save Language OK.");
                 Environment.Exit(1);
             }
-            if (MyConfig.OpenOnExistForm(arg))//在已经存在的窗口打开文件
+            if (DEXConfig.OpenOnExistForm(arg))//在已经存在的窗口打开文件
             {
                 Environment.Exit(1);
             }
@@ -39,15 +39,15 @@ namespace DataEditorX
                 //设置将要打开的文件
                 mainForm.SetOpenFile(arg);
                 //数据目录
-                mainForm.SetDataPath(MyPath.Combine(Application.StartupPath, MyConfig.TAG_DATA));
+                mainForm.SetDataPath(MyPath.Combine(Application.StartupPath, DEXConfig.TAG_DATA));
 
                 Application.Run(mainForm);
             }
         }
         static void SaveLanguage()
         {
-            string datapath = MyPath.Combine(Application.StartupPath, MyConfig.TAG_DATA);
-            string conflang = MyConfig.GetLanguageFile(datapath);
+            string datapath = MyPath.Combine(Application.StartupPath, DEXConfig.TAG_DATA);
+            string conflang = DEXConfig.GetLanguageFile(datapath);
             LanguageHelper.LoadFormLabels(conflang);
             LanguageHelper langhelper = new LanguageHelper();
             MainForm form1 = new MainForm();

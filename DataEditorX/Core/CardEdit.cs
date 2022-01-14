@@ -334,7 +334,7 @@ namespace DataEditorX.Core
             {
                 if (openinthis)//是否用本程序打开
                 {
-                    MyConfig.OpenFileInThis(lua);
+                    DEXConfig.OpenFileInThis(lua);
                 }
                 else
                 {

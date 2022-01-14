@@ -78,6 +78,8 @@ namespace DataEditorX
             this.dockPanel.Size = new System.Drawing.Size(992, 725);
             this.dockPanel.TabIndex = 0;
             this.dockPanel.Theme = this.theme;
+            this.dockPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.dockPanel_DragDrop);
+            this.dockPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.dockPanel_DragEnter);
             // 
             // mainMenu
             // 
@@ -277,6 +279,7 @@ namespace DataEditorX
             // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(992, 749);

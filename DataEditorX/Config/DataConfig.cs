@@ -18,7 +18,7 @@ namespace DataEditorX.Config
     {
         public DataConfig()
         {
-            this.InitMember(MyPath.Combine(Application.StartupPath, MyConfig.TAG_CARDINFO + ".txt"));
+            this.InitMember(MyPath.Combine(Application.StartupPath, DEXConfig.TAG_CARDINFO + ".txt"));
         }
         public DataConfig(string conf)
         {
@@ -45,14 +45,14 @@ namespace DataEditorX.Config
             }
             //提取内容
             string text = File.ReadAllText(conf);
-            this.dicCardRules = DataManager.Read(text, MyConfig.TAG_RULE);
-            this.dicSetnames = DataManager.Read(text, MyConfig.TAG_SETNAME);
-            this.dicCardTypes = DataManager.Read(text, MyConfig.TAG_TYPE);
-            this.dicLinkMarkers = DataManager.Read(text, MyConfig.TAG_MARKER);
-            this.dicCardcategorys = DataManager.Read(text, MyConfig.TAG_CATEGORY);
-            this.dicCardAttributes = DataManager.Read(text, MyConfig.TAG_ATTRIBUTE);
-            this.dicCardRaces = DataManager.Read(text, MyConfig.TAG_RACE);
-            this.dicCardLevels = DataManager.Read(text, MyConfig.TAG_LEVEL);
+            this.dicCardRules = DataManager.Read(text, DEXConfig.TAG_RULE);
+            this.dicSetnames = DataManager.Read(text, DEXConfig.TAG_SETNAME);
+            this.dicCardTypes = DataManager.Read(text, DEXConfig.TAG_TYPE);
+            this.dicLinkMarkers = DataManager.Read(text, DEXConfig.TAG_MARKER);
+            this.dicCardcategorys = DataManager.Read(text, DEXConfig.TAG_CATEGORY);
+            this.dicCardAttributes = DataManager.Read(text, DEXConfig.TAG_ATTRIBUTE);
+            this.dicCardRaces = DataManager.Read(text, DEXConfig.TAG_RACE);
+            this.dicCardLevels = DataManager.Read(text, DEXConfig.TAG_LEVEL);
 
         }
         /// <summary>

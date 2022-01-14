@@ -10,22 +10,21 @@ using DataEditorX.Controls;
 using DataEditorX.Core;
 using DataEditorX.Language;
 using FastColoredTextBoxNS;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ICSharpCode.AvalonEdit.Search;
 using Neo.IronLua;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.Xml;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Search;
-using System.Windows.Threading;
-using System.Text.RegularExpressions;
-using ICSharpCode.AvalonEdit.CodeCompletion;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace DataEditorX
 {
@@ -60,17 +59,36 @@ namespace DataEditorX
             editor.TextArea.TextEntered += editor_TextArea_TextEntered;
             editor.TextArea.TextEntering += editor_TextArea_TextEntering;
             editor.PreviewKeyDown += TextArea_KeyDown;
-            //editor.TextArea.KeyDown += TextArea_KeyDown;
-            //editor.KeyDown += TextArea_KeyDown;
             editor.TextChanged += Editor_TextChanged;
             editor.MouseMove += Editor_MouseMove;
-
-            editor.FontFamily = new System.Windows.Media.FontFamily(MyConfig.TAG_FONT_NAME);
-            editor.FontSize = MyConfig.ReadFloat(MyConfig.TAG_FONT_SIZE, (float)editor.FontSize);
-            editor.WordWrap = MyConfig.ReadBoolean(MyConfig.TAG_WORDWRAP);
+            editor.PreviewMouseWheel += Editor_MouseWheel;
+            editor.FontFamily = new System.Windows.Media.FontFamily(DEXConfig.ReadString(DEXConfig.TAG_FONT_NAME));
+            editor.FontSize = DEXConfig.ReadFloat(DEXConfig.TAG_FONT_SIZE, (float)editor.FontSize);
+            editor.TextArea.FontFamily = editor.FontFamily;
+            editor.TextArea.FontSize = editor.FontSize;
+            editor.WordWrap = DEXConfig.ReadBoolean(DEXConfig.TAG_WORDWRAP);
             editor.Background = System.Windows.Media.Brushes.Black;
             editor.Foreground = System.Windows.Media.Brushes.GhostWhite;
             this.RefreshHighlighting();
+        }
+
+        private void Editor_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                double add = editor.TextArea.FontSize + (e.Delta > 0 ? 1 : -1);
+                if (add > 100)
+                {
+                    add = 100;
+                }
+                if (add < 8)
+                {
+                    add = 8;
+                }
+                editor.TextArea.FontSize = add;
+                editor.FontSize = add;
+                DEXConfig.Save(DEXConfig.TAG_FONT_SIZE, ((int)add).ToString());
+            }
         }
 
         private void Editor_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -175,21 +193,6 @@ namespace DataEditorX
             }
             return -1;
         }
-        private int FindXshdColorByName(XshdSyntaxDefinition definition, string name)
-        {
-            if (definition == null)
-            {
-                return -1;
-            }
-            for (int i = 0; i < definition.Elements.Count; i++)
-            {
-                if (definition.Elements[i] is XshdRuleSet && definition.Elements[i] != null && (definition.Elements[i] as XshdRuleSet).Name == null)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
         private void RefreshHighlighting()
         {
             using (XmlReader reader = new XmlTextReader("data\\avalon.xshd"))
@@ -200,19 +203,25 @@ namespace DataEditorX
                     string cName = this.Text.Substring(0, this.Text.Length - 4);
                     var cRule = new XshdKeywords();
                     cRule.Words.Add(cName);
-                    XshdColor color = new XshdColor();
-                    color.Name = "cFunction";
-                    color.Foreground = new SimpleHighlightingBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x92, 0x1A, 0xFF));
-                    color.FontWeight = System.Windows.FontWeights.Bold;
+                    XshdColor color = new XshdColor
+                    {
+                        Name = "cFunction",
+                        Foreground = new SimpleHighlightingBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x92, 0x1A, 0xFF)),
+                        FontWeight = System.Windows.FontWeights.Bold
+                    };
                     cRule.ColorReference = new XshdReference<XshdColor>(color);
                     (gLua.Elements[this.FindMainRuleSetIndex(gLua)] as XshdRuleSet).Elements.Insert(0, cRule);
 
-                    var cRule2 = new XshdRule();
-                    cRule2.Regex = @"\b(" + cName + @"\.[A-Za-z0-9_]+)";
-                    XshdColor color2 = new XshdColor();
-                    color2.Name = "cFunction2";
-                    color2.Foreground = new SimpleHighlightingBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x92, 0x1A, 0xFF));
-                    color2.FontWeight = System.Windows.FontWeights.Bold;
+                    var cRule2 = new XshdRule
+                    {
+                        Regex = @"\b(" + cName + @"\.[A-Za-z0-9_]+)"
+                    };
+                    XshdColor color2 = new XshdColor
+                    {
+                        Name = "cFunction2",
+                        Foreground = new SimpleHighlightingBrush(System.Windows.Media.Color.FromArgb(0xFF, 0x92, 0x1A, 0xFF)),
+                        FontWeight = System.Windows.FontWeights.Bold
+                    };
                     cRule2.ColorReference = new XshdReference<XshdColor>(color2);
                     (gLua.Elements[this.FindMainRuleSetIndex(gLua)] as XshdRuleSet).Elements.Insert(0, cRule2);
                 }
@@ -223,11 +232,7 @@ namespace DataEditorX
         internal void InitTooltip(CodeConfig codecfg)
         {
             this.tooltipDic = codecfg.TooltipDic;
-            foreach(var item in this.tooltipDic)
-            {
-                AutocompleteItem it = new AutocompleteItem();
-                this.items = codecfg.Items;
-            }
+            this.items = codecfg.Items;
         }
         #endregion
 
@@ -250,7 +255,7 @@ namespace DataEditorX
         }
         public bool Save()
         {
-            return savefile(string.IsNullOrEmpty(nowFile));
+            return SaveFile(string.IsNullOrEmpty(nowFile));
         }
         public bool Open(string file)
         {
@@ -268,10 +273,14 @@ namespace DataEditorX
                     //(this.fctb.SyntaxHighlighter as MySyntaxHighlighter).cCode
                     //    = fi.Name.Substring(0, fi.Name.Length - 4);
                 }
-                string cdb = MyPath.Combine(
-                    Path.GetDirectoryName(file), "../cards.cdb");
-                //SetCardDB(cdb);//后台加载卡片数据
                 editor.Text = File.ReadAllText(file, new UTF8Encoding(false));
+                Regex regex = new Regex(@"c([0-9]+)\.lua");
+                var match = regex.Match(fi.Name.ToLower());
+                if (match.Success)
+                {
+                    string code = match.Groups[1].Value;
+                    functionCompletions.Add(new FunctionParamsAutoCompletion($"e1=Effect.CreateEffect(c)\n\te1:SetType(EFFECT_TYPE_)\n\te1:SetCode()\n\te1:SetCategory(CATEGORY_)\n\te1:SetRange(LOCATION_)\n\te1:SetDescription(aux.Stringid({code},0))\n\te1:SetCondition(c{code}.con)\n\te1:SetProperty(EFFECT_FLAG_)\n\te1:SetCost(c{code}.cost)\n\te1:SetTarget(c{code}.tg)\n\te1:SetOperation(c{code}.op)\n\tc:RegisterEffect(e1)", "效果模板", 2));
+                }
                 oldtext = editor.Text;
                 this.SetTitle();
                 this.RefreshHighlighting();
@@ -380,7 +389,7 @@ namespace DataEditorX
         #endregion
 
         #region 保存文件
-        bool savefile(bool saveas)
+        bool SaveFile(bool saveas)
         {
             string alltext = this.editor.Text;
             if (!tabisspaces)
@@ -415,7 +424,7 @@ namespace DataEditorX
 
         public bool SaveAs()
         {
-            return savefile(true);
+            return SaveFile(true);
         }
 
         void SaveToolStripMenuItemClick(object sender, EventArgs e)
@@ -443,33 +452,23 @@ namespace DataEditorX
                 tb_input.Visible = true;
             }
         }
-        //如果是作为mdi，则隐藏菜单
-        void HideMenu()
-        {
-            if (MdiParent == null)
-            {
-                return;
-            }
-
-            mainMenu.Visible = false;
-            menuitem_file.Visible = false;
-            menuitem_file.Enabled = false;
-        }
 
         void CodeEditFormLoad(object sender, EventArgs e)
         {
-            ICSharpCode.AvalonEdit.TextEditor editor = new ICSharpCode.AvalonEdit.TextEditor();
-            ICSharpCode.AvalonEdit.Rendering.TextView eView = new ICSharpCode.AvalonEdit.Rendering.TextView();
             Font f = new Font("微软雅黑", 14, FontStyle.Bold);
-            string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
+            string fontJson = DEXConfig.ReadString(DEXConfig.TOOLTIP_FONT);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             try
             {
                 f = jss.Deserialize<FontHelper>(fontJson).ToFont();
             }
-            catch { }
+            catch 
+            {
+                DEXConfig.Save(DEXConfig.TOOLTIP_FONT, jss.Serialize(f));
+            }
             lbTooltip.Font = f;
         }
+
         SearchPanel sp = null;
         void Menuitem_findClick(object sender, EventArgs e)
         {
@@ -531,8 +530,10 @@ namespace DataEditorX
         {
             string text = editor.Text;
             string findStr = frForm.txtFind.Text;
-            var rtxt = new RichTextBox();
-            rtxt.Text = text;
+            var rtxt = new RichTextBox
+            {
+                Text = text
+            };
 
             if (findStart < 0)
             {
@@ -544,7 +545,7 @@ namespace DataEditorX
                 var line = editor.Document.GetLineByOffset(findStart).LineNumber;
                 editor.ScrollTo(line, 0);
                 editor.Select(findStart, findStr.Length);
-                findStart = findStart + findStr.Length;
+                findStart += findStr.Length;
             }
         }
         void QuitToolStripMenuItemClick(object sender, EventArgs e)
@@ -594,9 +595,11 @@ namespace DataEditorX
                         list.Add(item);
                     }
                 }
-                completionWindowUse = new CompletionWindow(editor.TextArea);
-                completionWindowUse.StartOffset = editor.CaretOffset;
-                completionWindowUse.EndOffset = editor.CaretOffset;
+                completionWindowUse = new CompletionWindow(editor.TextArea)
+                {
+                    StartOffset = editor.CaretOffset,
+                    EndOffset = editor.CaretOffset
+                };
                 IList<ICompletionData> data = completionWindowUse.CompletionList.CompletionData;
                 if (string.IsNullOrEmpty(key))
                 {
@@ -619,7 +622,8 @@ namespace DataEditorX
                         lbTooltip.Text = find2 + "\n" + tooltipDic[find2];
                         lbTooltip.Location = new Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
                     }
-                    completionWindowUse.Closed += delegate {
+                    completionWindowUse.Closed += delegate
+                    {
                         completionWindowUse = null;
                     };
                 }
@@ -722,12 +726,11 @@ namespace DataEditorX
         private void menuitem_tooltipFont_Click(object sender, EventArgs e)
         {
             FontDialog fd = new FontDialog();
-            string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             fd.Font = lbTooltip.Font;
             if (fd.ShowDialog() == DialogResult.OK)
             {
-                Common.XMLReader.Save(MyConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
+                Common.XMLReader.Save(DEXConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
                 lbTooltip.Font = fd.Font;
             }
         }
@@ -762,6 +765,25 @@ namespace DataEditorX
         private void CodeEditForm_Avalon_KeyDown(object sender, KeyEventArgs e)
         {
             ;
+        }
+
+        private void setCodeEditorFontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FontDialog fd = new FontDialog();
+            fd.MaxSize = 100;
+            fd.MinSize = 8;
+            fd.Font = new Font(DEXConfig.ReadString(DEXConfig.TAG_FONT_NAME), (float)editor.FontSize);
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    editor.TextArea.FontFamily = new System.Windows.Media.FontFamily(fd.Font.FontFamily.Name);
+                    editor.TextArea.FontSize = fd.Font.Size;
+                    DEXConfig.Save(DEXConfig.TAG_FONT_NAME, fd.Font.FontFamily.Name);
+                    DEXConfig.Save(DEXConfig.TAG_FONT_SIZE, fd.Font.Size.ToString());
+                }
+                catch { }
+            }
         }
     }
 }

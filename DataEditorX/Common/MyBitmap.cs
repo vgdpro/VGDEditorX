@@ -125,7 +125,7 @@ namespace DataEditorX.Common
         {
             if (bitmap != null)
             {
-                string path=Path.GetDirectoryName(filename);
+                string path = Path.GetDirectoryName(filename);
                 if (!Directory.Exists(path))//创建文件夹
                 {
                     Directory.CreateDirectory(path);

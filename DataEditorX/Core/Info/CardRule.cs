@@ -6,7 +6,7 @@ namespace DataEditorX.Core.Info
         /// <summary>无</summary>
         NONE = 0,
         /// <summary>OCG</summary>
-        OCG =1,
+        OCG = 1,
         /// <summary>TCG</summary>
         TCG = 2,
         /// <summary>OT</summary>

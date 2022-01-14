@@ -15,58 +15,58 @@ namespace DataEditorX.Core.Info
     public enum CardType : long
     {
         ///<summary>怪兽卡</summary>
-        TYPE_MONSTER        =0x1,
+        TYPE_MONSTER = 0x1,
         ///<summary>魔法卡</summary>
-        TYPE_SPELL          =0x2,
+        TYPE_SPELL = 0x2,
         ///<summary>陷阱卡</summary>
-        TYPE_TRAP           =0x4,
+        TYPE_TRAP = 0x4,
 
         ///<summary>通常</summary>
-        TYPE_NORMAL         =0x10,
+        TYPE_NORMAL = 0x10,
         ///<summary>效果</summary>
-        TYPE_EFFECT         =0x20,
+        TYPE_EFFECT = 0x20,
         ///<summary>融合</summary>
-        TYPE_FUSION         =0x40,
+        TYPE_FUSION = 0x40,
         ///<summary>仪式</summary>
-        TYPE_RITUAL         =0x80,
+        TYPE_RITUAL = 0x80,
         ///<summary>陷阱怪兽</summary>
-        TYPE_TRAPMONSTER    =0x100,
+        TYPE_TRAPMONSTER = 0x100,
         ///<summary>灵魂</summary>
-        TYPE_SPIRIT         =0x200,
+        TYPE_SPIRIT = 0x200,
         ///<summary>同盟</summary>
-        TYPE_UNION          =0x400,
+        TYPE_UNION = 0x400,
         ///<summary>二重</summary>
-        TYPE_DUAL           =0x800,
+        TYPE_DUAL = 0x800,
         ///<summary>调整</summary>
-        TYPE_TUNER          =0x1000,
+        TYPE_TUNER = 0x1000,
         ///<summary>同调</summary>
-        TYPE_SYNCHRO        =0x2000,
+        TYPE_SYNCHRO = 0x2000,
         ///<summary>衍生物</summary>
-        TYPE_TOKEN          =0x4000,
+        TYPE_TOKEN = 0x4000,
 
         ///<summary>速攻</summary>
-        TYPE_QUICKPLAY      =0x10000,
+        TYPE_QUICKPLAY = 0x10000,
         ///<summary>永续</summary>
-        TYPE_CONTINUOUS     =0x20000,
+        TYPE_CONTINUOUS = 0x20000,
         ///<summary>装备</summary>
-        TYPE_EQUIP          =0x40000,
+        TYPE_EQUIP = 0x40000,
         ///<summary>场地</summary>
-        TYPE_FIELD          =0x80000,
+        TYPE_FIELD = 0x80000,
         ///<summary>反击</summary>
-        TYPE_COUNTER        =0x100000,
+        TYPE_COUNTER = 0x100000,
 
         ///<summary>反转</summary>
-        TYPE_FLIP           =0x200000,
+        TYPE_FLIP = 0x200000,
         ///<summary>卡通</summary>
-        TYPE_TOON           =0x400000,
+        TYPE_TOON = 0x400000,
         ///<summary>超量</summary>
-        TYPE_XYZ            =0x800000,
+        TYPE_XYZ = 0x800000,
         ///<summary>灵摆</summary>
-        TYPE_PENDULUM       =0x1000000,
+        TYPE_PENDULUM = 0x1000000,
         ///<summary>特殊召唤</summary>
-        TYPE_SPSUMMON       =0x2000000,
+        TYPE_SPSUMMON = 0x2000000,
         ///<summary>连接</summary>
-        TYPE_LINK           =0x4000000,
+        TYPE_LINK = 0x4000000,
 
     }
     public static class CardTypes
@@ -160,7 +160,7 @@ namespace DataEditorX.Core.Info
         public static CardType[] GetMonsterTypes(long type, bool no10 = false)
         {
             var list = new List<CardType>(5);
-            var typeList=new List<CardType[]>(5);
+            var typeList = new List<CardType[]>(5);
             if (no10)
             {
                 typeList.Add(TYPE1_10);

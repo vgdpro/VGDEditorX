@@ -36,7 +36,7 @@ namespace DataEditorX.Core
                 return "common";
             }
 
-            string rarity=this.rarity.Trim().ToLower();
+            string rarity = this.rarity.Trim().ToLower();
             if (rarity.Equals("common") || rarity.Equals("short print"))
             {
                 return "common";

@@ -71,6 +71,7 @@ namespace DataEditorX
             this.host = new System.Windows.Forms.Integration.ElementHost();
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
             this.lbTooltip = new System.Windows.Forms.Label();
+            this.setCodeEditorFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,7 +141,8 @@ namespace DataEditorX
             this.menuitem_showinput,
             this.menuitem_find,
             this.menuitem_replace,
-            this.menuitem_tooltipFont});
+            this.menuitem_tooltipFont,
+            this.setCodeEditorFontToolStripMenuItem});
             this.menuitem_setting.Name = "menuitem_setting";
             this.menuitem_setting.Size = new System.Drawing.Size(75, 20);
             this.menuitem_setting.Text = "Settings(&S)";
@@ -190,7 +192,7 @@ namespace DataEditorX
             // 
             this.menuitem_testlua.Name = "menuitem_testlua";
             this.menuitem_testlua.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.menuitem_testlua.Size = new System.Drawing.Size(164, 22);
+            this.menuitem_testlua.Size = new System.Drawing.Size(180, 22);
             this.menuitem_testlua.Text = "Syntax Check";
             this.menuitem_testlua.Click += new System.EventHandler(this.menuitem_testlua_Click);
             // 
@@ -198,7 +200,7 @@ namespace DataEditorX
             // 
             this.menuitem_effectcreator.Name = "menuitem_effectcreator";
             this.menuitem_effectcreator.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.menuitem_effectcreator.Size = new System.Drawing.Size(164, 22);
+            this.menuitem_effectcreator.Size = new System.Drawing.Size(180, 22);
             this.menuitem_effectcreator.Text = "Effect Creator";
             this.menuitem_effectcreator.Visible = false;
             this.menuitem_effectcreator.Click += new System.EventHandler(this.effectCreatorToolStripMenuItem_Click);
@@ -231,6 +233,7 @@ namespace DataEditorX
             // 
             // documentMap1
             // 
+            this.documentMap1.AllowDrop = true;
             this.documentMap1.BackColor = System.Drawing.Color.DimGray;
             this.documentMap1.Dock = System.Windows.Forms.DockStyle.Right;
             this.documentMap1.ForeColor = System.Drawing.Color.Maroon;
@@ -244,6 +247,7 @@ namespace DataEditorX
             // 
             // host
             // 
+            this.host.AllowDrop = true;
             this.host.Dock = System.Windows.Forms.DockStyle.Fill;
             this.host.Location = new System.Drawing.Point(0, 24);
             this.host.Name = "host";
@@ -263,6 +267,13 @@ namespace DataEditorX
             this.lbTooltip.Size = new System.Drawing.Size(0, 14);
             this.lbTooltip.TabIndex = 6;
             this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
+            // 
+            // setCodeEditorFontToolStripMenuItem
+            // 
+            this.setCodeEditorFontToolStripMenuItem.Name = "setCodeEditorFontToolStripMenuItem";
+            this.setCodeEditorFontToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.setCodeEditorFontToolStripMenuItem.Text = "Set CodeEditor Font";
+            this.setCodeEditorFontToolStripMenuItem.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
             // 
             // CodeEditForm_Avalon
             // 
@@ -297,10 +308,67 @@ namespace DataEditorX
 
         CompletionWindow completionWindowUse = null;
         int lastOffset = 0;
+        List<FunctionParamsAutoCompletion> functionCompletions = new List<FunctionParamsAutoCompletion>()
+        {
+            new FunctionParamsAutoCompletion("con(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 3),
+            new FunctionParamsAutoCompletion("cond(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 4),
+            new FunctionParamsAutoCompletion("cost(e,tp,eg,ep,ev,re,r,rp,chk)\n\nend", "cost默认参数", 4),
+            new FunctionParamsAutoCompletion("op(e,tp,eg,ep,ev,re,r,rp)\n\nend", "operation默认参数", 2),
+            new FunctionParamsAutoCompletion("tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)\n\nend", "target默认参数", 2),
+            new FunctionParamsAutoCompletion("filter(c,e,tp)\n\nend", "filter常用参数", 6),
+            new FunctionParamsAutoCompletion("con2(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 3),
+            new FunctionParamsAutoCompletion("cond2(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 4),
+            new FunctionParamsAutoCompletion("cost2(e,tp,eg,ep,ev,re,r,rp,chk)\n\nend", "cost默认参数", 4),
+            new FunctionParamsAutoCompletion("op2(e,tp,eg,ep,ev,re,r,rp)\n\nend", "operation默认参数", 2),
+            new FunctionParamsAutoCompletion("tg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)\n\nend", "target默认参数", 2),
+            new FunctionParamsAutoCompletion("filter2(c,e,tp)\n\nend", "filter常用参数", 6),
+            new FunctionParamsAutoCompletion("con3(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 3),
+            new FunctionParamsAutoCompletion("cond3(e,tp,eg,ep,ev,re,r,rp)\n\nend", "condition默认参数", 4),
+            new FunctionParamsAutoCompletion("cost3(e,tp,eg,ep,ev,re,r,rp,chk)\n\nend", "cost默认参数", 4),
+            new FunctionParamsAutoCompletion("op3(e,tp,eg,ep,ev,re,r,rp)\n\nend", "operation默认参数", 2),
+            new FunctionParamsAutoCompletion("tg3(e,tp,eg,ep,ev,re,r,rp,chk,chkc)\n\nend", "target默认参数", 2),
+            new FunctionParamsAutoCompletion("filter3(c,e,tp)\n\nend", "filter常用参数", 6),
+        };
         private void editor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            // Open code completion after the user has pressed dot:
+            if (sep.Contains(e.Text) || e.Text.Length > 1)
+            {
+                return;
+            }
+            IList<ICompletionData> data = new List<ICompletionData>();
+            string find = editor.Document.GetText(Math.Min(lastOffset, editor.Document.TextLength)
+                , Math.Max(0, editor.CaretOffset - lastOffset));
+            if (string.IsNullOrEmpty(find) || find.Length < 2)
+            {
+                return;
+            }
+            bool found = false;
+            foreach (var cp in functionCompletions)
+            {
+                if (find.EndsWith(cp.Text.Substring(0, cp.SuffixLength)))
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                find = find.ToLower();
+                foreach (var d in tooltipDic)
+                {
+                    if (d.Key.ToLower().StartsWith(find))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found)
+            {
+                return;
+            }
             completionWindowUse = new CompletionWindow(editor.TextArea);
+            data = completionWindowUse.CompletionList.CompletionData;
             completionWindowUse.Closed += delegate
             {
                 completionWindowUse = null;
@@ -311,15 +379,16 @@ namespace DataEditorX
             {
                 completionWindowUse.EndOffset = completionWindowUse.StartOffset;
             }
-            IList<ICompletionData> data = completionWindowUse.CompletionList.CompletionData;
-            string find = editor.Document.GetText(lastOffset, completionWindowUse.EndOffset - completionWindowUse.StartOffset);
-            if (string.IsNullOrEmpty(find))
+            foreach (var cp in functionCompletions)
             {
-                return;
+                if (find.EndsWith(cp.Text.Substring(0, cp.SuffixLength)))
+                {
+                    data.Add(cp);
+                }
             }
             foreach (var d in tooltipDic)
             {
-                if (d.Key.ToLower().StartsWith(find.ToLower()))
+                if (d.Key.ToLower().StartsWith(find))
                 {
                     data.Add(new YGOProAutoCompletion(d.Key, d.Value));
                 }
@@ -334,16 +403,52 @@ namespace DataEditorX
                     lbTooltip.Text = find2 + "\n" + tooltipDic[find2];
                     lbTooltip.Location = new System.Drawing.Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
                 }
-                completionWindowUse.Closed += delegate {
-                    completionWindowUse = null;
-                };
+            }
+        }
+        internal class FunctionParamsAutoCompletion : ICompletionData
+        {
+            public FunctionParamsAutoCompletion(string text, string description, int suffixLength)
+            {
+                this.Text = text;
+                this.SuffixLength = suffixLength;
+                _description = description;
+            }
+
+            public System.Windows.Media.ImageSource Image
+            {
+                get { return null; }
+            }
+
+            public string Text { get; private set; }
+            private string _description;
+
+            // Use this property if you want to show a fancy UIElement in the list.
+            public object Content
+            {
+                get { return this.Text; }
+            }
+
+            public object Description
+            {
+                get { return _description; }
+            }
+
+            public double Priority
+            {
+                get { return 0; }
+            }
+            public int SuffixLength = 0;
+            public void Complete(TextArea textArea, ISegment completionSegment,
+                EventArgs insertionRequestEventArgs)
+            {
+                textArea.Document.Replace(completionSegment.Offset + completionSegment.Length - SuffixLength, SuffixLength, this.Text);
             }
         }
 
         private void ListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             CompletionListBox lb = (CompletionListBox)sender;
-            if (lb.SelectedItem == null)
+            if (lb.SelectedItem == null || !(lb.SelectedItem is YGOProAutoCompletion))
             {
                 return;
             }
@@ -443,5 +548,6 @@ namespace DataEditorX
         ICSharpCode.AvalonEdit.TextEditor editor;
         private Label lbTooltip;
         private ToolStripMenuItem menuitem_tooltipFont;
+        private ToolStripMenuItem setCodeEditorFontToolStripMenuItem;
     }
 }

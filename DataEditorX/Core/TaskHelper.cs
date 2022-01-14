@@ -133,7 +133,7 @@ namespace DataEditorX.Core
         #region 检查更新
         public static void CheckVersion(bool showNew)
         {
-            string newver = CheckUpdate.GetNewVersion(MyConfig.ReadString(MyConfig.TAG_UPDATE_URL));
+            string newver = CheckUpdate.GetNewVersion(DEXConfig.ReadString(DEXConfig.TAG_UPDATE_URL));
             if (newver == CheckUpdate.DEFAULT)
             {   //检查失败
                 if (!showNew)
@@ -284,8 +284,8 @@ namespace DataEditorX.Core
                 return;
             }
 
-            string pack_db=MyPath.GetRealPath(MyConfig.ReadString("pack_db"));
-            bool rarity=MyConfig.ReadBoolean("mse_auto_rarity", false);
+            string pack_db = MyPath.GetRealPath(DEXConfig.ReadString("pack_db"));
+            bool rarity = DEXConfig.ReadBoolean("mse_auto_rarity", false);
 #if DEBUG
             MessageBox.Show("db = " + pack_db + ",auto rarity=" + rarity);
 #endif
@@ -325,7 +325,7 @@ namespace DataEditorX.Core
         public void SaveMSE(int num, string file, Card[] cards, string pack_db, bool rarity, bool isUpdate)
         {
             string setFile = file + ".txt";
-            Dictionary<Card, string> images = this.mseHelper.WriteSet(setFile, cards,pack_db,rarity);
+            Dictionary<Card, string> images = this.mseHelper.WriteSet(setFile, cards, pack_db, rarity);
             if (isUpdate)//仅更新文字
             {
                 return;
@@ -339,7 +339,7 @@ namespace DataEditorX.Core
                 zips.AddFile(setFile, "set", "");
                 foreach (Card c in images.Keys)
                 {
-                    string img=images[c];
+                    string img = images[c];
                     if (this.isCancel)
                     {
                         break;

@@ -54,7 +54,7 @@ namespace DataEditorX
             this.tCards = null;
             //数据目录
             this.datapath = datapath;
-            if (MyConfig.ReadBoolean(MyConfig.TAG_ASYNC))
+            if (DEXConfig.ReadBoolean(DEXConfig.TAG_ASYNC))
             {
                 //后台加载数据
                 this.bgWorker1.RunWorkerAsync();
@@ -76,16 +76,16 @@ namespace DataEditorX
         void Init()
         {
             //文件路径
-            this.conflang = MyConfig.GetLanguageFile(this.datapath);
+            this.conflang = DEXConfig.GetLanguageFile(this.datapath);
             //游戏数据,MSE数据
-            this.datacfg = new DataConfig(MyConfig.GetCardInfoFile(this.datapath));
+            this.datacfg = new DataConfig(DEXConfig.GetCardInfoFile(this.datapath));
             //初始化YGOUtil的数据
             YGOUtil.SetConfig(this.datacfg);
 
             //代码提示
-            string funtxt = MyPath.Combine(this.datapath, MyConfig.FILE_FUNCTION);
-            string conlua = MyPath.Combine(this.datapath, MyConfig.FILE_CONSTANT);
-            string confstring = MyPath.Combine(this.datapath, MyConfig.FILE_STRINGS);
+            string funtxt = MyPath.Combine(this.datapath, DEXConfig.FILE_FUNCTION);
+            string conlua = MyPath.Combine(this.datapath, DEXConfig.FILE_CONSTANT);
+            string confstring = MyPath.Combine(this.datapath, DEXConfig.FILE_STRINGS);
             this.codecfg = new CodeConfig();
             //添加函数
             this.codecfg.AddFunction(funtxt);
@@ -98,7 +98,7 @@ namespace DataEditorX
             this.codecfg.InitAutoMenus();
             this.history = new History(this);
             //读取历史记录
-            this.history.ReadHistory(MyPath.Combine(this.datapath, MyConfig.FILE_HISTORY));
+            this.history.ReadHistory(MyPath.Combine(this.datapath, DEXConfig.FILE_HISTORY));
             //加载多语言
             LanguageHelper.LoadFormLabels(this.conflang);
         }
@@ -158,8 +158,8 @@ namespace DataEditorX
         {
             switch (m.Msg)
             {
-                case MyConfig.WM_OPEN://处理消息
-                    string file = MyPath.Combine(Application.StartupPath, MyConfig.FILE_TEMP);
+                case DEXConfig.WM_OPEN://处理消息
+                    string file = MyPath.Combine(Application.StartupPath, DEXConfig.FILE_TEMP);
                     if (File.Exists(file))
                     {
                         this.Activate();
@@ -180,7 +180,7 @@ namespace DataEditorX
         //打开脚本
         void OpenScript(string file)
         {
-            if (MyConfig.ReadString(MyConfig.USE_EDITOR) == "Avalon")
+            if (DEXConfig.ReadString(DEXConfig.USE_EDITOR) == "Avalon")
             {
                 CodeEditForm_Avalon cf = new CodeEditForm_Avalon();
                 //设置界面语言
@@ -577,10 +577,27 @@ namespace DataEditorX
         }
         #endregion
 
+        private void dockPanel_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files != null)
+            {
+                foreach (string file in files)
+                {
+                    this.Open(file);
+                }
+            }
+        }
+
+        private void dockPanel_DragDrop(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             //检查更新
-            if (MyConfig.ReadBoolean(MyConfig.TAG_AUTO_CHECK_UPDATE))
+            if (DEXConfig.ReadBoolean(DEXConfig.TAG_AUTO_CHECK_UPDATE))
             {
                 Thread th = new Thread(this.CheckUpdate)
                 {

@@ -57,7 +57,7 @@ namespace DataEditorX.Controls
                 {
                     if (YGOUtil.IsScript(line))
                     {
-                        if (this.luahistory.Count < MyConfig.MAX_HISTORY
+                        if (this.luahistory.Count < DEXConfig.MAX_HISTORY
                             && this.luahistory.IndexOf(line) < 0)
                         {
                             this.luahistory.Add(line);
@@ -65,7 +65,7 @@ namespace DataEditorX.Controls
                     }
                     else
                     {
-                        if (this.cdbhistory.Count < MyConfig.MAX_HISTORY
+                        if (this.cdbhistory.Count < DEXConfig.MAX_HISTORY
                             && this.cdbhistory.IndexOf(line) < 0)
                         {
                             this.cdbhistory.Add(line);

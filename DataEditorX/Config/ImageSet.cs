@@ -21,20 +21,20 @@ namespace DataEditorX.Config
         //初始化
         void Init()
         {
-            this.normalArea = MyConfig.ReadArea(MyConfig.TAG_IMAGE_OTHER);
+            this.normalArea = DEXConfig.ReadArea(DEXConfig.TAG_IMAGE_OTHER);
 
-            this.xyzArea = MyConfig.ReadArea(MyConfig.TAG_IMAGE_XYZ);
+            this.xyzArea = DEXConfig.ReadArea(DEXConfig.TAG_IMAGE_XYZ);
 
-            this.pendulumArea = MyConfig.ReadArea(MyConfig.TAG_IMAGE_PENDULUM);
+            this.pendulumArea = DEXConfig.ReadArea(DEXConfig.TAG_IMAGE_PENDULUM);
 
-            int[] ints = MyConfig.ReadIntegers(MyConfig.TAG_IMAGE_SIZE, 4);
+            int[] ints = DEXConfig.ReadIntegers(DEXConfig.TAG_IMAGE_SIZE, 4);
 
             this.w = ints[0];
             this.h = ints[1];
             this.W = ints[2];
             this.H = ints[3];
 
-            this.quilty = MyConfig.ReadInteger(MyConfig.TAG_IMAGE_QUILTY, 95);
+            this.quilty = DEXConfig.ReadInteger(DEXConfig.TAG_IMAGE_QUILTY, 95);
         }
         /// <summary>
         /// jpeg质量

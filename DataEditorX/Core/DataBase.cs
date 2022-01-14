@@ -185,8 +185,8 @@ namespace DataEditorX.Core
         /// <param name="SQLs">SQL/密码语句集合集合</param>
         public static Card[] Read(string DB, bool reNewLine, params string[] SQLs)
         {
-            List<Card> list=new List<Card>();
-            List<long> idlist=new List<long>();
+            List<Card> list = new List<Card>();
+            List<long> idlist = new List<long>();
             if (File.Exists(DB) && SQLs != null)
             {
                 using (SQLiteConnection sqliteconn = new SQLiteConnection(@"Data Source=" + DB))
@@ -227,7 +227,7 @@ namespace DataEditorX.Core
                                 {
                                     while (reader.Read())
                                     {
-                                        Card c=ReadCard(reader,reNewLine);
+                                        Card c = ReadCard(reader, reNewLine);
                                         if (idlist.IndexOf(c.id) < 0)
                                         {//不存在，则添加
                                             idlist.Add(c.id);
@@ -346,7 +346,7 @@ namespace DataEditorX.Core
         }
         public static string GetSelectSQL(Card c)
         {
-            StringBuilder sb=new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("SELECT datas.*,texts.* FROM datas,texts WHERE datas.id=texts.id ");
             if (c == null)
             {
@@ -592,7 +592,7 @@ namespace DataEditorX.Core
 
         public static CardPack FindPack(string db, long id)
         {
-            CardPack cardpack=null;
+            CardPack cardpack = null;
             if (File.Exists(db) && id >= 0)
             {
                 using (SQLiteConnection sqliteconn = new SQLiteConnection(@"Data Source=" + db))

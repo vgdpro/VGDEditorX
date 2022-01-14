@@ -196,7 +196,7 @@ namespace System.IO.Compression
         /// <param name="_comment">Comment for stored file</param>        
         public void AddFile(string _pathname, string _filenameInZip, string _comment)
         {
-            Compression _method=Compression.Deflate;
+            Compression _method = Compression.Deflate;
             if (this.access == FileAccess.Read)
             {
                 throw new InvalidOperationException("Writing is not alowed");
@@ -244,7 +244,7 @@ namespace System.IO.Compression
             }
             else
             {
-                ZipFileEntry last = this.files[this.files.Count-1];
+                ZipFileEntry last = this.files[this.files.Count - 1];
                 _ = last.HeaderOffset + last.HeaderSize;
             }
 
@@ -345,7 +345,7 @@ namespace System.IO.Compression
                 ushort extraSize = BitConverter.ToUInt16(this.centralDirImage, pointer + 30);
                 ushort commentSize = BitConverter.ToUInt16(this.centralDirImage, pointer + 32);
                 uint headerOffset = BitConverter.ToUInt32(this.centralDirImage, pointer + 42);
-                uint headerSize = (uint)( 46 + filenameSize + extraSize + commentSize);
+                uint headerSize = (uint)(46 + filenameSize + extraSize + commentSize);
 
                 Encoding encoder = encodeUTF8 ? Encoding.UTF8 : _defaultEncoding;
 

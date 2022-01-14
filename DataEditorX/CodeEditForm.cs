@@ -54,15 +54,15 @@ namespace DataEditorX
             this.tooltipDic = new SortedList<string, string>();
             this.InitializeComponent();
             //设置字体，大小
-            string fontname = MyConfig.ReadString(MyConfig.TAG_FONT_NAME);
-            float fontsize = MyConfig.ReadFloat(MyConfig.TAG_FONT_SIZE, this.fctb.Font.Size);
+            string fontname = DEXConfig.ReadString(DEXConfig.TAG_FONT_NAME);
+            float fontsize = DEXConfig.ReadFloat(DEXConfig.TAG_FONT_SIZE, this.fctb.Font.Size);
             this.fctb.Font = new Font(fontname, fontsize);
-            if (MyConfig.ReadBoolean(MyConfig.TAG_IME))
+            if (DEXConfig.ReadBoolean(DEXConfig.TAG_IME))
             {
                 this.fctb.ImeMode = ImeMode.On;
             }
 
-            if (MyConfig.ReadBoolean(MyConfig.TAG_WORDWRAP))
+            if (DEXConfig.ReadBoolean(DEXConfig.TAG_WORDWRAP))
             {
                 this.fctb.WordWrap = true;
             }
@@ -71,7 +71,7 @@ namespace DataEditorX
                 this.fctb.WordWrap = false;
             }
 
-            if (MyConfig.ReadBoolean(MyConfig.TAG_TAB2SPACES))
+            if (DEXConfig.ReadBoolean(DEXConfig.TAG_TAB2SPACES))
             {
                 this.tabisspaces = true;
             }
@@ -406,18 +406,6 @@ namespace DataEditorX
                 this.tb_input.Visible = true;
             }
         }
-        //如果是作为mdi，则隐藏菜单
-        void HideMenu()
-        {
-            if (this.MdiParent == null)
-            {
-                return;
-            }
-
-            this.mainMenu.Visible = false;
-            this.menuitem_file.Visible = false;
-            this.menuitem_file.Enabled = false;
-        }
 
         void CodeEditFormLoad(object sender, EventArgs e)
         {
@@ -472,7 +460,7 @@ namespace DataEditorX
             if (e.KeyCode == Keys.Enter)
             {
                 string key = this.tb_input.Text;
-                List<AutocompleteItem> list =new List<AutocompleteItem>();
+                List<AutocompleteItem> list = new List<AutocompleteItem>();
                 foreach (AutocompleteItem item in this.items)
                 {
                     if (item.ToolTipText.Contains(key))
@@ -619,8 +607,8 @@ namespace DataEditorX
             {
                 return;
             }
-            string cCode = fn.Substring(0,fn.Length - 4);
-            bool error=false;
+            string cCode = fn.Substring(0, fn.Length - 4);
+            bool error = false;
             try
             {
                 Directory.SetCurrentDirectory(fi.DirectoryName);
@@ -683,8 +671,8 @@ namespace DataEditorX
         private void menuitem_tooltipFont_Click(object sender, EventArgs e)
         {
             FontDialog fd = new FontDialog();
-            string fontJson = MyConfig.ReadString(MyConfig.TOOLTIP_FONT);
-            Font f = new Font("微软雅黑",10);
+            string fontJson = DEXConfig.ReadString(DEXConfig.TOOLTIP_FONT);
+            Font f = new Font("微软雅黑", 10);
             JavaScriptSerializer jss = new JavaScriptSerializer();
             try
             {
@@ -694,7 +682,7 @@ namespace DataEditorX
             fd.Font = f;
             if (fd.ShowDialog() == DialogResult.OK)
             {
-                Common.XMLReader.Save(MyConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
+                Common.XMLReader.Save(DEXConfig.TOOLTIP_FONT, jss.Serialize(fd.Font));
                 this.fctb.lbTooltip.Font = fd.Font;
             }
         }

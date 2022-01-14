@@ -45,8 +45,8 @@ namespace DataEditorX
             {
                 return;
             }
-            char[] sepChars = new char[]{' ','\t','　'};
-            FileStream fs = new FileStream(config,FileMode.Open);
+            char[] sepChars = new char[] { ' ', '\t', '　' };
+            FileStream fs = new FileStream(config, FileMode.Open);
             StreamReader sr = new StreamReader(fs);
             string nowType = "";
             for (string line = sr.ReadLine(); line != null; line = sr.ReadLine())
@@ -65,7 +65,7 @@ namespace DataEditorX
                 {
                     continue;
                 }
-                string[] split = line.Split(sepChars,StringSplitOptions.RemoveEmptyEntries);
+                string[] split = line.Split(sepChars, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length == 2)
                 {
                     itemDic[nowType].Add(new EffectCreatorItem(split[0], split[1]));
