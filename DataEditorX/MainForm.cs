@@ -10,6 +10,7 @@ using DataEditorX.Controls;
 using DataEditorX.Core;
 using DataEditorX.Language;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -579,6 +580,11 @@ namespace DataEditorX
 
         private void dockPanel_DragEnter(object sender, DragEventArgs e)
         {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void dockPanel_DragDrop(object sender, DragEventArgs e)
+        {
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
             if (files != null)
             {
@@ -587,9 +593,51 @@ namespace DataEditorX
                     this.Open(file);
                 }
             }
+            else
+            {
+                string file = (string)e.Data.GetData(DataFormats.Text);
+                if (file != null && File.Exists(file))
+                {
+                    this.Open(file);
+                }
+            }
         }
 
-        private void dockPanel_DragDrop(object sender, DragEventArgs e)
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] drops = (string[])e.Data.GetData(DataFormats.FileDrop);
+            List<string> files = new List<string>();
+            if (drops == null)
+            {
+                string file = (string)e.Data.GetData(DataFormats.Text);
+                drops = new string[1] { file };
+            }
+            foreach (string file in drops)
+            {
+                if (Directory.Exists(file))
+                {
+                    files.AddRange(Directory.EnumerateFiles(file, "*.cdb", SearchOption.AllDirectories));
+                    files.AddRange(Directory.EnumerateFiles(file, "*.lua", SearchOption.AllDirectories));
+                }
+                else if (File.Exists(file))
+                {
+                    files.Add(file);
+                }
+            }
+            if (files.Count > 5)
+            {
+                if (!MyMsg.Question(LMSG.IfOpenLotsOfFile))
+                {
+                    return;
+                }
+            }
+            foreach (string file in files)
+            {
+                this.Open(file);
+            }
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
         }

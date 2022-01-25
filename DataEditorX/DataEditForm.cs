@@ -2210,11 +2210,12 @@ namespace DataEditorX
         private void OnDragDrop(object sender, DragEventArgs e)
         {
             string[] drops = (string[])e.Data.GetData(DataFormats.FileDrop);
+            List<string> files = new List<string>();
             if (drops == null)
             {
-                return;
+                string file = (string)e.Data.GetData(DataFormats.Text);
+                drops = new string[1] { file };
             }
-            List<string> files = new List<string>();
             foreach (string file in drops)
             {
                 if (Directory.Exists(file))
@@ -2222,7 +2223,10 @@ namespace DataEditorX
                     files.AddRange(Directory.EnumerateFiles(file, "*.cdb", SearchOption.AllDirectories));
                     files.AddRange(Directory.EnumerateFiles(file, "*.lua", SearchOption.AllDirectories));
                 }
-                files.Add(file);
+                else if (File.Exists(file))
+                {
+                    files.Add(file);
+                }
             }
             if (files.Count > 5)
             {

@@ -69,7 +69,34 @@ namespace DataEditorX
             editor.WordWrap = DEXConfig.ReadBoolean(DEXConfig.TAG_WORDWRAP);
             editor.Background = System.Windows.Media.Brushes.Black;
             editor.Foreground = System.Windows.Media.Brushes.GhostWhite;
+            editor.AllowDrop = true;
+            editor.PreviewDragEnter += Editor_DragEnter;
             this.RefreshHighlighting();
+        }
+
+        private void Editor_DragEnter(object sender, System.Windows.DragEventArgs e)
+        {
+            try
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    var data = e.Data.GetData(DataFormats.FileDrop);
+                    string[] files = (string[])data;
+                    (this.DockPanel.Parent as MainForm).Open(files[0]);
+                    SendKeys.Send("{ESC}");
+                }
+            }
+            catch { }
+            try
+            {
+                if (e.Data.GetDataPresent(DataFormats.Text))
+                {
+                    string file = (string)e.Data.GetData(DataFormats.Text);
+                    (this.DockPanel.Parent as MainForm).Open(file);
+                    SendKeys.Send("{ESC}");
+                }
+            }
+            catch { }
         }
 
         private void Editor_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)

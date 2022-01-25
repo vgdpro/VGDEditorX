@@ -4,10 +4,10 @@
   <Color name="Comment" foreground="#ff999999" exampleText="-- comment" />
   <Color name="String" foreground="#fff99157" />
   <Color name="Punctuation" />
-  <Color name="Functions" fontWeight="bold" foreground="Green" />
+  <Color name="Functions" foreground="#ff59c817" />
   <Color name="WrongFunctions" fontWeight="bold" foreground="Red" />
   <Color name="MethodCall" foreground="#ffffcc66" fontWeight="bold"/>
-  <Color name="NumberLiteral" foreground="#ff99cc99"/>
+  <Color name="NumberLiteral" foreground="#ffc2dfff"/>
   <Color name="NilKeyword" fontWeight="bold"/>
   <Color name="Keywords" fontWeight="bold" foreground="#ff6699cc" />
   <Color name="GotoKeywords" foreground="#ffcc99cc" />

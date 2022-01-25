@@ -17,7 +17,7 @@ build_dex:
     - cmd /c '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" DataEditorX.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutDir=$PWD/output/ /p:TargetFrameworkVersion=v4.6
     - mkdir -p dist/releases
     - cd output
-    - 7z a -mx9 ../dist/releases/DataEditorX-3.0.1.0.zip ./*
+    - 7z a -mx9 ../dist/releases/DataEditorX-4.0.0.0.zip ./*
     - cd ..
     - copy DataEditorX/readme.txt dist/version.txt
 
