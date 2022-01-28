@@ -4,7 +4,7 @@
   <Color name="Comment" foreground="#ff999999" exampleText="-- comment" />
   <Color name="String" foreground="#fff99157" />
   <Color name="Punctuation" />
-  <Color name="Functions" foreground="#ff59d817" />
+  <Color name="Functions" foreground="#ff59c817" />
   <Color name="WrongFunctions" fontWeight="bold" foreground="Red" />
   <Color name="MethodCall" foreground="#ffffcc66" fontWeight="bold"/>
   <Color name="NumberLiteral" foreground="#ffc2dfff"/>

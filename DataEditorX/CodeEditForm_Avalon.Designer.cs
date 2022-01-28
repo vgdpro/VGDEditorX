@@ -71,7 +71,7 @@ namespace DataEditorX
             this.host = new System.Windows.Forms.Integration.ElementHost();
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
             this.lbTooltip = new System.Windows.Forms.Label();
-            this.setCodeEditorFontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_CEFont = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,7 +142,7 @@ namespace DataEditorX
             this.menuitem_find,
             this.menuitem_replace,
             this.menuitem_tooltipFont,
-            this.setCodeEditorFontToolStripMenuItem});
+            this.menuitem_CEFont});
             this.menuitem_setting.Name = "menuitem_setting";
             this.menuitem_setting.Size = new System.Drawing.Size(75, 20);
             this.menuitem_setting.Text = "Settings(&S)";
@@ -268,12 +268,12 @@ namespace DataEditorX
             this.lbTooltip.TabIndex = 6;
             this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
             // 
-            // setCodeEditorFontToolStripMenuItem
+            // menuitem_CEFont
             // 
-            this.setCodeEditorFontToolStripMenuItem.Name = "setCodeEditorFontToolStripMenuItem";
-            this.setCodeEditorFontToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.setCodeEditorFontToolStripMenuItem.Text = "Set CodeEditor Font";
-            this.setCodeEditorFontToolStripMenuItem.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
+            this.menuitem_CEFont.Name = "menuitem_CEFont";
+            this.menuitem_CEFont.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_CEFont.Text = "Set CodeEditor Font";
+            this.menuitem_CEFont.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
             // 
             // CodeEditForm_Avalon
             // 
@@ -548,6 +548,6 @@ namespace DataEditorX
         ICSharpCode.AvalonEdit.TextEditor editor;
         private Label lbTooltip;
         private ToolStripMenuItem menuitem_tooltipFont;
-        private ToolStripMenuItem setCodeEditorFontToolStripMenuItem;
+        private ToolStripMenuItem menuitem_CEFont;
     }
 }
