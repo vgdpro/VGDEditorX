@@ -22,7 +22,8 @@ get_nuget:
 
 build_dex:
   stage: build
-  dependencies: []
+  dependencies:
+    - get_nuget
   tags:
     - vs
   script:
