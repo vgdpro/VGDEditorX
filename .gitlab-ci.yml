@@ -1,4 +1,5 @@
 stages:
+  - prepare
   - build
   - pack
   - deploy
@@ -6,13 +7,25 @@ stages:
 variables:
   GIT_DEPTH: "1"
 
+get_nuget:
+  stage: prepare
+  tags: 
+    - linux
+  script:
+    - mkdir tools
+    - cd tools
+    - wget -O nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - cd ..
+  artifacts:
+    - tools
+
 build_dex:
   stage: build
   dependencies: []
   tags:
     - vs
   script:
-    #- cmd /c nuget restore
+    - '.\tools\nuget.exe restore'
     - cmd /c '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" DataEditorX.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutDir=$PWD/output/ /p:TargetFrameworkVersion=v4.6'
   artifacts:
     paths:
