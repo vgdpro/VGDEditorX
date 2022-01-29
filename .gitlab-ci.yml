@@ -35,7 +35,7 @@ build_dex:
   stage: build
   dependencies:
     - get_nuget
-    - linux
+    - get_data
   tags:
     - vs
   script:
