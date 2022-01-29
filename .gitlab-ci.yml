@@ -17,7 +17,8 @@ get_nuget:
     - wget -O nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - cd ..
   artifacts:
-    - tools
+    paths:
+      - tools
 
 build_dex:
   stage: build
