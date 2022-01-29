@@ -1,5 +1,6 @@
 stages:
   - build
+  - pack
   - deploy
 
 variables:
@@ -10,17 +11,25 @@ build_dex:
   dependencies: []
   tags:
     - vs
-  only:
-    - master
   script:
     - cmd /c nuget restore
     - cmd /c '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" DataEditorX.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutDir=$PWD/output/ /p:TargetFrameworkVersion=v4.6
+  artifacts:
+    paths:
+      - output
+
+pack:
+  stage: pack
+  dependencies: 
+    - build_dex
+  tags:
+    - linux
+  script:
     - mkdir -p dist/releases
     - cd output
     - 7z a -mx9 ../dist/releases/DataEditorX-4.0.0.0.zip ./*
     - cd ..
-    - copy DataEditorX/readme.txt dist/version.txt
-
+    - cp DataEditorX/readme.txt dist/version.txt
   artifacts:
     paths:
       - dist/
@@ -31,9 +40,7 @@ upload_to_minio:
     - build_dex
   tags: 
     - linux
-  image: python
   script:
-    - pip install -U -i https://mirrors.aliyun.com/pypi/simple/ awscli
     - aws s3 --endpoint=https://minio.mycard.moe:9000 sync dist/ s3://mycard/DataEditorX
   only:
     - tags
