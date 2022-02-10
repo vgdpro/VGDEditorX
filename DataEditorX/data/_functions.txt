@@ -156,8 +156,13 @@ bit库已删除，请用操作符操作，详见 utility.lua
 ●int Card.GetRightScale(Card c)
 返回c的右灵摆刻度
 
+●int Card.GetCurrentScale(Card c)
+返回c的当前灵摆刻度。如果在左灵摆区域则返回左刻度，在右灵摆区域或是不在灵摆区域则返回右刻度
+
 ●int Card.GetOriginalRightScale(Card c)
 返回c的原本的右灵摆刻度
+
+Card.GetCurrentScale
 
 ●bool Card.IsLinkMarker(Card c, int dir)
 检查c是否是连接标记为 dir 的卡
@@ -213,6 +218,9 @@ location 的值是 LOCATION_MZONE,LOCATION_SZONE,LOCATIOIN_ONFIELD
 返回c的当前属性
 注：对某些多属性怪兽如光与暗之龙，此函数的返回值可能是几个属性的组合值
 
+●int Card.GetAttributeInGrave(Card c)
+获得c在墓地里视为的属性
+
 ●int Card.GetOriginalAttribute(Card c)
 返回c的卡片记载的属性
 
@@ -225,6 +233,9 @@ location 的值是 LOCATION_MZONE,LOCATION_SZONE,LOCATIOIN_ONFIELD
 ●int Card.GetRace(Card c)
 返回c的当前种族
 注：对某些多种族怪兽如动画效果的魔术猿，此函数的返回值可能是几个种族的组合值
+
+●int Card.GetRaceInGrave(Card c)
+返回c在墓地视为的种族
 
 ●int Card.GetOriginalRace(Card c)
 返回c的卡片记载的种族
@@ -353,6 +364,9 @@ location 的值是 LOCATION_MZONE,LOCATION_SZONE,LOCATIOIN_ONFIELD
 ●bool Card.IsType(Card c, int type)
 检查c是否属于类型type
 
+●bool Card.IsExtraDeckMonster(Card c)
+检查c原本是否为融合·同调·XYZ·连接怪兽。这个函数只检查类型，不关心被检查的怪兽的现状。
+
 ●bool Card.IsFusionType(Card c, int type)
 检查c用作融合素材时是否属于类型type（与IsType的区别在于对于魔陷区的怪兽卡，用其原本类型作判断）
 
@@ -397,6 +411,9 @@ location 的值是 LOCATION_MZONE,LOCATION_SZONE,LOCATIOIN_ONFIELD
 
 ●bool Card.IsReason(Card c, int reason)
 检查c是否包含原因reason
+
+●bool Card.SetReason(Card c, int reason)
+设置c来到当前位置的原因为reason
 
 ●bool Card.IsSummonType(Card c, int sumtype)
 检查c的召唤类型是否是sumtype
@@ -450,6 +467,9 @@ location 的值是 LOCATION_MZONE,LOCATION_SZONE,LOCATIOIN_ONFIELD
 
 ●int Card.GetUnionCount(Card c)
 返回c当前装备的同盟卡数量
+
+●Card Card.CheckUnionTarget(Card c, Card ec)
+检查ec是否为c的有效同盟装备对象。会检查EFFECT_UNION_LIMIT影响和新旧同盟影响。
 
 ●Group Card.GetOverlayGroup(Card c)
 返回c当前叠放着的卡片组
@@ -613,10 +633,6 @@ RESET_CARD        重置卡片的效果      reset_code为效果owner的卡号
 把c的效果替换为卡号是code的卡的效果，并且添加额外的reset条件
 返回值是表示替换效果的代号id
 
-●void Card.EnableUnsummonable(Card c)
-将c设置为不可通常召唤的怪兽
-##实际上是个不可复制、不会被无效的EFFECT_UNSUMMONABLE_CARD效果
-
 ●void Card.EnableReviveLimit(Card c)
 为c添加苏生限制
 ##实际上是不可复制、不会被无效的EFFECT_UNSUMMONABLE_CARD和EFFECT_REVIVE_LIMIT效果
@@ -633,6 +649,12 @@ RESET_CARD        重置卡片的效果      reset_code为效果owner的卡号
 
 ●bool Card.IsSummonableCard(Card c)
 检查c是否是可通常召唤的卡
+
+●bool Card.IsSummonLocation(Card c, int loc)
+检查c召唤·特殊召唤的位置是否为loc
+
+●bool Card.IsSummonPlayer(Card c, int player)
+检查将c召唤·特殊召唤的玩家是否为player
 
 ●bool Card.IsFusionSummonableCard(Card c[, int sum_type])
 检查c是否是可[用 sum_type 方式]融合召唤的卡
@@ -744,6 +766,9 @@ monsteronly = true 则表示只能对怪兽攻击
 ●bool Card.IsPosition(Card c, int pos)
 检查c是否是表示形式pos
 
+●bool Card.IsPreviousControler(Card c,int player)
+检查c的上一个控制者是否为player
+
 ●bool Card.IsPreviousPosition(Card c, int pos)
 检查c位置变化之前是否是表示形式pos
 
@@ -804,6 +829,9 @@ monsteronly = true 则表示只能对怪兽攻击
 
 ●bool Card.IsControlerCanBeChanged(Card c[, bool ignore_mzone=false, int zone=0xff])
 检查c的控制权是否可以改变。 ignore_mzone=true 会忽视转移控制权后的玩家场上是否有空格位， zone 表示必须要使用的位置
+
+●bool Card.IsCanHaveCounter(Card c,int countertype)
+检查c上是否可以放置countertype类型的指示物
 
 ●bool Card.AddCounter(Card c, int countertype, int count[, int singly=false])
 为c放置count个countertype类型的指示物，singly为true表示逐个添加至上限为止
@@ -867,9 +895,6 @@ location的默认值与c的种类有关，灵摆怪兽需要指定能否在怪�
 ●void Card.AddMonsterAttribute(Card c, int type[, int attribute, int race, int level, int atk, int def])
 为魔陷卡c添加怪兽数值,type 为怪兽类型，不能是没有等级的怪兽
 注：在数据库中有记录的数值视为原本数值
-
-●void Card.AddMonsterAttributeComplete(Card c)
-为卡c添加数值完毕，需要和Card.AddMonsterAttribute 配套使用
 
 ●void Card.CancelToGrave(Card c[, bool cancel=true])
 取消送墓确定状态，cancel=false则重新设置送墓确定状态
@@ -959,9 +984,6 @@ CARDDATA_LINK_MARKER	12
 
 ●int Card.GetRemovedOverlayCount(Card c)
 返回c本回合被取除的XYZ素材数量。
-
-●int Card.GetOriginalCode(Card c)
-返回c的卡片记载的代号
 
 ●bool Card.IsOriginalCodeRule(Card c，int code)
 检查c是否在规则上当做code使用
@@ -1344,6 +1366,12 @@ end
 
 ●void Duel.ResetFlagEffect(int player, int code)
 手动reset玩家player的 code 标识效果
+
+●void Duel.ResetTimeLimit(int player[, int time=0])
+重新设置玩家player的当前回合时间。可选参数time（秒），范围必须在0到0x7fff之间
+
+●void Duel.SetSummonCancelable(bool enabled)
+设置召唤·特殊召唤是否可以被取消
 
 ●bool Duel.SetFlagEffectLabel(int player, int code, int label)
 返回player是否存在种类为code的标识效果，并设置其Label属性为label
@@ -2228,6 +2256,9 @@ CARDDATA_LINK_MARKER	12
 ●void Duel.DisableActionCheck(bool enabled)
 打开或关闭DisableActionCheck模式。
 在DisableActionCheck模式下，可以在禁止进行决斗操作的处理（如condition以及target的chk==0的部分）进行决斗操作，不会出现Action is not allowed的报错。
+
+●void Duel.DisableSelfDestroyCheck([bool enabled=true])
+关闭卡片的自爆检查。不传参或传true为关闭，传false为启用自爆检查
 
 ●void Duel.SetMetatable(Card|Group|Effect target, table mt)
 将target的元表属性设置为mt。
