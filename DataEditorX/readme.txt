@@ -1,5 +1,5 @@
-﻿[DataEditorX]4.0.0.0[DataEditorX]
-[URL]https://cdn01.moecube.com/DataEditorX/releases/DataEditorX-4.0.0.0.zip[URL]
+﻿[DataEditorX]4.0.0.1[DataEditorX]
+[URL]https://cdn01.moecube.com/DataEditorX/releases/DataEditorX-4.0.0.1.zip[URL]
 
 ★运行环境(Environment)
 本程序基于.Net framework 4.6开发
