@@ -162,8 +162,6 @@ bit库已删除，请用操作符操作，详见 utility.lua
 ●int Card.GetOriginalRightScale(Card c)
 返回c的原本的右灵摆刻度
 
-Card.GetCurrentScale
-
 ●bool Card.IsLinkMarker(Card c, int dir)
 检查c是否是连接标记为 dir 的卡
 dir的值有：
