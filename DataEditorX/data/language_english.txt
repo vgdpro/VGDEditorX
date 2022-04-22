@@ -1,76 +1,109 @@
 ﻿#
-CodeEditForm.mainMenu.menuitem_file	File(&F)
-CodeEditForm.mainMenu.menuitem_open	Open
-CodeEditForm.mainMenu.menuitem_save	Save
-CodeEditForm.mainMenu.menuitem_saveas	Save As
-CodeEditForm.mainMenu.menuitem_quit	Quit
-CodeEditForm.mainMenu.menuitem_setting	Tools(&S)
-CodeEditForm.mainMenu.menuitem_showmap	Display/Hide Document Maps
-CodeEditForm.mainMenu.menuitem_showinput	Display/Hide TextBox
-CodeEditForm.mainMenu.menuitem_find	Find String
+CodeEditForm.mainMenu.menuitem_file	File...(&F)
+CodeEditForm.mainMenu.menuitem_open	Open...
+CodeEditForm.mainMenu.menuitem_save	Save...
+CodeEditForm.mainMenu.menuitem_saveas	Save as...
+CodeEditForm.mainMenu.menuitem_quit	Exit
+CodeEditForm.mainMenu.menuitem_setting	Settings...(&S)
+CodeEditForm.mainMenu.menuitem_tooltipFont	Set Tooltip Font...
+CodeEditForm.mainMenu.menuitem_showmap	Show/Hide Codemap
+CodeEditForm.mainMenu.menuitem_showinput	Show/Hide Input Box
+CodeEditForm.mainMenu.menuitem_find	Find
 CodeEditForm.mainMenu.menuitem_replace	Replace
-CodeEditForm.mainMenu.menuitem_setcard	Set DataBase
-CodeEditForm.mainMenu.menuitem_help	Help(&H)
-CodeEditForm.mainMenu.menuitem_about	About
-DataEditForm.mainMenu.menuitem_autoreturn	(*)Text auto return
-DataEditForm.mainMenu.menuitem_replace	(*)...
+CodeEditForm.mainMenu.menuitem_setcard	Set Card Database...
+CodeEditForm.mainMenu.menuitem_help	Help...(&H)
+CodeEditForm.mainMenu.menuitem_about	About...
 CodeEditForm.mainMenu.menuitem_tools	Tools(&T)
-CodeEditForm.mainMenu.menuitem_testlua	Test LUA Script
-CodeEditForm.mainMenu.menuitem_effectcreator	Effect Creator
+CodeEditForm.mainMenu.menuitem_testlua	Lua Syntax Check
+CodeEditForm.mainMenu.menuitem_effectcreator	Effect Creator...
 #
-DataEditForm.pl_bottom.btn_img	Import Img
-DataEditForm.pl_main.lb_types	Card type
-DataEditForm.pl_main.lb_tiptexts	Script texts
-DataEditForm.pl_main.lb_categorys	Category
-DataEditForm.pl_main.lb_cardcode	Code
-DataEditForm.pl_main.lb_cardalias	Alias
-DataEditForm.pl_main.lb_atkdef	ATK/DEF
-DataEditForm.pl_main.lb_pleft_right	Pscale
-DataEditForm.pl_bottom.btn_reset	Reset
-DataEditForm.pl_bottom.btn_lua	Script
+FindReplaceForm	Find/Replace
+FindReplaceForm.btnFind	Find
+FindReplaceForm.btnReplace	Replace
+FindReplaceForm.btnReplaceAll	Replace All
+FindReplaceForm.btnClose	Close
+FindReplaceForm.lbFind	Find
+FindReplaceForm.lbReplace	Replace
+#
+CodeEditForm_Avalon.mainMenu.menuitem_file	File...(&F)
+CodeEditForm_Avalon.mainMenu.menuitem_open	Open...
+CodeEditForm_Avalon.mainMenu.menuitem_save	Save...
+CodeEditForm_Avalon.mainMenu.menuitem_saveas	Save as...
+CodeEditForm_Avalon.mainMenu.menuitem_quit	Exit
+CodeEditForm_Avalon.mainMenu.menuitem_setting	Settings...(&S)
+CodeEditForm_Avalon.mainMenu.menuitem_tooltipFont	Set Tooltip Font...
+CodeEditForm_Avalon.mainMenu.menuitem_showmap	Show/Hide Codemap
+CodeEditForm_Avalon.mainMenu.menuitem_showinput	Show/Hide Input Box
+CodeEditForm_Avalon.mainMenu.menuitem_find	Find
+CodeEditForm_Avalon.mainMenu.menuitem_replace	Replace
+CodeEditForm_Avalon.mainMenu.menuitem_setcard	Set Card Database...
+CodeEditForm_Avalon.mainMenu.menuitem_help	Help...(&H)
+CodeEditForm_Avalon.mainMenu.menuitem_about	About...
+CodeEditForm_Avalon.mainMenu.menuitem_tools	Tools(&T)
+CodeEditForm_Avalon.mainMenu.menuitem_testlua	Lua Syntax Check
+CodeEditForm_Avalon.mainMenu.menuitem_effectcreator	Effect Creator...
+CodeEditForm_Avalon.mainMenu.menuitem_CEFont	Set CodeEditor Font...
+CodeEditForm_Avalon.mainMenu.menuitem_fixCardCode	Fix Card Codes
+#
+DataEditForm.pl_bottom.btn_img	Load Image
+DataEditForm.pl_main.splitContainer..lb_types	Card Type
+DataEditForm.pl_main.splitContainer..lb_markers	Link Markers
+DataEditForm.pl_main.splitContainer..lb_tiptexts	Strings
+DataEditForm.pl_main.splitContainer..lb_categorys	Category
+DataEditForm.pl_main.splitContainer..lb_cardcode	Code
+DataEditForm.pl_main.splitContainer..lb_cardalias	Alias
+DataEditForm.pl_main.splitContainer..lb_atkdef	ATK/DEF
+DataEditForm.pl_main.splitContainer..lb_pleft_right	PScale
+DataEditForm.pl_main.splitContainer..lv_cardlist.0	Code
+DataEditForm.pl_main.splitContainer..lv_cardlist.1	Name
+DataEditForm.pl_bottom.btn_reset	Clear All
+DataEditForm.pl_bottom.btn_lua	Open Lua File
 DataEditForm.pl_bottom.btn_serach	Search
 DataEditForm.pl_bottom.btn_del	Delete
 DataEditForm.pl_bottom.btn_undo	Undo
 DataEditForm.pl_bottom.btn_mod	Modify
-DataEditForm.pl_bottom.btn_add	Add
-#DataEditForm.pl_bottom.btn_PageDown	Page Down
-#DataEditForm.pl_bottom.btn_PageUp	Page Up
-DataEditForm.lv_cardlist.0	Card Code
-DataEditForm.lv_cardlist.1	Card Name
-DataEditForm.mainMenu.menuitem_file	File(&F)
-DataEditForm.mainMenu.menuitem_open	Open(&O)
-DataEditForm.mainMenu.menuitem_new	New(&N)
-DataEditForm.mainMenu.menuitem_copyselectto	Copy Selected...
-DataEditForm.mainMenu.menuitem_copyto	Copy All Search...
-DataEditForm.mainMenu.menuitem_openLastDataBase	Open Last DataBase
-DataEditForm.mainMenu.menuitem_quit	Quit
+DataEditForm.pl_bottom.btn_add	Add Card
+DataEditForm.pl_bottom.btn_PageDown	Next Page
+DataEditForm.pl_bottom.btn_PageUp	Previous Page
+DataEditForm.pl_main.lv_cardlist.0	Code
+DataEditForm.pl_main.lv_cardlist.1	Name
+DataEditForm.mainMenu.menuitem_file	File...(&F)
+DataEditForm.mainMenu.menuitem_open	Open...(&O)
+DataEditForm.mainMenu.menuitem_new	New...(&N)
+DataEditForm.mainMenu.menuitem_copyselectto	Copy Selected
+DataEditForm.mainMenu.menuitem_copyto	Copy All
+DataEditForm.mainMenu.menuitem_openLastDataBase	Open Last Opened Database
+DataEditForm.mainMenu.menuitem_quit	Exit
 DataEditForm.mainMenu.menu_image	MSE(&M)
+DataEditForm.mainMenu.menuitem_importmseimg	Import MSE Images
+DataEditForm.mainMenu.menuitem_mseconfig	Set MSE Config File
 DataEditForm.mainMenu.menu_data	Data(&D)
-DataEditForm.mainMenu.menuitem_operacardsfile	Opera with Card's files
-DataEditForm.mainMenu.menuitem_openfileinthis	Open Script With CodeEditor
-DataEditForm.mainMenu.menuitem_addrequire	Add REQUIRE Automatically
-DataEditForm.mainMenu.menuitem_readydk	Read From ydk File(&Y)
-DataEditForm.mainMenu.menuitem_readimages	Read From Images Path(&I)
-DataEditForm.mainMenu.menuitem_compdb	Compress DataBase
-DataEditForm.mainMenu.menuitem_exportdata	Export Data As zip
+DataEditForm.mainMenu.menuitem_operacardsfile	Rename both Code and Image
+DataEditForm.mainMenu.menuitem_openfileinthis	Open Lua with CodeEditor
+DataEditForm.mainMenu.menuitem_addrequire	Auto Add Requires
+DataEditForm.mainMenu.menuitem_findluafunc	Find Lua Functions from C++ Code
+DataEditForm.mainMenu.menuitem_readydk	Read Cards from YDK File(&Y)
+DataEditForm.mainMenu.menuitem_readimages	Read from Images Path(&I)
+DataEditForm.mainMenu.menuitem_compdb	Compress Database
+DataEditForm.mainMenu.menuitem_exportdata	Export Data as ZIP File
 DataEditForm.mainMenu.menuitem_mseconfig	Set MSE Config
-DataEditForm.mainMenu.menuitem_testpendulumtext	test pendulum texts
+DataEditForm.mainMenu.menuitem_testpendulumtext	Test Pendulum Texts
 DataEditForm.mainMenu.menuitem_readmse	Read MSE-set
-DataEditForm.mainMenu.menuitem_saveasmse_select	Save Selected As MSE-set
-DataEditForm.mainMenu.menuitem_saveasmse	Save All As MSE-set
+DataEditForm.mainMenu.menuitem_saveasmse_select	Save Selected as MSE-set
+DataEditForm.mainMenu.menuitem_saveasmse	Save All as MSE-set
 DataEditForm.mainMenu.menuitem_cutimages	Cut Images
 DataEditForm.mainMenu.menuitem_convertimage	Convert Images
-DataEditForm.mainMenu.menuitem_importmseimg	Set MSE'Image
-DataEditForm.mainMenu.menuitem_export_all_sql	Export all to sql
-DataEditForm.mainMenu.menuitem_export_select_sql	Export select to sql
+DataEditForm.mainMenu.menuitem_importmseimg	Set MSE's Image
+DataEditForm.mainMenu.menuitem_export_all_sql	Export All Cards to SQL File
+DataEditForm.mainMenu.menuitem_export_select_sql	Export Selected Cards to SQL File
 DataEditForm.mainMenu.menuitem_cancelTask	Cancel Task
-DataEditForm.mainMenu.menuitem_exportMSEimage	export mse-set to images(Click stop)
+DataEditForm.mainMenu.menuitem_exportMSEimage	Export MSE-set to Images(Click stop)
 DataEditForm.mainMenu.menuitem_help	Help(&H)
 DataEditForm.mainMenu.menuitem_about	About
 DataEditForm.mainMenu.menuitem_language	Language
 DataEditForm.mainMenu.menuitem_checkupdate	Check Update
 DataEditForm.mainMenu.menuitem_autocheckupdate	Auto Check Update
-DataEditForm.mainMenu.menuitem_github	Source Code in GitHub
+DataEditForm.mainMenu.menuitem_github	Source Code in Mycard Git
 #
 MainForm.mainMenu.menuitem_file	File(&F)
 MainForm.mainMenu.menuitem_open	Open
@@ -102,7 +135,7 @@ MainForm.mainMenu.menuitem_closeall	Close All
 0x8	Code can't be 0!
 0x9	The card is already existed!
 0xa	There is no difference between editing card and the card in database.
-0xb	Delete dard(s)?
+0xb	Delete card(s)?
 0xc	Create a script file?
 0xd	Open the created database?
 0xe	Replace cards if exists?
@@ -170,3 +203,4 @@ MainForm.mainMenu.menuitem_closeall	Close All
 0x4c	No syntax error found.
 0x4d	It is not recommended to open lots of file at a time. Continue?
 0x4e	Are you sure to undo? All unsaved contents will be lost.
+0x4f	Invalid file name. Only support file names as [cXXXXXXXX.lua].

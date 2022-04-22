@@ -96,6 +96,7 @@ namespace DataEditorX.Language
         syntaxCheckPassed = 0x4c,
         IfOpenLotsOfFile = 0x4d,
         UndoConfirm = 0x4e,
+        InvalidFileName = 0x4f,
         COUNT,
     }
 }

@@ -60,6 +60,7 @@ namespace DataEditorX
             this.menuitem_find = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_replace = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_tooltipFont = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_CEFont = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_tools = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_testlua = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_effectcreator = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +72,7 @@ namespace DataEditorX
             this.host = new System.Windows.Forms.Integration.ElementHost();
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
             this.lbTooltip = new System.Windows.Forms.Label();
-            this.menuitem_CEFont = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_fixCardCode = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -179,11 +180,19 @@ namespace DataEditorX
             this.menuitem_tooltipFont.Text = "Set Toolltip Font";
             this.menuitem_tooltipFont.Click += new System.EventHandler(this.menuitem_tooltipFont_Click);
             // 
+            // menuitem_CEFont
+            // 
+            this.menuitem_CEFont.Name = "menuitem_CEFont";
+            this.menuitem_CEFont.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_CEFont.Text = "Set CodeEditor Font";
+            this.menuitem_CEFont.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
+            // 
             // menuitem_tools
             // 
             this.menuitem_tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuitem_testlua,
-            this.menuitem_effectcreator});
+            this.menuitem_effectcreator,
+            this.menuitem_fixCardCode});
             this.menuitem_tools.Name = "menuitem_tools";
             this.menuitem_tools.Size = new System.Drawing.Size(60, 20);
             this.menuitem_tools.Text = "Tools(&T)";
@@ -268,12 +277,12 @@ namespace DataEditorX
             this.lbTooltip.TabIndex = 6;
             this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
             // 
-            // menuitem_CEFont
+            // menuitem_fixCardCode
             // 
-            this.menuitem_CEFont.Name = "menuitem_CEFont";
-            this.menuitem_CEFont.Size = new System.Drawing.Size(184, 22);
-            this.menuitem_CEFont.Text = "Set CodeEditor Font";
-            this.menuitem_CEFont.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
+            this.menuitem_fixCardCode.Name = "menuitem_fixCardCode";
+            this.menuitem_fixCardCode.Size = new System.Drawing.Size(180, 22);
+            this.menuitem_fixCardCode.Text = "Fix card code";
+            this.menuitem_fixCardCode.Click += new System.EventHandler(this.menuitem_fixCardCode_Click);
             // 
             // CodeEditForm_Avalon
             // 
@@ -549,5 +558,6 @@ namespace DataEditorX
         private Label lbTooltip;
         private ToolStripMenuItem menuitem_tooltipFont;
         private ToolStripMenuItem menuitem_CEFont;
+        private ToolStripMenuItem menuitem_fixCardCode;
     }
 }

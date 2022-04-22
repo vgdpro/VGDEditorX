@@ -812,5 +812,33 @@ namespace DataEditorX
                 catch { }
             }
         }
+
+        private void menuitem_fixCardCode_Click(object sender, EventArgs e)
+        {
+            string text = editor.Text;
+            Regex regex = new Regex(@"(c[0-9]{4,9})");
+            var matches = regex.Matches(text);
+            string cName = "";
+            if (nowFile != null && regex.IsMatch(nowFile))
+            {
+                cName = regex.Match(nowFile).Groups[1].Value;
+            }
+            else
+            {
+                MyMsg.Show(LMSG.InvalidFileName);
+                return;
+            }
+            HashSet<string> hs = new HashSet<string>();
+            foreach (Match match in matches)
+            {
+                hs.Add(match.Groups[1].Value);
+            }
+            foreach (string str in hs)
+            {
+                text = text.Replace(str, cName);
+                text = text.Replace(str.Substring(1), cName.Substring(1));
+            }
+            editor.Text = text;
+        }
     }
 }

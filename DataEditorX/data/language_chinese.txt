@@ -43,6 +43,7 @@ CodeEditForm_Avalon.mainMenu.menuitem_tools	工具(&T)
 CodeEditForm_Avalon.mainMenu.menuitem_testlua	语法错误检查
 CodeEditForm_Avalon.mainMenu.menuitem_effectcreator	效果生成器
 CodeEditForm_Avalon.mainMenu.menuitem_CEFont	设置CodeEditor字体
+CodeEditForm_Avalon.mainMenu.menuitem_fixCardCode	一键修正卡片代号
 #
 DataEditForm.pl_bottom.btn_img	导入图片
 DataEditForm.pl_main.splitContainer..lb_types	卡片类型
@@ -202,3 +203,4 @@ MainForm.mainMenu.menuitem_closeall	关闭所有
 0x4c	测试完成，没有发现语法错误。
 0x4d	一次性打开大量文件将导致卡顿，是否继续？
 0x4e	确定要进行撤销吗？所有未保存的内容都将丢失。
+0x4f	无效的文件名。只支持类似[cXXXXXXXX.lua]的文件。

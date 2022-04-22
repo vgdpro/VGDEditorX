@@ -2219,9 +2219,6 @@ ACTIVITY_CHAIN          =7	--发动效果
 ●bool Duel.IsAbleToEnterBP()
 检查回合玩家能否进入战斗阶段
 
-#●bool Duel.VenomSwampCheck(Effect e, Card c)
-#蛇毒沼泽专用。把攻击力被其效果变成0的卡片破坏
-
 ●void Duel.SwapDeckAndGrave(int player)
 现世与冥界的逆转专用。把玩家player的卡组和墓地交换
 
@@ -2324,9 +2321,9 @@ CARDDATA_LINK_MARKER	12
 
 ●void aux.BeginPuzzle()
 开始残局
-##此函数注册3个全局效果：
-##回合结束时玩家的基本分变成0
-##跳过抽卡阶段与准备阶段
+此函数注册3个全局效果：
+回合结束时玩家的基本分变成0
+跳过抽卡阶段与准备阶段
 
 ●bool aux.IsDualState(Effect e)
 检查二重怪兽e:GetHandler()是否是再度召唤状态（用于效果的Condition属性）
@@ -2818,7 +2815,8 @@ end
 
 ========== Debug ==========
 ●void Debug.Message(any msg)
-显示消息
+显示消息。
+注意，只会在本地生效，在服务器端不会生效。
 
 ●Card Debug.AddCard(int code, int owner, int player, int location, int seq, int pos[, bool proc=false])
 添加卡片，将卡号为code的卡片的持有者设置为owner，以表示形式pos放置在player的场上位于location上序号为seq的格子处
@@ -2845,7 +2843,7 @@ proc=true则完成正规召唤程序(即解除苏生限制)
 	flag 残局： DUEL_ATTACK_FIRST_TURN+DUEL_SIMPLE_AI
 		 大师1规则： DUEL_OBSOLETE_RULING
 	rule=4 是新大师规则
-	
+
 ●void Debug.ReloadFieldEnd()
 布局结束
 
@@ -2854,3 +2852,4 @@ proc=true则完成正规召唤程序(即解除苏生限制)
 
 ●void Debug.ShowHint(string msg)
 显示消息提示框，最大长度 1024 个字符（1个汉字2个字符）
+注意，只会在本地生效，在服务器端不会生效。
