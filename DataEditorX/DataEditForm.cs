@@ -1485,32 +1485,45 @@ namespace DataEditorX
         #endregion
 
         #region 导入卡图
-        void ImportImageFromSelect()
+        void ImportImageFromSelect(bool fromClipboard = false)
         {
             string tid = this.tb_cardcode.Text;
             if (tid == "0" || tid.Length == 0)
             {
                 return;
             }
-
-            using (OpenFileDialog dlg = new OpenFileDialog())
+            if (fromClipboard && Clipboard.ContainsImage())
             {
-                dlg.Title = LanguageHelper.GetMsg(LMSG.SelectImage) + "-" + this.tb_cardname.Text;
-                try
+                this.ImportImage(Clipboard.GetImage(), tid);
+            }
+            else
+            {
+                using (OpenFileDialog dlg = new OpenFileDialog())
                 {
-                    dlg.Filter = LanguageHelper.GetMsg(LMSG.ImageType);
-                }
-                catch { }
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    //dlg.FileName;
-                    this.ImportImage(dlg.FileName, tid);
+                    dlg.Title = LanguageHelper.GetMsg(LMSG.SelectImage) + "-" + this.tb_cardname.Text;
+                    try
+                    {
+                        dlg.Filter = LanguageHelper.GetMsg(LMSG.ImageType);
+                    }
+                    catch { }
+                    if (dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        //dlg.FileName;
+                        this.ImportImage(dlg.FileName, tid);
+                    }
                 }
             }
         }
         private void pl_image_DoubleClick(object sender, EventArgs e)
         {
-            this.ImportImageFromSelect();
+            if (ModifierKeys.Equals(Keys.Shift))
+            {
+                this.ImportImageFromSelect(true);
+            }
+            else
+            {
+                this.ImportImageFromSelect();
+            }
         }
         void Pl_imageDragDrop(object sender, DragEventArgs e)
         {
@@ -1537,6 +1550,13 @@ namespace DataEditorX
             string tid = this.tb_cardcode.Text;
             this.menuitem_importmseimg.Checked = !this.menuitem_importmseimg.Checked;
             this.SetImage(tid);
+        }
+        void ImportImage(Image image, string tid)
+        {
+            string file = "temp" + new Random().Next(10000000, 99999999) + ".jpg";
+            image.Save(file);
+            ImportImage(file, tid);
+            File.Delete(file);
         }
         void ImportImage(string file, string tid)
         {
