@@ -10,6 +10,7 @@ using DataEditorX.Config;
 using DataEditorX.Core.Info;
 using DataEditorX.Core.Mse;
 using DataEditorX.Language;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -133,7 +134,7 @@ namespace DataEditorX.Core
         #region 检查更新
         public static void CheckVersion(bool showNew)
         {
-            string newver = CheckUpdate.GetNewVersion(DEXConfig.ReadString(DEXConfig.TAG_UPDATE_URL));
+            string newver = CheckUpdate.GetNewVersion(DEXConfig.ReadString(DEXConfig.TAG_UPDATE_URL) + $"?dummy={DateTime.Now.ToString("yyyyMMddhhmmss")}");
             if (newver == CheckUpdate.DEFAULT)
             {   //检查失败
                 if (!showNew)
