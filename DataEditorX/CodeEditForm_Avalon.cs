@@ -11,6 +11,7 @@ using DataEditorX.Core;
 using DataEditorX.Language;
 using FastColoredTextBoxNS;
 using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
@@ -168,7 +169,13 @@ namespace DataEditorX
                 if (tooltipDic.ContainsKey(find))
                 {
                     lbTooltip.Text = find + "\n" + tooltipDic[find];
-                    lbTooltip.Location = new Point(Math.Min((int)ePos.X + 800, host.Width - 500), Math.Min((int)ePos.Y, this.Height - lbTooltip.Height - 20));
+                    var x = (int)(host.Width - lbTooltip.Width - System.Windows.SystemParameters.ScrollWidth);
+                    var y = (int)ePos.Y;
+                    if (y + lbTooltip.Height > host.Height)
+                    {
+                        y -= (y + lbTooltip.Height - host.Height);
+                    }
+                    lbTooltip.Location = new Point(x,y);
                 }
             }
         }
@@ -222,7 +229,8 @@ namespace DataEditorX
         }
         private void RefreshHighlighting()
         {
-            using (XmlReader reader = new XmlTextReader("data\\avalon.xshd"))
+            FileInfo fi = new FileInfo(Application.ExecutablePath);
+            using (XmlReader reader = new XmlTextReader(fi.DirectoryName + "\\data\\avalon.xshd"))
             {
                 var gLua = HighlightingLoader.LoadXshd(reader);
                 if (nowFile != null && this.Text.Length > 4)

@@ -92,9 +92,13 @@ namespace DataEditorX.Config
         /// </summary>
         public const string TAG_AUTO_CHECK_UPDATE = "auto_check_update";
         /// <summary>
-        /// add require automatically
+        /// add require and LoadString a script
         /// </summary>
-        public const string TAG_ADD_REQUIRE = "add_require";
+        public const string TAG_ADD_REQUIRE_STRING = "add_require";
+        /// <summary>
+        /// enable add require automatically
+        /// </summary>
+        public const string TAG_ADD_REQUIRE= "add_require_bool";
         /// <summary>
         /// 检查系统语言
         /// </summary>

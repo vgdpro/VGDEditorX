@@ -176,8 +176,8 @@ namespace DataEditorX
             //自动检查更新
             this.menuitem_autocheckupdate.Checked = DEXConfig.ReadBoolean(DEXConfig.TAG_AUTO_CHECK_UPDATE);
             //add require automatically
-            this.Addrequire = DEXConfig.ReadString(DEXConfig.TAG_ADD_REQUIRE);
-            this.menuitem_addrequire.Checked = (this.Addrequire.Length > 0);
+            this.Addrequire = DEXConfig.ReadString(DEXConfig.TAG_ADD_REQUIRE_STRING);
+            this.menuitem_addrequire.Checked = DEXConfig.ReadBoolean(DEXConfig.TAG_ADD_REQUIRE);
             if (this.nowCdbFile != null && File.Exists(this.nowCdbFile))
             {
                 this.Open(this.nowCdbFile);
@@ -1492,7 +1492,7 @@ namespace DataEditorX
             {
                 return;
             }
-            if (fromClipboard && Clipboard.ContainsImage())
+            if (fromClipboard && Clipboard.GetImage() != null)
             {
                 this.ImportImage(Clipboard.GetImage(), tid);
             }
@@ -1958,8 +1958,9 @@ namespace DataEditorX
         private void menuitem_addrequire_Click(object sender, EventArgs e)
         {
             this.Addrequire = Microsoft.VisualBasic.Interaction.InputBox("Module script?\n\nPress \"Cancel\" to remove module script.", "", this.Addrequire);
-            this.menuitem_addrequire.Checked = (this.Addrequire.Length > 0);
-            XMLReader.Save(DEXConfig.TAG_ADD_REQUIRE, this.Addrequire);
+            this.menuitem_addrequire.Checked = !this.menuitem_addrequire.Checked;
+            XMLReader.Save(DEXConfig.TAG_ADD_REQUIRE_STRING, this.Addrequire);
+            XMLReader.Save(DEXConfig.TAG_ADD_REQUIRE, this.menuitem_addrequire.Checked ? "true" : "false");
         }
         #endregion
 

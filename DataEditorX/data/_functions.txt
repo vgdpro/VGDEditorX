@@ -993,6 +993,32 @@ CARDDATA_LINK_MARKER	12
 ●bool Card.IsCanOverlay(Card c)
 检查c是否可以作为XYZ素材
 
+●bool Card.IsTuner(Card c)
+检查c是否是调整怪兽。
+除了检查TYPE_TUNER以外，还会检查其身上所有能让其变为调整怪兽的效果。
+
+●bool Card.IsSpecialSummonableCard(Card c)
+检查c是否能以正规方法特殊召唤。
+c必须有可特殊召唤的方式。
+
+●bool Card.IsCanBeDisabledByEffect(Card c, Effect e[, bool isMonsterEffect])
+检查c的效果是否能被e无效。
+已经被无效的卡，或原本就没有效果的卡，或不受e影响的卡不能被无效。
+第三个参数可选，指示其是否为怪兽效果。
+
+●bool Card.IsCanBeDisabledByEffect(Card c, Effect e[, bool isMonsterEffect])
+检查c的效果是否能被e无效。
+已经被无效的卡，或原本就没有效果的卡，或不受e影响的卡不能被无效。
+第三个参数可选，指示其是否为怪兽效果。
+
+●int Card.GetAttributeInGrave(Card c[, int reasonPlayer])
+检查c在墓地中会变成什么属性。
+第二个参数可选，指示假设送去墓地是由于哪个玩家。
+
+●int Card.GetRaceInGrave(Card c[, int reasonPlayer])
+检查c在墓地中会变成什么种族。
+第二个参数可选，指示假设送去墓地是由于哪个玩家。
+
 ========== Effect ==========
 ●Effect Effect.CreateEffect(Card c)
 新建一个空效果
@@ -1331,6 +1357,12 @@ end
 
 ●Group Group.__bxor(Group|Card target1, Group|Card target2)
 新建一个卡片组，将 target1 和 target2 中不同的卡（就是只存在于 target1 或者 target2 里的卡）全部添加到 这个卡片组里，最后返回这个卡片组，targe1,target2 本身不会有任何变化
+
+●Group Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
+让玩家从g里选择多张不同的卡，直到满足条件为止。
+每次选卡，都会把已经选中的卡以f(sg,...)的形式传给f。
+如果返回true，则表示选卡结束，此函数返回选好的Group。
+cancelable如果为true，则玩家可以中途放弃，停止选卡。此时此函数返回nil。
 
 ========== Duel ==========
 ●void Duel.EnableGlobalFlag(int global_flag)
@@ -2301,6 +2333,12 @@ CARDDATA_LINK_MARKER	12
 ●bool Duel.IsPlayerCanAdditionalSummon(int player)
 检查玩家player是否有通常召唤外的召唤次数。
 
+●bool Duel.IsPlayerCanDiscardDeckAsCost(int player, int count)
+检查玩家player是否能作为Cost把count张卡送去墓地。
+
+●bool Duel.AdjustAll()
+立刻刷新场地信息。
+
 ========== aux ============
 ##只说明常用的函数
 ●int aux.Stringid(int code, int id)
@@ -2812,6 +2850,51 @@ function aux.ExceptThisCard(e)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then return c else return nil end
 end
+
+●bool aux.GetMultiLinkedZone(int tp)
+获取玩家tp场上所有被多只怪兽指向的格子
+function aux.GetMultiLinkedZone(tp)
+	local f=function(c)
+		return c:IsFaceup() and c:IsType(TYPE_LINK)
+	end
+	local lg=Duel.GetMatchingGroup(f,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+	local multi_linked_zone=0
+	local single_linked_zone=0
+	for tc in aux.Next(lg) do
+		local zone=tc:GetLinkedZone(tp)&0x7f
+		multi_linked_zone=single_linked_zone&zone|multi_linked_zone
+		single_linked_zone=single_linked_zone~zone
+	end
+	return multi_linked_zone
+end
+
+●bool aux.UseExtraReleaseCount(Group g,int tp)
+强制使用类似暗影敌托邦这样的代替解放效果次数。
+function Auxiliary.UseExtraReleaseCount(g,tp)
+	local eg=g:Filter(Auxiliary.ExtraReleaseFilter,nil,tp)
+	for ec in Auxiliary.Next(eg) do
+		local te=ec:IsHasEffect(EFFECT_EXTRA_RELEASE_NONSUM,tp)
+		if te then te:UseCountLimit(tp) end
+	end
+end
+
+●bool aux.PlaceCardsOnDeckBottom(int p,Group g,int reason)
+让玩家p把g放在卡组底端，顺序由自己选择，原因为reason。
+
+●bool aux.AtkEqualsDef(Card c)
+检查c的攻击是否和防御力相同。
+目前在场则会追加检查当前值，是LINK怪兽或不是怪兽则直接返回false。
+
+●bool aux.SelectFromOptions(int tp,...)
+让玩家选择选项。
+第二个数值以后每个数值都应当是一个table：
+table的第一个数值是一个bool值，指示此选项是否有效。
+table的第二个数值是这个选项的string id。
+table的第三个数值是这个选项的返回值。
+使用方法如aux.SelectFromOptions(tp,
+	{b1,aux.Stringid(11654067,0)},
+	{b2,aux.Stringid(11654067,1)},
+	{true,aux.Stringid(11654067,2)})
 
 ========== Debug ==========
 ●void Debug.Message(any msg)

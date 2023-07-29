@@ -64,6 +64,7 @@ namespace DataEditorX
             this.menuitem_tools = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_testlua = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_effectcreator = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitem_fixCardCode = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_about = new System.Windows.Forms.ToolStripMenuItem();
             this.tb_input = new System.Windows.Forms.TextBox();
@@ -72,7 +73,6 @@ namespace DataEditorX
             this.host = new System.Windows.Forms.Integration.ElementHost();
             this.editor = new ICSharpCode.AvalonEdit.TextEditor();
             this.lbTooltip = new System.Windows.Forms.Label();
-            this.menuitem_fixCardCode = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +85,7 @@ namespace DataEditorX
             this.menuitem_help});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(816, 24);
+            this.mainMenu.Size = new System.Drawing.Size(816, 25);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "mainMenu";
             // 
@@ -98,14 +98,14 @@ namespace DataEditorX
             this.toolStripSeparator1,
             this.menuitem_quit});
             this.menuitem_file.Name = "menuitem_file";
-            this.menuitem_file.Size = new System.Drawing.Size(51, 20);
+            this.menuitem_file.Size = new System.Drawing.Size(53, 21);
             this.menuitem_file.Text = "File(&F)";
             // 
             // menuitem_open
             // 
             this.menuitem_open.Name = "menuitem_open";
             this.menuitem_open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.menuitem_open.Size = new System.Drawing.Size(145, 22);
+            this.menuitem_open.Size = new System.Drawing.Size(180, 22);
             this.menuitem_open.Text = "Open";
             this.menuitem_open.Click += new System.EventHandler(this.Menuitem_openClick);
             // 
@@ -113,26 +113,26 @@ namespace DataEditorX
             // 
             this.menuitem_save.Name = "menuitem_save";
             this.menuitem_save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuitem_save.Size = new System.Drawing.Size(145, 22);
+            this.menuitem_save.Size = new System.Drawing.Size(180, 22);
             this.menuitem_save.Text = "Save";
             this.menuitem_save.Click += new System.EventHandler(this.SaveToolStripMenuItemClick);
             // 
             // menuitem_saveas
             // 
             this.menuitem_saveas.Name = "menuitem_saveas";
-            this.menuitem_saveas.Size = new System.Drawing.Size(145, 22);
+            this.menuitem_saveas.Size = new System.Drawing.Size(180, 22);
             this.menuitem_saveas.Text = "Save As";
             this.menuitem_saveas.Click += new System.EventHandler(this.SaveAsToolStripMenuItemClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // menuitem_quit
             // 
             this.menuitem_quit.Name = "menuitem_quit";
-            this.menuitem_quit.Size = new System.Drawing.Size(145, 22);
+            this.menuitem_quit.Size = new System.Drawing.Size(180, 22);
             this.menuitem_quit.Text = "Quit";
             this.menuitem_quit.Click += new System.EventHandler(this.QuitToolStripMenuItemClick);
             // 
@@ -145,7 +145,7 @@ namespace DataEditorX
             this.menuitem_tooltipFont,
             this.menuitem_CEFont});
             this.menuitem_setting.Name = "menuitem_setting";
-            this.menuitem_setting.Size = new System.Drawing.Size(75, 20);
+            this.menuitem_setting.Size = new System.Drawing.Size(81, 21);
             this.menuitem_setting.Text = "Settings(&S)";
             // 
             // menuitem_showinput
@@ -153,7 +153,7 @@ namespace DataEditorX
             this.menuitem_showinput.Checked = true;
             this.menuitem_showinput.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menuitem_showinput.Name = "menuitem_showinput";
-            this.menuitem_showinput.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_showinput.Size = new System.Drawing.Size(195, 22);
             this.menuitem_showinput.Text = "Show/Hide InputBox";
             this.menuitem_showinput.Click += new System.EventHandler(this.Menuitem_showinputClick);
             // 
@@ -161,7 +161,7 @@ namespace DataEditorX
             // 
             this.menuitem_find.Name = "menuitem_find";
             this.menuitem_find.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.menuitem_find.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_find.Size = new System.Drawing.Size(195, 22);
             this.menuitem_find.Text = "Find";
             this.menuitem_find.Click += new System.EventHandler(this.Menuitem_findClick);
             // 
@@ -169,21 +169,21 @@ namespace DataEditorX
             // 
             this.menuitem_replace.Name = "menuitem_replace";
             this.menuitem_replace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.menuitem_replace.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_replace.Size = new System.Drawing.Size(195, 22);
             this.menuitem_replace.Text = "Replace";
             this.menuitem_replace.Click += new System.EventHandler(this.Menuitem_replaceClick);
             // 
             // menuitem_tooltipFont
             // 
             this.menuitem_tooltipFont.Name = "menuitem_tooltipFont";
-            this.menuitem_tooltipFont.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_tooltipFont.Size = new System.Drawing.Size(195, 22);
             this.menuitem_tooltipFont.Text = "Set Toolltip Font";
             this.menuitem_tooltipFont.Click += new System.EventHandler(this.menuitem_tooltipFont_Click);
             // 
             // menuitem_CEFont
             // 
             this.menuitem_CEFont.Name = "menuitem_CEFont";
-            this.menuitem_CEFont.Size = new System.Drawing.Size(184, 22);
+            this.menuitem_CEFont.Size = new System.Drawing.Size(195, 22);
             this.menuitem_CEFont.Text = "Set CodeEditor Font";
             this.menuitem_CEFont.Click += new System.EventHandler(this.setCodeEditorFontToolStripMenuItem_Click);
             // 
@@ -194,7 +194,7 @@ namespace DataEditorX
             this.menuitem_effectcreator,
             this.menuitem_fixCardCode});
             this.menuitem_tools.Name = "menuitem_tools";
-            this.menuitem_tools.Size = new System.Drawing.Size(60, 20);
+            this.menuitem_tools.Size = new System.Drawing.Size(67, 21);
             this.menuitem_tools.Text = "Tools(&T)";
             // 
             // menuitem_testlua
@@ -214,18 +214,26 @@ namespace DataEditorX
             this.menuitem_effectcreator.Visible = false;
             this.menuitem_effectcreator.Click += new System.EventHandler(this.effectCreatorToolStripMenuItem_Click);
             // 
+            // menuitem_fixCardCode
+            // 
+            this.menuitem_fixCardCode.Name = "menuitem_fixCardCode";
+            this.menuitem_fixCardCode.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.menuitem_fixCardCode.Size = new System.Drawing.Size(180, 22);
+            this.menuitem_fixCardCode.Text = "Fix card code";
+            this.menuitem_fixCardCode.Click += new System.EventHandler(this.menuitem_fixCardCode_Click);
+            // 
             // menuitem_help
             // 
             this.menuitem_help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuitem_about});
             this.menuitem_help.Name = "menuitem_help";
-            this.menuitem_help.Size = new System.Drawing.Size(61, 20);
+            this.menuitem_help.Size = new System.Drawing.Size(64, 21);
             this.menuitem_help.Text = "Help(&H)";
             // 
             // menuitem_about
             // 
             this.menuitem_about.Name = "menuitem_about";
-            this.menuitem_about.Size = new System.Drawing.Size(107, 22);
+            this.menuitem_about.Size = new System.Drawing.Size(180, 22);
             this.menuitem_about.Text = "About";
             this.menuitem_about.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
@@ -246,9 +254,9 @@ namespace DataEditorX
             this.documentMap1.BackColor = System.Drawing.Color.DimGray;
             this.documentMap1.Dock = System.Windows.Forms.DockStyle.Right;
             this.documentMap1.ForeColor = System.Drawing.Color.Maroon;
-            this.documentMap1.Location = new System.Drawing.Point(625, 24);
+            this.documentMap1.Location = new System.Drawing.Point(625, 25);
             this.documentMap1.Name = "documentMap1";
-            this.documentMap1.Size = new System.Drawing.Size(191, 483);
+            this.documentMap1.Size = new System.Drawing.Size(191, 482);
             this.documentMap1.TabIndex = 5;
             this.documentMap1.Target = null;
             this.documentMap1.Text = "documentMap1";
@@ -258,9 +266,9 @@ namespace DataEditorX
             // 
             this.host.AllowDrop = true;
             this.host.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.host.Location = new System.Drawing.Point(0, 24);
+            this.host.Location = new System.Drawing.Point(0, 25);
             this.host.Name = "host";
-            this.host.Size = new System.Drawing.Size(625, 462);
+            this.host.Size = new System.Drawing.Size(625, 461);
             this.host.TabIndex = 0;
             this.host.Child = this.editor;
             // 
@@ -276,13 +284,6 @@ namespace DataEditorX
             this.lbTooltip.Size = new System.Drawing.Size(0, 14);
             this.lbTooltip.TabIndex = 6;
             this.lbTooltip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbTooltip_MouseMove);
-            // 
-            // menuitem_fixCardCode
-            // 
-            this.menuitem_fixCardCode.Name = "menuitem_fixCardCode";
-            this.menuitem_fixCardCode.Size = new System.Drawing.Size(180, 22);
-            this.menuitem_fixCardCode.Text = "Fix card code";
-            this.menuitem_fixCardCode.Click += new System.EventHandler(this.menuitem_fixCardCode_Click);
             // 
             // CodeEditForm_Avalon
             // 

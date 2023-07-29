@@ -302,7 +302,7 @@ namespace DataEditorX.Core
                         FileMode.OpenOrCreate, FileAccess.Write))
                     {
                         StreamWriter sw = new StreamWriter(fs, new UTF8Encoding(false));
-                        if (string.IsNullOrEmpty(addrequire))
+                        if (!DEXConfig.ReadBoolean(DEXConfig.TAG_ADD_REQUIRE))
                         {
                             // OCG script
                             sw.WriteLine("--" + c.name);
@@ -314,9 +314,11 @@ namespace DataEditorX.Core
                         {
                             // DIY script
                             sw.WriteLine("--" + c.name);
-                            sw.WriteLine("local id=" + id.ToString());
-                            sw.WriteLine("local this=_G[\"c\"..m]");
-                            sw.WriteLine("Duel.LoadScript(\"" + addrequire + ".lua\")");
+                            sw.WriteLine("local this,id,ofs=GetID()");
+                            if (addrequire.Length > 0)
+                            {
+                                sw.WriteLine("Duel.LoadScript(\"" + addrequire + ".lua\")");
+                            }
                             sw.WriteLine("function this.initial_effect(c)");
                             sw.WriteLine("\t");
                             sw.WriteLine("end");
