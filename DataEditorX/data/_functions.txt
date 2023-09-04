@@ -68,13 +68,13 @@ bit库已删除，请用操作符操作，详见 utility.lua
 
 ========== Card ==========
 ●int[,int] Card.GetCode(Card c)
-返回c的当前代号（可能因为效果改变）
+返回c的当前卡号（可能因为效果改变）
 
 ●int Card.GetOriginalCode(Card c)
-返回c的卡片记载的代号
+返回c的卡片记载的卡号
 
 ●int,int Card.GetOriginalCodeRule(Card c)
-返回c规则上的代号（这张卡规则上当作...使用）
+返回c规则上的卡号（这张卡规则上当作...使用）
 
 ●int[,int,...] Card.GetFusionCode(Card c)
 返回c作为融合素材时的卡号（包括c原本的卡号）
@@ -664,7 +664,7 @@ RESET_CARD        重置卡片的效果      reset_code为效果owner的卡号
 检查是否可以以tuner作为调整，场上的卡[或mg]为同调素材对c进行同调召唤手续
 如果tuner是nil，此函数与Card.IsSpecialSummonable作用相同
 
-●bool Card.IsXyzSummonable(Card c, Group mg|nil[, min=0, max=0])
+●bool Card.IsXyzSummonable(Card c, Group mg|nil[, int min=0, int max=0])
 检查是否可以在场上的卡[或mg][中选出 min-max 个XYZ素材]对c进行XYZ召唤手续
 如果mg为nil，此函数与 c:IsSpecialSummonable(SUMMON_TYPE_XYZ)作用相同
 
@@ -672,7 +672,7 @@ RESET_CARD        重置卡片的效果      reset_code为效果owner的卡号
 检查c是否可以进行通常召唤（不包含通常召唤的set)，ignore_count=true则不检查召唤次数限制
 e~=nil则检查c是否可以以效果e进行通常召唤，min表示至少需要的祭品数（用于区分妥协召唤与上级召唤）,zone 表示必须要召唤到的区域
 
-●bool Card.IsMSetable(Card, bool ignore_count, Effect e|nil[, int min=0, int zone=0x1f])
+●bool Card.IsMSetable(Card c, bool ignore_count, Effect e|nil[, int min=0, int zone=0x1f])
 检查c是否可进行通常召唤的set，ignore_count=true则不检查召唤次数限制
 e~=nil则检查c是否可以以效果e进行通常召唤的set，min表示至少需要的祭品数（用于区分妥协召唤set与上级召唤set）,zone 表示必须要放置到的区域
 
@@ -736,7 +736,7 @@ e~=nil则检查c是否可以以效果e进行通常召唤的set，min表示至少
 ●bool Card.IsReleasableByEffect(Card c)
 检查c是否可以被效果解放
 
-●bool Card.IsDiscardable(Card[, int reason=REASON_COST])
+●bool Card.IsDiscardable(Card c[, int reason=REASON_COST])
 检查c是否可以以reason原因丢弃
 注：此函数仅用于检测，
 以REASON_DISCARD作为原因把一张手卡送墓并不会导致那张卡不能丢弃
@@ -983,10 +983,10 @@ CARDDATA_LINK_MARKER	12
 ●int Card.GetRemovedOverlayCount(Card c)
 返回c本回合被取除的XYZ素材数量。
 
-●bool Card.IsOriginalCodeRule(Card c，int code)
+●bool Card.IsOriginalCodeRule(Card c, int code)
 检查c是否在规则上当做code使用
 
-●bool Card.IsLinkSummonable(Card c, Group mg|nil[, min=0, max=0])
+●bool Card.IsLinkSummonable(Card c, Group mg|nil[, int min=0, int max=0])
 检查是否可以在场上的卡[或mg][中选出 min-max 个连接素材]对c进行连接召唤手续
 如果mg为nil，此函数与 c:IsSpecialSummonable(SUMMON_TYPE_LINK)作用相同
 
@@ -1262,8 +1262,8 @@ EFFECT_TYPE_QUICK_F			=0x0400		--诱发即时必发效果（熊猫龙等）
 让玩家player从g中选择min-max张不等于ex的卡
 
 ●Card Group.SelectUnselect(Group cg, Group sg, int player, bool btok=false, bool cancelable=false, int minc, int maxc)
-让玩家 player 从 cg 中选择 1 张卡放入 sg ，并返回选的卡。  
-btok 表示是否可以点击完成选择的按钮， cancelable 表示是否可以取消已选择的卡， 
+让玩家 player 从 未选择的卡 cg 或 已选择的卡 sg 中选择 1 张卡，并返回选的卡。
+btok 表示是否可以点击完成选择的按钮， cancelable 表示是否可以取消(返回 nil)，
 minc 和 maxc 是客户端的文字缓冲提示，表示需要选择 minc-maxc 张卡，但是这个只是影响视觉效果，并不代表必须要选择那个数量
 
 ●Group Group.RandomSelect(Group g, int player, int count)
@@ -1358,7 +1358,7 @@ end
 ●Group Group.__bxor(Group|Card target1, Group|Card target2)
 新建一个卡片组，将 target1 和 target2 中不同的卡（就是只存在于 target1 或者 target2 里的卡）全部添加到 这个卡片组里，最后返回这个卡片组，targe1,target2 本身不会有任何变化
 
-●Group Group.SelectSubGroup(g,tp,f,cancelable,min,max,...)
+●Group Group.SelectSubGroup(Group g, int tp, function f, bool cancelable, int min, int max, ...)
 让玩家从g里选择多张不同的卡，直到满足条件为止。
 每次选卡，都会把已经选中的卡以f(sg,...)的形式传给f。
 如果返回true，则表示选卡结束，此函数返回选好的Group。
@@ -1409,7 +1409,7 @@ cancelable如果为true，则玩家可以中途放弃，停止选卡。此时此
 ●int Duel.GetFlagEffectLabel(int player, int code)
 返回玩家player的种类为code的标识效果的Label，没有此效果则返回nil
 
-●int Duel.Destroy(Card|Group targets, int reason[ ,int dest = LOCATION_GRAVE])
+●int Duel.Destroy(Card|Group targets, int reason[, int dest = LOCATION_GRAVE])
 以reason原因破坏targets去dest，返回值是实际被破坏的数量
 如果reason包含REASON_RULE，则破坏事件将不会检查卡片是否免疫效果，
 不会触发代破效果并且无视“不能破坏”
@@ -1452,7 +1452,7 @@ Duel.ChangePosition, Duel.SpecialSummon, Duel.DiscardDeck
 ●void Duel.SynchroSummon(int player, Card c, Card tuner|nil[, Group mg|nil])
 让玩家player以tuner作为调整,场上的卡[或mg]为素材，对c进行同调召唤手续
 
-●void Duel.XyzSummon(int player, Card c, Group mg|nil[, min=0, max=0])
+●void Duel.XyzSummon(int player, Card c, Group mg|nil[, int min=0, int max=0])
 让玩家player用场上的卡[或mg][选min-max个素材]对c进行XYZ召唤手续
 mg非空且min为0则直接把mg全部作为XYZ素材
 
@@ -1593,13 +1593,13 @@ TIMING_EQUIP				=0x2000000  	--装备时点
 TIMING_BATTLE_STEP_END		=0x4000000  	--戰鬥步驟結束時
 
 ●int,int Duel.GetEnvironment()
-返回两个值，表示当前场地代号，以及当前场地效果的来源玩家
-场地代号指当前生效的场地卡的代号，或者海神的巫女等卡把场地变化效果的值
+返回两个值，表示当前场地卡号，以及当前场地效果的来源玩家
+场地卡号指当前生效的场地卡的卡号，或者海神的巫女等卡把场地变化效果的值
 来源玩家指当前生效的场地卡的控制者，或者海神的巫女等卡的控制者
 
 ●bool Duel.IsEnvironment(int code[, int player=PLAYER_ALL, int loc = LOCATION_FZONE + LOCATION_ONFIELD])
-检查场地代号是否是code [，来源玩家是否是 player][，生效区域是否在 loc 内]
-场地代号指当前生效的场地卡的代号，或者海神的巫女把场地变化效果的值
+检查场地卡号是否是code [，来源玩家是否是 player][，生效区域是否在 loc 内]
+场地卡号指当前生效的场地卡的卡号，或者海神的巫女把场地变化效果的值
 来源玩家指当前生效的场地卡的控制者，或者海神的巫女等卡的控制者
 
 ●void Duel.Win(int player, int win_reason)
@@ -1704,7 +1704,7 @@ PHASE_END			=0x200	--结束阶段
 ●void Duel.ChangeTargetCard(int chainc, Group g)
 把连锁chainc的对象换成g
 
-●void Duel.ChangeTargetPlayer(int chainc, in player)
+●void Duel.ChangeTargetPlayer(int chainc, int player)
 把连锁chainc的对象玩家换成player
 
 ●void Duel.ChangeTargetParam(int chainc, int param)
@@ -1869,7 +1869,7 @@ s代表以player来看的自己的位置，o代表以player来看的对方的位
 ●Group Duel.GetReleaseGroup(int player[, bool use_hand=false])
 返回玩家player可解放（非上级召唤用）的卡片组， use_hand=true 则包括手卡
 
-●integer Duel.GetReleaseGroupCount(int player[, bool use_hand=false])
+●int Duel.GetReleaseGroupCount(int player[, bool use_hand=false])
 返回玩家player可解放（非上级召唤用）的卡片数量， use_hand=true 则包括手卡
 
 ●bool Duel.CheckReleaseGroup(int player, function f|nil, int count, Card|Group ex|nil, ...)
@@ -1951,9 +1951,7 @@ f1是 1 只需要满足的过滤条件，f2是 min-max 只需要满足的过滤�
 包含手卡·场上的怪兽的以及受 EFFECT_EXTRA_FUSION_MATERIAL 影响的卡
 
 ●void Duel.SetSelectedCard(Card|Group cards)
-将准备由Duel.GrabSelectedCard读取的卡片/卡片组设置为cards。
-单独使用没有意义，要配合Duel.GrabSelectedCard来读取。
-用于多个函数先后使用，又无法相互传递数据时的参数传递。
+设置Duel.CheckWithSum，Group.CheckSubGroup等函数已选择/必须选择的卡片
 
 ●void Duel.SetTargetCard(Card|Group targets)
 把当前正在处理的连锁的对象设置成targets
@@ -1965,7 +1963,7 @@ f1是 1 只需要满足的过滤条件，f2是 min-max 只需要满足的过滤�
 ●void Duel.SetTargetPlayer(int player)
 把当前正在处理的连锁的对象玩家设置成player
 
-●void Duel.SetTargetParam(inte param)
+●void Duel.SetTargetParam(int param)
 把当前正在处理的连锁的对象参数设置成param
 
 ●void Duel.SetOperationInfo(int chainc, int category, Card|Group targets, int count, int target_player, int target_param)
@@ -2104,10 +2102,10 @@ ATTRIBUTE_DEVINE	=0x40		--神
 让玩家宣言一个[min-max]等级并返回
 
 ●int Duel.AnnounceCard(int player[, int type=(TYPE_MONSTER | TYPE_SPELL | TYPE_TRAP)])
-让玩家player宣言一个[type类型的]卡片代号（比如：禁止令）
+让玩家player宣言一个[type类型的]卡片卡号（比如：禁止令）
 
 ●int Duel.AnnounceCardFilter(int player, ...)
-让玩家player宣言一个满足条件的卡片代号，条件是额外参数，并且都是 int 类型，用于宣言某些特定范围的卡
+让玩家player宣言一个满足条件的卡片卡号，条件是额外参数，并且都是 int 类型，用于宣言某些特定范围的卡
 例如：虚空俏丽魔术师
 c28776350.announce_filter={TYPE_FUSION+TYPE_SYNCHRO+TYPE_XYZ+TYPE_LINK,OPCODE_ISTYPE,OPCODE_NOT}
 local ac=Duel.AnnounceCardFilter(tp,table.unpack(c28776350.announce_filter))
@@ -2174,7 +2172,7 @@ local ac=Duel.AnnounceCardFilter(tp,table.unpack(c28776350.announce_filter))
 ●bool Duel.IsPlayerCanFlipSummon(int player, Card c)
 检查玩家player是否可以反转召唤c
 
-●bool Duel.IsPlayerCanSpecialSummonMonster(int player, int code[, int setcode|nil, int type|nil, int atk|nil, int def|nil, int level|nil, int race|nil, int attribute|nil, int  pos=POS_FACEUP, int target_player=player, int sumtype=0])
+●bool Duel.IsPlayerCanSpecialSummonMonster(int player, int code[, int setcode|nil, int type|nil, int atk|nil, int def|nil, int level|nil, int race|nil, int attribute|nil, int pos=POS_FACEUP, int target_player=player, int sumtype=0])
 检查玩家player是否可以[以sumtype 方式][以 pos 表示形式]特殊召唤 给定参数的怪兽到target_player场上
 此函数通常用于判定是否可以特招token和陷阱怪兽
 
@@ -2261,7 +2259,7 @@ ACTIVITY_CHAIN          =7	--发动效果
 ●int Duel.GetMasterRule()
 返回当前决斗规则（大师规则X）。
 
-●int,int,.. Duel.ReadCard(int|Card target, int type, int type2, ..)
+●int,int,.. Duel.ReadCard(int|Card target, int type, int type2, ...)
 返回卡片target（或是卡号为target的卡）的type的信息。
 type可以是以下之一：
 CARDDATA_CODE			1
@@ -2316,9 +2314,9 @@ CARDDATA_LINK_MARKER	12
 ●bool Duel.IsSummonCancelable()
 返回当前进行特殊召唤的行为是否可以回滚并撤销。
 
-●Card|Group Duel.GrabSelectedCard()
-返回由Duel.SetSelectedCard设置的卡片或卡片组。
-单独使用没有意义，必须先用Duel.SetSelectedCard进行设置。
+●Group Duel.GrabSelectedCard()
+清空并返回由Duel.SetSelectedCard设置的卡片或卡片组。
+一般先用Duel.SetSelectedCard进行设置。
 
 ●void Duel.ClearOperationInfo(int chainc)
 将chainc的OperationInfo清除。用于如堕天使复制并使用墓地效果之类，卡片效果不应当被响应的情况。
@@ -2336,7 +2334,7 @@ CARDDATA_LINK_MARKER	12
 ●bool Duel.IsPlayerCanDiscardDeckAsCost(int player, int count)
 检查玩家player是否能作为Cost把count张卡送去墓地。
 
-●bool Duel.AdjustAll()
+●void Duel.AdjustAll()
 立刻刷新场地信息。
 
 ========== aux ============
@@ -2588,7 +2586,7 @@ code 为仪式怪兽卡号，素材的等级之和必须等于仪式怪兽的等
 code1,code2 为仪式怪兽卡号，素材的等级之和必须等于仪式怪兽的等级
 等价于：aux.AddRitualProcEqual2(c,aux.FilterBoolFunction(Card.IsCode,code1,code2)) ,并添加 fit_monster={code1,code2}
 
-●void aux.EnablePendulumAttribute(Card c[, active_effect=true])
+●void aux.EnablePendulumAttribute(Card c[, bool active_effect=true])
 为灵摆怪兽c添加灵摆怪兽属性（灵摆召唤，灵摆卡的发动）
 active_effect=false则不注册灵摆卡“卡的发动”的效果
 
@@ -2675,12 +2673,7 @@ function aux.exccon(e)
 end
 
 ●bool aux.chainreg(Effect e, int tp, Group eg, int ep, int ev, Effect re, int r, int rp)
-死亡魔导龙(81059524)用了此函数，其实就是相当于
-function aux.chainreg(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetHandler():GetFlagEffect(1)==0 then
-		e:GetHandler():RegisterFlagEffect(1,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_CHAIN,0,1)
-	end
-end
+用于记录连锁发生时这张卡在场上存在
 
 ●bool aux.imval1(Effect e, Card c)
 不会成为攻击对象的过滤函数的简单写法，用在效果注册里 SetValue
@@ -2725,18 +2718,7 @@ function aux.nzdef(c)
 end
 
 ●bool aux.sumreg(Effect e, int tp, Group eg, int ep, int ev, Effect re, int r, int rp)
-妖仙兽 阎魔巳裂(39853199)和一些其他卡(49249907,93368494)用了此函数，不过此函数★意★义★不★明★。
-54109233 虽然没用此函数，但是用了一样的写法，同样是★意★义★不★明★，其实就是相当于
-function aux.sumreg(e,tp,eg,ep,ev,re,r,rp)
-	local tc=eg:GetFirst()
-	local code=e:GetLabel()
-	while tc do
-		if tc:GetOriginalCode()==code then
-			tc:RegisterFlagEffect(code,RESET_EVENT+0x1ec0000+RESET_PHASE+PHASE_END,0,1)
-		end
-		tc=eg:GetNext()
-	end
-end
+用于处理“这张卡召唤的回合”的效果(混沌幻影复制这种效果即使是这个回合召唤的也不能生效)
 
 ●bool aux.fuslimit(Effect e, Effect se, int sp, int st)
 不能用 融合召唤 以外的方式召唤(广义的) 的过滤函数的简单写法，用在效果注册里 SetValue
@@ -2885,7 +2867,7 @@ end
 检查c的攻击是否和防御力相同。
 目前在场则会追加检查当前值，是LINK怪兽或不是怪兽则直接返回false。
 
-●bool aux.SelectFromOptions(int tp,...)
+●int aux.SelectFromOptions(int tp,...)
 让玩家选择选项。
 第二个数值以后每个数值都应当是一个table：
 table的第一个数值是一个bool值，指示此选项是否有效。
