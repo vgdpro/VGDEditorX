@@ -58,7 +58,7 @@ DataEditForm.pl_main.splitContainer..lv_cardlist.0	Code
 DataEditForm.pl_main.splitContainer..lv_cardlist.1	Name
 DataEditForm.pl_bottom.btn_reset	Clear All
 DataEditForm.pl_bottom.btn_lua	Open Lua File
-DataEditForm.pl_bottom.btn_serach	Search
+DataEditForm.pl_bottom.btn_search	Search
 DataEditForm.pl_bottom.btn_del	Delete
 DataEditForm.pl_bottom.btn_undo	Undo
 DataEditForm.pl_bottom.btn_mod	Modify
@@ -204,3 +204,6 @@ MainForm.mainMenu.menuitem_closeall	Close All
 0x4d	It is not recommended to open lots of file at a time. Continue?
 0x4e	Are you sure to undo? All unsaved contents will be lost.
 0x4f	Invalid file name. Only support file names as [cXXXXXXXX.lua].
+0x50	Database Files(*.cdb)|*.cdb|All Files(*.*)|*.*
+0x51	Replace duplicated cards?
+0x52	Successfully merged {0} card(s).

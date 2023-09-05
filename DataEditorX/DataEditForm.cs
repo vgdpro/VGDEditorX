@@ -10,13 +10,16 @@ using DataEditorX.Config;
 using DataEditorX.Core;
 using DataEditorX.Core.Mse;
 using DataEditorX.Language;
+using Neo.IronLua;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using static DataEditorX.ResetForm;
 
 namespace DataEditorX
 {
@@ -919,7 +922,7 @@ namespace DataEditorX
 
         #region 按钮
         //搜索卡片
-        void Btn_serachClick(object sender, EventArgs e)
+        void Btn_searchClick(object sender, EventArgs e)
         {
             this.tmpCodes.Clear();//清空临时的结果
             this.Search(this.GetCard(), false);
@@ -2265,6 +2268,162 @@ namespace DataEditorX
         private void OnDragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
+        }
+
+        private void tb_setcode1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchSetCode(tb_setcode1, cb_setname1);
+            }
+        }
+
+        private void tb_setcode2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchSetCode(tb_setcode2, cb_setname2);
+            }
+        }
+
+        private void tb_setcode3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchSetCode(tb_setcode3, cb_setname3);
+            }
+        }
+
+        private void tb_setcode4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchSetCode(tb_setcode4, cb_setname4);
+            }
+        }
+
+        private void tb_setcode1_Leave(object sender, EventArgs e)
+        {
+            CheckSetCode(tb_setcode1,cb_setname1);
+        }
+
+        private void tb_setcode2_Leave(object sender, EventArgs e)
+        {
+            CheckSetCode(tb_setcode2, cb_setname2);
+        }
+
+        private void CheckSetCode(TextBox tb, ComboBox cb)
+        {
+            if (tb.Text.ToLower().StartsWith("0x") || tb.Text.Length > 5)
+            {
+                SearchSetCode(tb, cb);
+                return;
+            }
+            string numbers = "1234567890abcdef";
+            for(int i = 0; i < tb.Text.Length; i++)
+            {
+                if (!numbers.Contains(tb.Text[i].ToString()))
+                {
+                    SearchSetCode(tb, cb);
+                    return;
+                }
+            }
+        }
+
+        private void SearchSetCode(TextBox tb, ComboBox cb)
+        {
+            for (int i = 0; i < cb.Items.Count; i++)
+            {
+                if (cb.Items[i].ToString().ToLower() == tb.Text.ToLower())
+                {
+                    cb.SelectedIndex = i;
+                    return;
+                }
+            }
+            for (int i = 0; i < cb.Items.Count; i++)
+            {
+                if (cb.Items[i].ToString().ToLower().Contains(tb.Text.ToLower()))
+                {
+                    cb.SelectedIndex = i;
+                    return;
+                }
+            }
+            tb.Text = "0";
+        }
+
+        private void tb_setcode3_Leave(object sender, EventArgs e)
+        {
+            CheckSetCode(tb_setcode3, cb_setname3);
+        }
+
+        private void tb_setcode4_Leave(object sender, EventArgs e)
+        {
+            CheckSetCode(tb_setcode4, cb_setname4);
+        }
+
+        private void menuMergeDatabase_Click(object sender, EventArgs e)
+        {
+            if (!this.CheckOpen())
+            {
+                return;
+            }
+            List<Card> cards = new List<Card>();
+            using (OpenFileDialog dlg = new OpenFileDialog())
+            {
+                dlg.Title = LanguageHelper.GetMsg(LMSG.SelectDataBasePath);
+                try
+                {
+                    dlg.Filter = LanguageHelper.GetMsg(LMSG.CdbType);
+                    dlg.Multiselect = true;
+                }
+                catch { }
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    bool replace = MessageBox.Show(LanguageHelper.GetMsg(LMSG.MergeHint), LanguageHelper.GetMsg(LMSG.titleInfo),MessageBoxButtons.YesNo) == DialogResult.Yes;
+
+                    if (File.Exists(this.nowCdbFile))
+                    {
+                        using (SQLiteConnection mainConnection = new SQLiteConnection(@"Data Source=" + nowCdbFile))
+                        {
+                            mainConnection.Open();
+                            using (SQLiteTransaction trans = mainConnection.BeginTransaction())
+                            {
+                                using (SQLiteCommand cmd = new SQLiteCommand(mainConnection))
+                                {
+                                    foreach (string file in dlg.FileNames)
+                                    {
+                                        //读取失败就跳过
+                                        try
+                                        {
+                                            var dbCards = DataBase.Read(file, true, "");
+                                            //单张读取，失败就跳过
+                                            foreach (var dbCard in dbCards)
+                                            {
+                                                try
+                                                {
+                                                    cards.Add(dbCard);
+                                                }
+                                                catch { }
+                                            }
+                                        }
+                                        catch { }
+                                    }
+                                    foreach(Card card in cards)
+                                    {
+                                        cmd.CommandText = DataBase.GetInsertSQL(card, !replace);
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                }
+                                trans.Commit();
+                            }
+                            mainConnection.Close();
+                        }
+                    }
+                    MessageBox.Show(string.Format(LanguageHelper.GetMsg(LMSG.MergeComplete), cards.Count), LanguageHelper.GetMsg(LMSG.About));
+                    Btn_resetClick(null, null);
+                    Btn_searchClick(null, null);
+                }
+            }
         }
 
         void Tb_linkKeyPress(object sender, KeyPressEventArgs e)

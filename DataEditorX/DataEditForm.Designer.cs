@@ -68,6 +68,7 @@ namespace DataEditorX
             this.menuitem_export_select_sql = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_export_all_sql = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_findluafunc = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuMergeDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitem_exportdata = new System.Windows.Forms.ToolStripMenuItem();
             this.tsep5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuitem_cutimages = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,7 +114,7 @@ namespace DataEditorX
             this.btn_del = new System.Windows.Forms.Button();
             this.btn_lua = new System.Windows.Forms.Button();
             this.btn_reset = new System.Windows.Forms.Button();
-            this.btn_serach = new System.Windows.Forms.Button();
+            this.btn_search = new System.Windows.Forms.Button();
             this.lb_categorys = new System.Windows.Forms.Label();
             this.lb2 = new System.Windows.Forms.Label();
             this.pl_image = new System.Windows.Forms.Panel();
@@ -318,6 +319,7 @@ namespace DataEditorX
             this.menuitem_export_select_sql,
             this.menuitem_export_all_sql,
             this.menuitem_findluafunc,
+            this.menuMergeDatabase,
             this.menuitem_exportdata,
             this.tsep5,
             this.menuitem_cutimages,
@@ -402,6 +404,13 @@ namespace DataEditorX
             this.menuitem_findluafunc.Size = new System.Drawing.Size(238, 22);
             this.menuitem_findluafunc.Text = "Find Lua Function";
             this.menuitem_findluafunc.Click += new System.EventHandler(this.menuitem_findluafunc_Click);
+            // 
+            // menuMergeDatabase
+            // 
+            this.menuMergeDatabase.Name = "menuMergeDatabase";
+            this.menuMergeDatabase.Size = new System.Drawing.Size(238, 22);
+            this.menuMergeDatabase.Text = "Merge Database...";
+            this.menuMergeDatabase.Click += new System.EventHandler(this.menuMergeDatabase_Click);
             // 
             // menuitem_exportdata
             // 
@@ -876,16 +885,16 @@ namespace DataEditorX
             this.btn_reset.UseVisualStyleBackColor = true;
             this.btn_reset.Click += new System.EventHandler(this.Btn_resetClick);
             // 
-            // btn_serach
+            // btn_search
             // 
-            this.btn_serach.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btn_serach.Location = new System.Drawing.Point(340, 3);
-            this.btn_serach.Name = "btn_serach";
-            this.btn_serach.Size = new System.Drawing.Size(80, 28);
-            this.btn_serach.TabIndex = 0;
-            this.btn_serach.Text = "&Search";
-            this.btn_serach.UseVisualStyleBackColor = true;
-            this.btn_serach.Click += new System.EventHandler(this.Btn_serachClick);
+            this.btn_search.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btn_search.Location = new System.Drawing.Point(340, 3);
+            this.btn_search.Name = "btn_search";
+            this.btn_search.Size = new System.Drawing.Size(80, 28);
+            this.btn_search.TabIndex = 0;
+            this.btn_search.Text = "&Search";
+            this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.Btn_searchClick);
             // 
             // lb_categorys
             // 
@@ -991,6 +1000,8 @@ namespace DataEditorX
             this.tb_setcode1.Text = "0";
             this.tb_setcode1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tb_setcode1.TextChanged += new System.EventHandler(this.tb_setcode1_TextChanged);
+            this.tb_setcode1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_setcode1_KeyDown);
+            this.tb_setcode1.Leave += new System.EventHandler(this.tb_setcode1_Leave);
             // 
             // tb_setcode2
             // 
@@ -1003,6 +1014,8 @@ namespace DataEditorX
             this.tb_setcode2.Text = "0";
             this.tb_setcode2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tb_setcode2.TextChanged += new System.EventHandler(this.tb_setcode2_TextChanged);
+            this.tb_setcode2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_setcode2_KeyDown);
+            this.tb_setcode2.Leave += new System.EventHandler(this.tb_setcode2_Leave);
             // 
             // tb_setcode3
             // 
@@ -1015,6 +1028,8 @@ namespace DataEditorX
             this.tb_setcode3.Text = "0";
             this.tb_setcode3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tb_setcode3.TextChanged += new System.EventHandler(this.tb_setcode3_TextChanged);
+            this.tb_setcode3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_setcode3_KeyDown);
+            this.tb_setcode3.Leave += new System.EventHandler(this.tb_setcode3_Leave);
             // 
             // tb_setcode4
             // 
@@ -1027,6 +1042,8 @@ namespace DataEditorX
             this.tb_setcode4.Text = "0";
             this.tb_setcode4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tb_setcode4.TextChanged += new System.EventHandler(this.tb_setcode4_TextChanged);
+            this.tb_setcode4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_setcode4_KeyDown);
+            this.tb_setcode4.Leave += new System.EventHandler(this.tb_setcode4_Leave);
             // 
             // lb_cardcode
             // 
@@ -1072,7 +1089,7 @@ namespace DataEditorX
             this.pl_bottom.Controls.Add(this.tb_page);
             this.pl_bottom.Controls.Add(this.tb_pagenum);
             this.pl_bottom.Controls.Add(this.btn_lua);
-            this.pl_bottom.Controls.Add(this.btn_serach);
+            this.pl_bottom.Controls.Add(this.btn_search);
             this.pl_bottom.Controls.Add(this.btn_img);
             this.pl_bottom.Controls.Add(this.btn_reset);
             this.pl_bottom.Controls.Add(this.btn_del);
@@ -1303,7 +1320,7 @@ namespace DataEditorX
         private System.Windows.Forms.Label lb_types;
         private DFlowLayoutPanel pl_category;
         private DFlowLayoutPanel pl_cardtype;
-        private System.Windows.Forms.Button btn_serach;
+        private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.Button btn_reset;
         private System.Windows.Forms.Button btn_lua;
         private System.Windows.Forms.Button btn_del;
@@ -1376,5 +1393,6 @@ namespace DataEditorX
         private System.Windows.Forms.ToolStripMenuItem menuitem_addrequire;
         private System.Windows.Forms.SplitContainer splitContainer;
         private DFlowLayoutPanel pl_markers;
+        private System.Windows.Forms.ToolStripMenuItem menuMergeDatabase;
     }
 }

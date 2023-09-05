@@ -97,6 +97,9 @@ namespace DataEditorX.Language
         IfOpenLotsOfFile = 0x4d,
         UndoConfirm = 0x4e,
         InvalidFileName = 0x4f,
+        CdbTypeOnly = 0x50,
+        MergeHint = 0x51,
+        MergeComplete = 0x52,
         COUNT,
     }
 }

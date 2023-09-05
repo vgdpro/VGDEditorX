@@ -58,7 +58,7 @@ DataEditForm.pl_main.splitContainer..lv_cardlist.0	卡片编码
 DataEditForm.pl_main.splitContainer..lv_cardlist.1	卡片名称
 DataEditForm.pl_bottom.btn_reset	重置
 DataEditForm.pl_bottom.btn_lua	脚本
-DataEditForm.pl_bottom.btn_serach	搜索
+DataEditForm.pl_bottom.btn_search	搜索
 DataEditForm.pl_bottom.btn_del	删除
 DataEditForm.pl_bottom.btn_undo	撤销
 DataEditForm.pl_bottom.btn_mod	修改
@@ -104,6 +104,7 @@ DataEditForm.mainMenu.menuitem_autocheckupdate	自动检查更新
 DataEditForm.mainMenu.menuitem_github	源码
 DataEditForm.mainMenu.menuitem_autoreturn	(特殊功能)中文自动换行
 DataEditForm.mainMenu.menuitem_replace	(特殊功能)批量替换文本
+DataEditForm.mainMenu.menuMergeDatabase	批量导入其他卡片数据库
 #
 MainForm.mainMenu.menuitem_file	文件(&F)
 MainForm.mainMenu.menuitem_open	打开
@@ -204,3 +205,6 @@ MainForm.mainMenu.menuitem_closeall	关闭所有
 0x4d	一次性打开大量文件将导致卡顿，是否继续？
 0x4e	确定要进行撤销吗？所有未保存的内容都将丢失。
 0x4f	无效的文件名。只支持类似[cXXXXXXXX.lua]的文件。
+0x50	数据库文件(*.cdb)|*.cdb|所有文件(*.*)|*.*
+0x51	如果遇到重复的卡，是否要进行覆盖？
+0x52	合并完成！共读取了{0}张卡。
