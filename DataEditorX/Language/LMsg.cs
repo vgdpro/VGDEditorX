@@ -100,6 +100,7 @@ namespace DataEditorX.Language
         CdbTypeOnly = 0x50,
         MergeHint = 0x51,
         MergeComplete = 0x52,
+        TemplateFileHint = 0x53,
         COUNT,
     }
 }

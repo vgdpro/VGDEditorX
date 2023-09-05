@@ -1,5 +1,6 @@
 ﻿using DataEditorX.Config;
 using DataEditorX.Language;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -287,7 +288,7 @@ namespace DataEditorX.Core
             }
             else if (addrequire.Length > 0)
             {
-                lua = this.dataform.GetPath().GetModuleScript(addrequire);
+                lua = this.dataform.GetPath().GetRandomName();
             }
             else
             {
@@ -302,7 +303,13 @@ namespace DataEditorX.Core
                         FileMode.OpenOrCreate, FileAccess.Write))
                     {
                         StreamWriter sw = new StreamWriter(fs, new UTF8Encoding(false));
-                        if (!DEXConfig.ReadBoolean(DEXConfig.TAG_ADD_REQUIRE))
+                        string template = "";
+                        try
+                        {
+                            template = File.ReadAllText(addrequire);
+                        }
+                        catch { }
+                        if (!DEXConfig.ReadBoolean(DEXConfig.TAG_ADD_REQUIRE) || template == "")
                         {
                             // OCG script
                             sw.WriteLine("--" + c.name);
@@ -312,21 +319,14 @@ namespace DataEditorX.Core
                         }
                         else
                         {
-                            // DIY script
-                            sw.WriteLine("--" + c.name);
-                            sw.WriteLine("local this,id,ofs=GetID()");
-                            if (addrequire.Length > 0)
-                            {
-                                sw.WriteLine("Duel.LoadScript(\"" + addrequire + ".lua\")");
-                            }
-                            sw.WriteLine("function this.initial_effect(c)");
-                            sw.WriteLine("\t");
-                            sw.WriteLine("end");
+                            FileInfo fi = new FileInfo(lua);
+                            template = template.Replace("{file_name}", Path.GetFileNameWithoutExtension(lua));
+                            template = template.Replace("{ext_name}", fi.Extension);
+                            template = template.Replace("{card_name}", c.name);
+                            template = template.Replace("{date}", DateTime.Now.ToString("yyyy/MM/dd"));
+                            template = template.Replace("{time}", DateTime.Now.ToString("HH:mm:ss"));
+                            sw.Write(template);
                         }
-                        /*else
-                        { //module script
-                            sw.WriteLine("--Module script \"" + addrequire + "\"");
-                        }*/
                         sw.Close();
                         fs.Close();
                     }

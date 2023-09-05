@@ -394,12 +394,6 @@ namespace DataEditorX.Core
             string readme = MyPath.Combine(path, name + ".txt");
             //新卡ydk
             string deckydk = ygopath.GetYdk(name);
-            //module scripts
-            string extra_script = "";
-            if (modulescript.Length > 0)
-            {
-                extra_script = ygopath.GetModuleScript(modulescript);
-            }
 
             File.Delete(cdbfile);
             DataBase.Create(cdbfile);
@@ -422,11 +416,6 @@ namespace DataEditorX.Core
                     zips.AddFile(deckydk, "deck/" + name + ".ydk", "");
                 }
 
-                if (modulescript.Length > 0 && File.Exists(extra_script))
-                {
-                    zips.AddFile(extra_script, extra_script.Replace(path, ""), "");
-                }
-
                 foreach (Card c in cards)
                 {
                     i++;
@@ -434,7 +423,7 @@ namespace DataEditorX.Core
                     string[] files = ygopath.GetCardfiles(c.id);
                     foreach (string file in files)
                     {
-                        if (!string.Equals(file, extra_script) && File.Exists(file))
+                        if (File.Exists(file))
                         {
                             zips.AddFile(file, file.Replace(path, ""), "");
                         }

@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DataEditorX")]
-[assembly: AssemblyDescription("E-mail:nanahira@momobako.com")]
+[assembly: AssemblyDescription("E-mail:316351048@qq.com")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mycard")]
 [assembly: AssemblyProduct("DataEditorX")]
-[assembly: AssemblyCopyright("Copyright 2020-2022")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright 2020-2023")]
+[assembly: AssemblyTrademark("Mycard")]
 [assembly: AssemblyCulture("")]
 
 // This sets the default COM visibility of types in the assembly to invisible.
@@ -27,4 +27,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("4.0.0.6")]
+[assembly: AssemblyVersion("4.0.0.7")]

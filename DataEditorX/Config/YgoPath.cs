@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace DataEditorX.Config
 {
@@ -70,9 +71,9 @@ namespace DataEditorX.Config
         {
             return MyPath.Combine(this.luapath, "c" + id + ".lua");
         }
-        public string GetModuleScript(string modulescript)
+        public string GetRandomName()
         {
-            return MyPath.Combine(this.luapath, modulescript + ".lua");
+            return MyPath.Combine(this.luapath, "noname_" + new Random().Next(10000,100000) + ".lua");
         }
 
         public string[] GetCardfiles(long id)

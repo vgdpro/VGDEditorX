@@ -35,12 +35,13 @@ namespace DataEditorX
                 {
                     return this.addrequire_str;
                 }
-                else
+                else if (CheckOpen())
                 {
-                    string cdbName = Path.GetFileNameWithoutExtension(this.nowCdbFile);
-                    if (cdbName.Length > 0 && File.Exists(this.GetPath().GetModuleScript(cdbName)))
+                    FileInfo fi = new FileInfo(this.nowCdbFile);
+                    string lua = $"{fi.DirectoryName}\\{Path.GetFileNameWithoutExtension(this.nowCdbFile)}.lua";
+                    if (File.Exists(lua))
                     {
-                        return cdbName;
+                        return lua;
                     }
                 }
                 return "";
@@ -305,7 +306,7 @@ namespace DataEditorX
             }
         }
         #endregion
-
+        DataConfig dataConfig;
         #region 界面控件
         //初始化控件
         public void InitControl(DataConfig datacfg)
@@ -314,6 +315,8 @@ namespace DataEditorX
             {
                 return;
             }
+
+            dataConfig = datacfg;
 
             List<long> setcodes = DataManager.GetKeys(datacfg.dicSetnames);
             string[] setnames = DataManager.GetValues(datacfg.dicSetnames);
@@ -326,10 +329,14 @@ namespace DataEditorX
                 this.InitCheckPanel(this.pl_cardtype, datacfg.dicCardTypes);
                 this.InitCheckPanel(this.pl_markers, datacfg.dicLinkMarkers);
                 this.InitCheckPanel(this.pl_category, datacfg.dicCardcategorys);
-                this.InitComboBox(this.cb_setname1, setcodes, setnames);
-                this.InitComboBox(this.cb_setname2, setcodes, setnames);
-                this.InitComboBox(this.cb_setname3, setcodes, setnames);
-                this.InitComboBox(this.cb_setname4, setcodes, setnames);
+                for(int i = 0; i < filtered.Length; i++)
+                {
+                    filtered[i] = false;
+                }
+                this.InitSetCode(this.cb_setname1, datacfg.dicSetnames);
+                this.InitSetCode(this.cb_setname2, datacfg.dicSetnames);
+                this.InitSetCode(this.cb_setname3, datacfg.dicSetnames);
+                this.InitSetCode(this.cb_setname4, datacfg.dicSetnames);
             }
             catch (Exception ex)
             {
@@ -373,7 +380,46 @@ namespace DataEditorX
             fpanel.ResumeLayout(false);
             fpanel.PerformLayout();
         }
+        class SetCodeItem
+        {
+            public long Key;
+            public string Name;
 
+            public SetCodeItem(long key, string name)
+            {
+                Key = key;
+                Name = name;
+            }
+
+            public override string ToString()
+            {
+                return Name;
+                /*
+                if (Name == "自定义")
+                {
+                    return "自定义";
+                }
+                return $"{Name}(0x{Key:x})";
+                */
+            }
+        }
+        //初始化ComboBox
+        void InitSetCode(ComboBox cb, Dictionary<long, string> tempdic)
+        {
+            int index = int.Parse(cb.Name.Substring(cb.Name.Length - 1));
+            setcodeIsedit[index] = true;
+            cb.Items.Clear();
+            foreach (var kv in tempdic)
+            {
+                SetCodeItem sci = new SetCodeItem(kv.Key, kv.Value);
+                cb.Items.Add(sci);
+            }
+            setcodeIsedit[index] = false;
+            if (cb.Items.Count > 0)
+            {
+                cb.SelectedIndex = 0;
+            }
+        }
         //初始化ComboBox
         void InitComboBox(ComboBox cb, Dictionary<long, string> tempdic)
         {
@@ -729,6 +775,26 @@ namespace DataEditorX
         //列表选择
         void Lv_cardlistSelectedIndexChanged(object sender, EventArgs e)
         {
+            if (filtered[0])
+            {
+                filtered[0] = false;
+                InitSetCode(cb_setname1, dataConfig.dicSetnames);
+            }
+            if (filtered[1])
+            {
+                filtered[1] = false;
+                InitSetCode(cb_setname2, dataConfig.dicSetnames);
+            }
+            if (filtered[2])
+            {
+                filtered[2] = false;
+                InitSetCode(cb_setname3, dataConfig.dicSetnames);
+            }
+            if (filtered[3])
+            {
+                filtered[3] = false;
+                InitSetCode(cb_setname4, dataConfig.dicSetnames);
+            }
             if (this.lv_cardlist.SelectedItems.Count > 0)
             {
                 int sel = this.lv_cardlist.SelectedItems[0].Index;
@@ -917,6 +983,18 @@ namespace DataEditorX
         {
             this.oldCard = new Card(0);
             this.SetCard(this.oldCard);
+            this.InitSetCode(this.cb_setname1, dataConfig.dicSetnames);
+            this.InitSetCode(this.cb_setname2, dataConfig.dicSetnames);
+            this.InitSetCode(this.cb_setname3, dataConfig.dicSetnames);
+            this.InitSetCode(this.cb_setname4, dataConfig.dicSetnames);
+            for (int i = 0; i < filtered.Length; i++)
+            {
+                filtered[i] = false;
+            }
+            this.tb_setcode1.Text = "0";
+            this.tb_setcode2.Text = "0";
+            this.tb_setcode3.Text = "0";
+            this.tb_setcode4.Text = "0";
         }
         #endregion
 
@@ -1817,11 +1895,6 @@ namespace DataEditorX
         {
             if (index >= 0 && index < this.setcodeIsedit.Length)
             {
-                if (this.setcodeIsedit[index])//如果正在编辑
-                {
-                    return;
-                }
-
                 this.setcodeIsedit[index] = true;
                 int.TryParse(tb.Text, NumberStyles.HexNumber, null, out int temp);
                 //tb.Text = temp.ToString("x");
@@ -1830,7 +1903,14 @@ namespace DataEditorX
                     temp = -1;
                 }
 
-                this.SetSelect(cb, temp);
+                foreach (SetCodeItem sci in cb.Items)
+                {
+                    if (sci.Key == temp && temp > 0 && temp < 0xffff)
+                    {
+                        cb.SelectedItem = sci;
+                        return;
+                    }
+                }
                 this.setcodeIsedit[index] = false;
             }
         }
@@ -1859,18 +1939,16 @@ namespace DataEditorX
         //系列选择框 选择时
         void setCode_Selected(int index, ComboBox cb, TextBox tb)
         {
-            if (index >= 0 && index < this.setcodeIsedit.Length)
+            try
             {
-                if (this.setcodeIsedit[index])//如果正在编辑
+                SetCodeItem sci = cb.SelectedItem as SetCodeItem;
+                if (sci != null)
                 {
-                    return;
+                    tb.Text = sci.Key.ToString("x");
                 }
-
-                this.setcodeIsedit[index] = true;
-                long tmp = this.GetSelect(cb);
-                tb.Text = tmp.ToString("x");
-                this.setcodeIsedit[index] = false;
             }
+            catch { }
+
         }
         private void cb_setname1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1960,8 +2038,8 @@ namespace DataEditorX
         //add require automatically
         private void menuitem_addrequire_Click(object sender, EventArgs e)
         {
-            this.Addrequire = Microsoft.VisualBasic.Interaction.InputBox("Module script?\n\nPress \"Cancel\" to remove module script.", "", this.Addrequire);
-            this.menuitem_addrequire.Checked = !this.menuitem_addrequire.Checked;
+            this.Addrequire = Microsoft.VisualBasic.Interaction.InputBox(LanguageHelper.GetMsg(LMSG.TemplateFileHint), LanguageHelper.GetMsg(LMSG.About), this.Addrequire);
+            this.menuitem_addrequire.Checked = Addrequire != "";
             XMLReader.Save(DEXConfig.TAG_ADD_REQUIRE_STRING, this.Addrequire);
             XMLReader.Save(DEXConfig.TAG_ADD_REQUIRE, this.menuitem_addrequire.Checked ? "true" : "false");
         }
@@ -2424,6 +2502,34 @@ namespace DataEditorX
                     Btn_searchClick(null, null);
                 }
             }
+        }
+
+        private void setCode_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void setName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+            {
+                return;
+            }
+            ComboBox cb = (ComboBox)sender;
+            int index = int.Parse(cb.Name.Substring(cb.Name.Length - 1));
+            filtered[index - 1] = true;
+            Dictionary<long, string> tmpSetname = new Dictionary<long, string>();
+            foreach (var kv in dataConfig.dicSetnames)
+            {
+                if (kv.Value.Contains(cb.Text))
+                {
+                    tmpSetname.Add(kv.Key, kv.Value);
+                }
+            }
+            InitSetCode(cb, tmpSetname);
+        }
+        bool[] filtered = new bool[4];
+        private void lv_cardlist_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
         }
 
         void Tb_linkKeyPress(object sender, KeyPressEventArgs e)

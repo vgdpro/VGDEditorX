@@ -80,7 +80,7 @@ DataEditForm.mainMenu.menuitem_mseconfig	设置MSE的配置文件
 DataEditForm.mainMenu.menu_data	数据(&D)
 DataEditForm.mainMenu.menuitem_operacardsfile	同步操作卡片图片和脚本
 DataEditForm.mainMenu.menuitem_openfileinthis	用CodeEditor打开脚本
-DataEditForm.mainMenu.menuitem_addrequire	创建脚本时自动添加require
+DataEditForm.mainMenu.menuitem_addrequire	设置新脚本模板文件
 DataEditForm.mainMenu.menuitem_findluafunc	从C++源码查找Lua函数
 DataEditForm.mainMenu.menuitem_readydk	从卡组文件读取卡片(&Y)
 DataEditForm.mainMenu.menuitem_readimages	从卡图文件夹读取卡片(&I)
@@ -208,3 +208,4 @@ MainForm.mainMenu.menuitem_closeall	关闭所有
 0x50	数据库文件(*.cdb)|*.cdb|所有文件(*.*)|*.*
 0x51	如果遇到重复的卡，是否要进行覆盖？
 0x52	合并完成！共读取了{0}张卡。
+0x53	请输入模板lua文件名，按取消则不使用模板文件。\n在创建新脚本文件时，DataEditorX会用该模板文件生成新脚本，并把该模板文件中的以下字符串自动替换：\n{file_name}=>文件名（不含扩展名）\n{ext_name}=>文件扩展名\n{card_name}=>卡名\n{date}=>yyyy/MM/dd格式的当前日期\n{time}HH:mm:ss格式的当前时间\n\n示例文件可以查看data文件夹下的lua_template.lua。

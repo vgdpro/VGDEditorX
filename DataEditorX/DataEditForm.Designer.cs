@@ -335,132 +335,132 @@ namespace DataEditorX
             // menuitem_operacardsfile
             // 
             this.menuitem_operacardsfile.Name = "menuitem_operacardsfile";
-            this.menuitem_operacardsfile.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_operacardsfile.Size = new System.Drawing.Size(269, 22);
             this.menuitem_operacardsfile.Text = "Opera Card\'s Files";
             this.menuitem_operacardsfile.Click += new System.EventHandler(this.menuitem_deletecardsfile_Click);
             // 
             // menuitem_openfileinthis
             // 
             this.menuitem_openfileinthis.Name = "menuitem_openfileinthis";
-            this.menuitem_openfileinthis.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_openfileinthis.Size = new System.Drawing.Size(269, 22);
             this.menuitem_openfileinthis.Text = "Open File in This";
             this.menuitem_openfileinthis.Click += new System.EventHandler(this.menuitem_openfileinthis_Click);
             // 
             // menuitem_addrequire
             // 
             this.menuitem_addrequire.Name = "menuitem_addrequire";
-            this.menuitem_addrequire.Size = new System.Drawing.Size(238, 22);
-            this.menuitem_addrequire.Text = "Add REQUIRE Automatically";
+            this.menuitem_addrequire.Size = new System.Drawing.Size(269, 22);
+            this.menuitem_addrequire.Text = "Set Template File for New Scripts";
             this.menuitem_addrequire.Click += new System.EventHandler(this.menuitem_addrequire_Click);
             // 
             // tsep2
             // 
             this.tsep2.Name = "tsep2";
-            this.tsep2.Size = new System.Drawing.Size(235, 6);
+            this.tsep2.Size = new System.Drawing.Size(266, 6);
             // 
             // menuitem_readydk
             // 
             this.menuitem_readydk.Name = "menuitem_readydk";
-            this.menuitem_readydk.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_readydk.Size = new System.Drawing.Size(269, 22);
             this.menuitem_readydk.Text = "Cards Form ydk file(&Y)";
             this.menuitem_readydk.Click += new System.EventHandler(this.Menuitem_readydkClick);
             // 
             // menuitem_readimages
             // 
             this.menuitem_readimages.Name = "menuitem_readimages";
-            this.menuitem_readimages.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_readimages.Size = new System.Drawing.Size(269, 22);
             this.menuitem_readimages.Text = "Cards From Images(&I)";
             this.menuitem_readimages.Click += new System.EventHandler(this.Menuitem_readimagesClick);
             // 
             // tsep6
             // 
             this.tsep6.Name = "tsep6";
-            this.tsep6.Size = new System.Drawing.Size(235, 6);
+            this.tsep6.Size = new System.Drawing.Size(266, 6);
             // 
             // menuitem_compdb
             // 
             this.menuitem_compdb.Name = "menuitem_compdb";
-            this.menuitem_compdb.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_compdb.Size = new System.Drawing.Size(269, 22);
             this.menuitem_compdb.Text = "Compression DataBase";
             this.menuitem_compdb.Click += new System.EventHandler(this.menuitem_compdb_Click);
             // 
             // menuitem_export_select_sql
             // 
             this.menuitem_export_select_sql.Name = "menuitem_export_select_sql";
-            this.menuitem_export_select_sql.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_export_select_sql.Size = new System.Drawing.Size(269, 22);
             this.menuitem_export_select_sql.Text = "Export select to Sql";
             this.menuitem_export_select_sql.Click += new System.EventHandler(this.Menuitem_export_select_sqlClick);
             // 
             // menuitem_export_all_sql
             // 
             this.menuitem_export_all_sql.Name = "menuitem_export_all_sql";
-            this.menuitem_export_all_sql.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_export_all_sql.Size = new System.Drawing.Size(269, 22);
             this.menuitem_export_all_sql.Text = "Export all to Sql";
             this.menuitem_export_all_sql.Click += new System.EventHandler(this.Menuitem_export_all_sqlClick);
             // 
             // menuitem_findluafunc
             // 
             this.menuitem_findluafunc.Name = "menuitem_findluafunc";
-            this.menuitem_findluafunc.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_findluafunc.Size = new System.Drawing.Size(269, 22);
             this.menuitem_findluafunc.Text = "Find Lua Function";
             this.menuitem_findluafunc.Click += new System.EventHandler(this.menuitem_findluafunc_Click);
             // 
             // menuMergeDatabase
             // 
             this.menuMergeDatabase.Name = "menuMergeDatabase";
-            this.menuMergeDatabase.Size = new System.Drawing.Size(238, 22);
+            this.menuMergeDatabase.Size = new System.Drawing.Size(269, 22);
             this.menuMergeDatabase.Text = "Merge Database...";
             this.menuMergeDatabase.Click += new System.EventHandler(this.menuMergeDatabase_Click);
             // 
             // menuitem_exportdata
             // 
             this.menuitem_exportdata.Name = "menuitem_exportdata";
-            this.menuitem_exportdata.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_exportdata.Size = new System.Drawing.Size(269, 22);
             this.menuitem_exportdata.Text = "Export Data";
             this.menuitem_exportdata.Click += new System.EventHandler(this.Menuitem_exportdataClick);
             // 
             // tsep5
             // 
             this.tsep5.Name = "tsep5";
-            this.tsep5.Size = new System.Drawing.Size(235, 6);
+            this.tsep5.Size = new System.Drawing.Size(266, 6);
             // 
             // menuitem_cutimages
             // 
             this.menuitem_cutimages.Name = "menuitem_cutimages";
-            this.menuitem_cutimages.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_cutimages.Size = new System.Drawing.Size(269, 22);
             this.menuitem_cutimages.Text = "Cut Images";
             this.menuitem_cutimages.Click += new System.EventHandler(this.Menuitem_cutimagesClick);
             // 
             // menuitem_convertimage
             // 
             this.menuitem_convertimage.Name = "menuitem_convertimage";
-            this.menuitem_convertimage.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_convertimage.Size = new System.Drawing.Size(269, 22);
             this.menuitem_convertimage.Text = "Import Images";
             this.menuitem_convertimage.Click += new System.EventHandler(this.Menuitem_convertimageClick);
             // 
             // tsep1
             // 
             this.tsep1.Name = "tsep1";
-            this.tsep1.Size = new System.Drawing.Size(235, 6);
+            this.tsep1.Size = new System.Drawing.Size(266, 6);
             // 
             // menuitem_cancelTask
             // 
             this.menuitem_cancelTask.Name = "menuitem_cancelTask";
-            this.menuitem_cancelTask.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_cancelTask.Size = new System.Drawing.Size(269, 22);
             this.menuitem_cancelTask.Text = "Cancel Task";
             this.menuitem_cancelTask.Click += new System.EventHandler(this.Menuitem_cancelTaskClick);
             // 
             // menuitem_autoreturn
             // 
             this.menuitem_autoreturn.Name = "menuitem_autoreturn";
-            this.menuitem_autoreturn.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_autoreturn.Size = new System.Drawing.Size(269, 22);
             this.menuitem_autoreturn.Text = "*Auto return";
             this.menuitem_autoreturn.Click += new System.EventHandler(this.Menuitem_autoreturnClick);
             // 
             // menuitem_replace
             // 
             this.menuitem_replace.Name = "menuitem_replace";
-            this.menuitem_replace.Size = new System.Drawing.Size(238, 22);
+            this.menuitem_replace.Size = new System.Drawing.Size(269, 22);
             this.menuitem_replace.Text = "*Auto replace";
             this.menuitem_replace.Click += new System.EventHandler(this.Menuitem_replaceClick);
             // 
@@ -577,7 +577,6 @@ namespace DataEditorX
             this.cb_setname2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname2.DropDownHeight = 320;
-            this.cb_setname2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname2.DropDownWidth = 140;
             this.cb_setname2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname2.FormattingEnabled = true;
@@ -588,13 +587,14 @@ namespace DataEditorX
             this.cb_setname2.Size = new System.Drawing.Size(113, 20);
             this.cb_setname2.TabIndex = 2;
             this.cb_setname2.SelectedIndexChanged += new System.EventHandler(this.cb_setname2_SelectedIndexChanged);
+            this.cb_setname2.TextChanged += new System.EventHandler(this.setCode_TextChanged);
+            this.cb_setname2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.setName_KeyDown);
             // 
             // cb_setname1
             // 
             this.cb_setname1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname1.DropDownHeight = 320;
-            this.cb_setname1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname1.DropDownWidth = 140;
             this.cb_setname1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname1.FormattingEnabled = true;
@@ -605,13 +605,14 @@ namespace DataEditorX
             this.cb_setname1.Size = new System.Drawing.Size(113, 20);
             this.cb_setname1.TabIndex = 2;
             this.cb_setname1.SelectedIndexChanged += new System.EventHandler(this.cb_setname1_SelectedIndexChanged);
+            this.cb_setname1.TextChanged += new System.EventHandler(this.setCode_TextChanged);
+            this.cb_setname1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.setName_KeyDown);
             // 
             // cb_setname4
             // 
             this.cb_setname4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname4.DropDownHeight = 320;
-            this.cb_setname4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname4.DropDownWidth = 140;
             this.cb_setname4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname4.FormattingEnabled = true;
@@ -622,13 +623,14 @@ namespace DataEditorX
             this.cb_setname4.Size = new System.Drawing.Size(113, 20);
             this.cb_setname4.TabIndex = 2;
             this.cb_setname4.SelectedIndexChanged += new System.EventHandler(this.cb_setname4_SelectedIndexChanged);
+            this.cb_setname4.TextChanged += new System.EventHandler(this.setCode_TextChanged);
+            this.cb_setname4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.setName_KeyDown);
             // 
             // cb_setname3
             // 
             this.cb_setname3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname3.DropDownHeight = 320;
-            this.cb_setname3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname3.DropDownWidth = 140;
             this.cb_setname3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname3.FormattingEnabled = true;
@@ -639,6 +641,8 @@ namespace DataEditorX
             this.cb_setname3.Size = new System.Drawing.Size(113, 20);
             this.cb_setname3.TabIndex = 2;
             this.cb_setname3.SelectedIndexChanged += new System.EventHandler(this.cb_setname3_SelectedIndexChanged);
+            this.cb_setname3.TextChanged += new System.EventHandler(this.setCode_TextChanged);
+            this.cb_setname3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.setName_KeyDown);
             // 
             // tb_cardtext
             // 
@@ -1187,6 +1191,7 @@ namespace DataEditorX
             this.lv_cardlist.TabIndex = 1;
             this.lv_cardlist.UseCompatibleStateImageBehavior = false;
             this.lv_cardlist.View = System.Windows.Forms.View.Details;
+            this.lv_cardlist.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lv_cardlist_ItemSelectionChanged);
             this.lv_cardlist.SelectedIndexChanged += new System.EventHandler(this.Lv_cardlistSelectedIndexChanged);
             this.lv_cardlist.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Lv_cardlistKeyDown);
             // 

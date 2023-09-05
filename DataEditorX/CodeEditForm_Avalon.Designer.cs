@@ -352,31 +352,6 @@ namespace DataEditorX
             {
                 return;
             }
-            bool found = false;
-            foreach (var cp in functionCompletions)
-            {
-                if (find.EndsWith(cp.Text.Substring(0, cp.SuffixLength)))
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                find = find.ToLower();
-                foreach (var d in tooltipDic)
-                {
-                    if (d.Key.ToLower().StartsWith(find))
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found)
-            {
-                return;
-            }
             completionWindowUse = new CompletionWindow(editor.TextArea);
             data = completionWindowUse.CompletionList.CompletionData;
             completionWindowUse.Closed += delegate
@@ -398,13 +373,29 @@ namespace DataEditorX
             }
             foreach (var d in tooltipDic)
             {
-                if (d.Key.ToLower().StartsWith(find))
+                if (d.Key.ToUpper() == d.Key && find.ToUpper() == find && d.Key.StartsWith(find))
+                {
+                    data.Add(new YGOProAutoCompletion(d.Key, d.Value));
+                }
+                else if (d.Key.ToLower().StartsWith(find.ToLower()))
+                {
+                    data.Add(new YGOProAutoCompletion(d.Key, d.Value));
+                }
+            }
+            foreach (var d in tooltipDic)
+            {
+                if (d.Key.ToUpper() == d.Key && find.ToUpper() == find && d.Key.Contains(find))
+                {
+                    data.Add(new YGOProAutoCompletion(d.Key, d.Value));
+                }
+                if (d.Key.ToLower().Contains(find.ToLower()))
                 {
                     data.Add(new YGOProAutoCompletion(d.Key, d.Value));
                 }
             }
             if (data.Count > 0)
             {
+                completionWindowUse.SizeToContent = SizeToContent.Width;
                 completionWindowUse.Show();
                 string find2 = data[0].Text;
                 var ePos = editor.TextArea.Caret.CalculateCaretRectangle();
