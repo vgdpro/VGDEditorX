@@ -700,15 +700,24 @@ namespace DataEditorX
 
             Dictionary<long, int> country_indexer = new Dictionary<long, int>();
             country_indexer[0] = 0;
-            for(int i = 0; i < 13; ++i)
-            {
-                if (i < 6)
-                    country_indexer[1 << (i)] = i;
-                else if (i == 6)
-                    country_indexer[36] = i;
-                else if (i > 6)
-                    country_indexer[1 << (i - 1)] = i;
-            }
+            country_indexer[1] = 0;
+            country_indexer[2] = 1;
+            country_indexer[4] = 2;
+            country_indexer[8] = 3;
+            country_indexer[10] = 4;
+            country_indexer[16] = 5;
+            country_indexer[20] = 6;
+            country_indexer[24] = 7;
+            country_indexer[32] = 8;
+            country_indexer[34] = 9;
+            country_indexer[36] = 10;
+            country_indexer[64] = 11;
+            country_indexer[128] = 12;
+            country_indexer[256] = 13;
+            country_indexer[512] = 14;
+            country_indexer[1024] = 15;
+            country_indexer[2048] = 16;
+
             this.cb_cardMainCountry.SelectedIndex = country_indexer[c.country % 4096];
             this.cb_CardSecondCountry.SelectedIndex = (int)c.country >> 12;
 
@@ -783,17 +792,23 @@ namespace DataEditorX
             long.TryParse(this.tb_cardalias.Text, out c.alias);
 
             Dictionary<long, int> country_indexer = new Dictionary<long, int>();
-            country_indexer[0] = 0;
-            country_indexer[13] = 0;
-            for (int i = 0; i < 13; ++i)
-            {
-                if (i < 6)
-                    country_indexer[i] = 1 << (i);
-                else if (i == 6)
-                    country_indexer[i] = 36;
-                else if (i > 6)
-                    country_indexer[i] = 1 << (i - 1);
-            }
+            country_indexer[0] = 1;
+            country_indexer[1] = 2;
+            country_indexer[2] = 4;
+            country_indexer[3] = 8;
+            country_indexer[4] = 10;
+            country_indexer[5] = 16;
+            country_indexer[6] = 20;
+            country_indexer[7] = 24;
+            country_indexer[8] = 32;
+            country_indexer[9] = 34;
+            country_indexer[10] = 36;
+            country_indexer[11] = 64;
+            country_indexer[12] = 128;
+            country_indexer[13] = 256;
+            country_indexer[14] = 512;
+            country_indexer[15] = 1024;
+            country_indexer[16] = 2048;
             c.country = country_indexer[cb_cardMainCountry.SelectedIndex];
             Dictionary<string, int> second_country_indexer = new Dictionary<string, int>();
             second_country_indexer["无集团"] = 0;
@@ -2595,16 +2610,20 @@ namespace DataEditorX
             indexer["1"] = new string[] { "无集团", "光辉骑士团", "占卜魔法团", "天使之羽", "暗影骑士团", "黄金骑士团", "创世" };
             indexer["2"] = new string[] { "无集团", "阳炎", "射干玉", "太刀风", "丛云", "鸣神" };
             indexer["3"] = new string[] { "无集团", "搏击新星", "次元警察", "链环傀儡" };
-            indexer["4"] = new string[] { "无集团", "钢钉兄弟会", "黑暗不法者", "黯月", "齿轮编年史" };
-            indexer["5"] = new string[] { "无集团", "百群", "大自然", "永生蜜酒", "雄伟深蓝", "苍海军势" };
+            indexer["4"] = new string[] { "无集团" };
+            indexer["5"] = new string[] { "无集团", "钢钉兄弟会", "黑暗不法者", "黯月", "齿轮编年史" };
             indexer["6"] = new string[] { "无集团" };
-            indexer["7"] = new string[] { "无集团", "百慕大三角" };
-            indexer["8"] = new string[] { "无集团" };
+            indexer["7"] = new string[] { "无集团" };
+            indexer["8"] = new string[] { "无集团", "百群", "大自然", "永生蜜酒", "雄伟深蓝", "苍海军势" };
             indexer["9"] = new string[] { "无集团" };
             indexer["10"] = new string[] { "无集团" };
-            indexer["11"] = new string[] { "无集团" };
+            indexer["11"] = new string[] { "无集团", "百慕大三角" };
             indexer["12"] = new string[] { "无集团" };
             indexer["13"] = new string[] { "无集团" };
+            indexer["14"] = new string[] { "无集团" };
+            indexer["15"] = new string[] { "无集团" };
+            indexer["16"] = new string[] { "无集团" };
+            indexer["17"] = new string[] { "无集团" };
             cb_CardSecondCountry.Items.Clear();
             cb_CardSecondCountry.Items.AddRange(indexer[text]);
             cb_CardSecondCountry.SelectedIndex = 0;
