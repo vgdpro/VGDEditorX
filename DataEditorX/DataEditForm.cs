@@ -784,6 +784,7 @@ namespace DataEditorX
 
             Dictionary<long, int> country_indexer = new Dictionary<long, int>();
             country_indexer[0] = 0;
+            country_indexer[13] = 0;
             for (int i = 0; i < 13; ++i)
             {
                 if (i < 6)
@@ -2603,6 +2604,7 @@ namespace DataEditorX
             indexer["10"] = new string[] { "无集团" };
             indexer["11"] = new string[] { "无集团" };
             indexer["12"] = new string[] { "无集团" };
+            indexer["13"] = new string[] { "无集团" };
             cb_CardSecondCountry.Items.Clear();
             cb_CardSecondCountry.Items.AddRange(indexer[text]);
             cb_CardSecondCountry.SelectedIndex = 0;
