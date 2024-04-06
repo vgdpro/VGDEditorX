@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>DataEditorX</RootNamespace>
     <AssemblyName>DataEditorX</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <StartupObject>DataEditorX.Program</StartupObject>
     <ApplicationIcon>icon.ico</ApplicationIcon>

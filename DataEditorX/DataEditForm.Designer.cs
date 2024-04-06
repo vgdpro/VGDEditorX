@@ -133,6 +133,9 @@ namespace DataEditorX
             this.pl_bottom = new System.Windows.Forms.Panel();
             this.pl_main = new System.Windows.Forms.Panel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.cb_CardSecondCountry = new System.Windows.Forms.ComboBox();
+            this.cb_cardMainCountry = new System.Windows.Forms.ComboBox();
+            this.lb_countries = new System.Windows.Forms.Label();
             this.lv_cardlist = new DataEditorX.DListView();
             this.ch_cardcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ch_cardname = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -577,6 +580,7 @@ namespace DataEditorX
             this.cb_setname2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname2.DropDownHeight = 320;
+            this.cb_setname2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname2.DropDownWidth = 140;
             this.cb_setname2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname2.FormattingEnabled = true;
@@ -595,6 +599,7 @@ namespace DataEditorX
             this.cb_setname1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname1.DropDownHeight = 320;
+            this.cb_setname1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname1.DropDownWidth = 140;
             this.cb_setname1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname1.FormattingEnabled = true;
@@ -613,6 +618,7 @@ namespace DataEditorX
             this.cb_setname4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname4.DropDownHeight = 320;
+            this.cb_setname4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname4.DropDownWidth = 140;
             this.cb_setname4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname4.FormattingEnabled = true;
@@ -631,6 +637,7 @@ namespace DataEditorX
             this.cb_setname3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_setname3.DropDownHeight = 320;
+            this.cb_setname3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_setname3.DropDownWidth = 140;
             this.cb_setname3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.cb_setname3.FormattingEnabled = true;
@@ -1129,6 +1136,9 @@ namespace DataEditorX
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.cb_CardSecondCountry);
+            this.splitContainer.Panel2.Controls.Add(this.cb_cardMainCountry);
+            this.splitContainer.Panel2.Controls.Add(this.lb_countries);
             this.splitContainer.Panel2.Controls.Add(this.pl_markers);
             this.splitContainer.Panel2.Controls.Add(this.pl_cardtype);
             this.splitContainer.Panel2.Controls.Add(this.tb_cardtext);
@@ -1169,6 +1179,44 @@ namespace DataEditorX
             this.splitContainer.Size = new System.Drawing.Size(984, 555);
             this.splitContainer.SplitterDistance = 328;
             this.splitContainer.TabIndex = 22;
+            // 
+            // cb_CardSecondCountry
+            // 
+            this.cb_CardSecondCountry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_CardSecondCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_CardSecondCountry.DropDownWidth = 107;
+            this.cb_CardSecondCountry.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cb_CardSecondCountry.FormattingEnabled = true;
+            this.cb_CardSecondCountry.Location = new System.Drawing.Point(349, 321);
+            this.cb_CardSecondCountry.Name = "cb_CardSecondCountry";
+            this.cb_CardSecondCountry.Size = new System.Drawing.Size(303, 20);
+            this.cb_CardSecondCountry.TabIndex = 124;
+            // 
+            // cb_cardMainCountry
+            // 
+            this.cb_cardMainCountry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_cardMainCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_cardMainCountry.DropDownWidth = 107;
+            this.cb_cardMainCountry.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cb_cardMainCountry.FormattingEnabled = true;
+            this.cb_cardMainCountry.Location = new System.Drawing.Point(349, 296);
+            this.cb_cardMainCountry.Name = "cb_cardMainCountry";
+            this.cb_cardMainCountry.Size = new System.Drawing.Size(303, 20);
+            this.cb_cardMainCountry.TabIndex = 123;
+            this.cb_cardMainCountry.SelectedIndexChanged += new System.EventHandler(this.ChangeSecondCountry);
+            // 
+            // lb_countries
+            // 
+            this.lb_countries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lb_countries.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.lb_countries.Location = new System.Drawing.Point(348, 273);
+            this.lb_countries.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lb_countries.Name = "lb_countries";
+            this.lb_countries.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this.lb_countries.Size = new System.Drawing.Size(303, 20);
+            this.lb_countries.TabIndex = 122;
+            this.lb_countries.Text = "Card Countries";
+            this.lb_countries.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lv_cardlist
             // 
@@ -1239,7 +1287,7 @@ namespace DataEditorX
             this.pl_category.MaximumSize = new System.Drawing.Size(360, 175);
             this.pl_category.Name = "pl_category";
             this.pl_category.Padding = new System.Windows.Forms.Padding(2);
-            this.pl_category.Size = new System.Drawing.Size(301, 175);
+            this.pl_category.Size = new System.Drawing.Size(301, 99);
             this.pl_category.TabIndex = 13;
             // 
             // lb_scripttext
@@ -1399,5 +1447,8 @@ namespace DataEditorX
         private System.Windows.Forms.SplitContainer splitContainer;
         private DFlowLayoutPanel pl_markers;
         private System.Windows.Forms.ToolStripMenuItem menuMergeDatabase;
+        private System.Windows.Forms.Label lb_countries;
+        private System.Windows.Forms.ComboBox cb_CardSecondCountry;
+        private System.Windows.Forms.ComboBox cb_cardMainCountry;
     }
 }

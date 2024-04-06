@@ -181,6 +181,14 @@ namespace DataEditorX.Config
         /// </summary>
         public const string TAG_MARKER = "link marker";
         /// <summary>
+        /// 主势力
+        /// </summary>
+        public const string TAG_MAIN_COUNTRY = "main country";
+        /// <summary>
+        /// 次要势力
+        /// </summary>
+        public const string TAG_SECOND_COUNTRY = "second country";
+        /// <summary>
         /// 临时文件
         /// </summary>
         public const string TOOLTIP_FONT = "tooltip_font";

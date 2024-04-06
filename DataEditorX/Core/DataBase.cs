@@ -142,6 +142,7 @@ namespace DataEditorX.Core
                 race = reader.GetInt64(reader.GetOrdinal("race")),
                 attribute = reader.GetInt32(reader.GetOrdinal("attribute")),
                 category = reader.GetInt64(reader.GetOrdinal("category")),
+                country = reader.GetInt64(reader.GetOrdinal("country")),
                 name = reader.GetString(reader.GetOrdinal("name")),
 
                 desc = reader.GetString(reader.GetOrdinal("desc"))
@@ -153,8 +154,14 @@ namespace DataEditorX.Core
 
             for (int i = 0; i < 0x10; i++)
             {
-                string temp = reader.GetString(reader.GetOrdinal("str" + (i + 1).ToString()));
-                c.Str[i] = temp ?? "";
+                if (!reader.IsDBNull(reader.GetOrdinal("str" + (i+1).ToString())))
+                {
+                    c.Str[i] = reader.GetString(reader.GetOrdinal("str" + (i + 1).ToString()));
+                }
+                else
+                {
+                    c.Str[i] = "";
+                }
             }
             return c;
         }

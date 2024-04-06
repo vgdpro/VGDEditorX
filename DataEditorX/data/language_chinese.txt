@@ -54,6 +54,7 @@ DataEditForm.pl_main.splitContainer..lb_cardcode	卡片密码
 DataEditForm.pl_main.splitContainer..lb_cardalias	同名卡
 DataEditForm.pl_main.splitContainer..lb_atkdef	ATK/DEF
 DataEditForm.pl_main.splitContainer..lb_pleft_right	灵摆刻度
+DataEditForm.pl_main.splitContainer..lb_countries	国家和集团
 DataEditForm.pl_main.splitContainer..lv_cardlist.0	卡片编码
 DataEditForm.pl_main.splitContainer..lv_cardlist.1	卡片名称
 DataEditForm.pl_bottom.btn_reset	重置

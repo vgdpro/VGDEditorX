@@ -35,6 +35,7 @@ namespace DataEditorX.Core
             this.race = 0;
             this.attribute = 0;
             this.category = 0;
+            this.country = 0;
             this.desc = "";
             this.str = new string[STR_MAX];
             for (int i = 0; i < STR_MAX; i++)
@@ -67,6 +68,8 @@ namespace DataEditorX.Core
         public int attribute;
         /// <summary>效果种类</summary>
         public long category;
+        /// <summary>势力</summary>
+        public long country;
         /// <summary>卡片名称</summary>
         public string name;
         /// <summary>描述文本</summary>

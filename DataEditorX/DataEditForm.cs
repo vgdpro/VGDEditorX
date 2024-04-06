@@ -326,6 +326,7 @@ namespace DataEditorX
                 this.InitComboBox(this.cb_cardattribute, datacfg.dicCardAttributes);
                 this.InitComboBox(this.cb_cardrule, datacfg.dicCardRules);
                 this.InitComboBox(this.cb_cardlevel, datacfg.dicCardLevels);
+                this.InitComboBox(this.cb_cardMainCountry, datacfg.dicCardMainCountry);
                 this.InitCheckPanel(this.pl_cardtype, datacfg.dicCardTypes);
                 this.InitCheckPanel(this.pl_markers, datacfg.dicLinkMarkers);
                 this.InitCheckPanel(this.pl_category, datacfg.dicCardcategorys);
@@ -2531,7 +2532,26 @@ namespace DataEditorX
         private void lv_cardlist_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
         }
-
+        private void ChangeSecondCountry(object sender, EventArgs e)
+        {
+            string text=cb_cardMainCountry.GetItemText(cb_cardMainCountry.SelectedIndex);
+            Dictionary<string, string[]> indexer = new Dictionary<string, string[]>();
+            indexer["0"] = new string[] { "无集团" };
+            indexer["1"] = new string[] { "无集团", "光辉骑士团", "占卜魔法团", "天使之羽", "暗影骑士团", "黄金骑士团", "创世" };
+            indexer["2"] = new string[] { "无集团", "阳炎", "射干玉", "太刀风", "丛云", "鸣神" };
+            indexer["3"] = new string[] { "无集团", "搏击新星", "次元警察", "链环傀儡" };
+            indexer["4"] = new string[] { "无集团", "钢钉兄弟会", "黑暗不法者", "黯月", "齿轮编年史" };
+            indexer["5"] = new string[] { "无集团", "百群", "大自然", "永生蜜酒", "雄伟深蓝", "苍海军势" };
+            indexer["6"] = new string[] { "无集团", "百慕大三角" };
+            indexer["7"] = new string[] { "无集团" };
+            indexer["8"] = new string[] { "无集团" };
+            indexer["9"] = new string[] { "无集团" };
+            indexer["10"] = new string[] { "无集团" };
+            indexer["11"] = new string[] { "无集团" };
+            cb_CardSecondCountry.Items.Clear();
+            cb_CardSecondCountry.Items.AddRange(indexer[text]);
+            cb_CardSecondCountry.SelectedIndex = 0;
+        }
         void Tb_linkKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar != '0' && e.KeyChar != '1' && e.KeyChar != 1 && e.KeyChar != 22 && e.KeyChar != 3 && e.KeyChar != 8)

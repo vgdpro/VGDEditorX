@@ -41,6 +41,8 @@ namespace DataEditorX.Config
                 this.dicCardAttributes = new Dictionary<long, string>();
                 this.dicCardRaces = new Dictionary<long, string>();
                 this.dicCardLevels = new Dictionary<long, string>();
+                this.dicCardMainCountry = new Dictionary<long, string>();
+                this.dicCardSecondCountry = new Dictionary<long, string>();
                 return;
             }
             //提取内容
@@ -53,6 +55,7 @@ namespace DataEditorX.Config
             this.dicCardAttributes = DataManager.Read(text, DEXConfig.TAG_ATTRIBUTE);
             this.dicCardRaces = DataManager.Read(text, DEXConfig.TAG_RACE);
             this.dicCardLevels = DataManager.Read(text, DEXConfig.TAG_LEVEL);
+            this.dicCardMainCountry = DataManager.Read(text, DEXConfig.TAG_MAIN_COUNTRY);
 
         }
         /// <summary>
@@ -87,5 +90,13 @@ namespace DataEditorX.Config
         /// 效果类型
         /// </summary>
         public Dictionary<long, string> dicCardcategorys = null;
+        /// <summary>
+        /// 主势力
+        /// </summary>
+        public Dictionary<long, string> dicCardMainCountry = null;
+        /// <summary>
+        /// 次要势力
+        /// </summary>
+        public Dictionary<long, string> dicCardSecondCountry = null;
     }
 }
