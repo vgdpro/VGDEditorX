@@ -809,6 +809,7 @@ namespace DataEditorX
             country_indexer[14] = 512;
             country_indexer[15] = 1024;
             country_indexer[16] = 2048;
+            country_indexer[17] = 0;
             c.country = country_indexer[cb_cardMainCountry.SelectedIndex];
             Dictionary<string, int> second_country_indexer = new Dictionary<string, int>();
             second_country_indexer["无集团"] = 0;
