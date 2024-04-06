@@ -65,6 +65,8 @@ namespace DataEditorX.Core.Mse
         public const string TAG_Link_Marker_Left = "Link Marker Left";
         public const string TAG_Link_Marker_Right = "Link Marker Right";
         public const string TAG_Link_Number = "link number";
+
+        public const string TAG_COUNTRY = "country";
         #endregion
 
         #region 成员，初始化
@@ -615,6 +617,11 @@ namespace DataEditorX.Core.Mse
             }
             return 0;
         }
+        long GetCountryInt(string country)
+        {
+            MessageBox.Show(country);
+            return 0;
+        }
         static string GetValue(string content, string tag)
         {
             Regex regx = new Regex(@"^[\t]+?" + tag + @":([\s\S]*?)$", RegexOptions.Multiline);
@@ -779,6 +786,10 @@ namespace DataEditorX.Core.Mse
 
             //属性
             c.attribute = GetAttributeInt(GetValue(content, TAG_ATTRIBUTE));
+
+            //国家
+            c.country = GetCountryInt(GetValue(content, TAG_COUNTRY));
+
             //密码
             long.TryParse(GetValue(content, TAG_CODE), out c.id);
             //ATK

@@ -207,6 +207,10 @@ namespace DataEditorX.Core
             {
                 equalBool = false;
             }
+            else if (this.country != other.country)
+            {
+                equalBool = false;
+            }
             else if (!this.name.Equals(other.name))
             {
                 equalBool = false;

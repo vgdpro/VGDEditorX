@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Text;
+using System.Windows;
 
 namespace DataEditorX.Core
 {
@@ -507,8 +508,9 @@ namespace DataEditorX.Core
                 st.Append(c.level.ToString()); st.Append(",");
                 st.Append(c.race.ToString()); st.Append(",");
                 st.Append(c.attribute.ToString()); st.Append(",");
-                st.Append(c.category.ToString()); st.Append(")");
+                st.Append(c.category.ToString()); st.Append(",");
             }
+            st.Append(c.country.ToString()); st.Append(")");
             if (ignore)
             {
                 st.Append(";\nINSERT or ignore into texts values(");
@@ -550,6 +552,7 @@ namespace DataEditorX.Core
             st.Append(",race="); st.Append(c.race.ToString());
             st.Append(",attribute="); st.Append(c.attribute.ToString());
             st.Append(",category="); st.Append(c.category.ToString());
+            st.Append(",country="); st.Append(c.country.ToString());
             st.Append(" where id="); st.Append(c.id.ToString());
             st.Append("; update texts set name='"); st.Append(c.name.Replace("'", "''"));
             st.Append("',desc='"); st.Append(c.desc.Replace("'", "''")); st.Append("', ");

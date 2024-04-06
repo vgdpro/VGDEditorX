@@ -698,6 +698,20 @@ namespace DataEditorX
                 this.tb_def.Text = (c.def < 0) ? "?" : c.def.ToString();
             }
 
+            Dictionary<long, int> country_indexer = new Dictionary<long, int>();
+            country_indexer[0] = 0;
+            for(int i = 0; i < 13; ++i)
+            {
+                if (i < 6)
+                    country_indexer[1 << (i)] = i;
+                else if (i == 6)
+                    country_indexer[36] = i;
+                else if (i > 6)
+                    country_indexer[1 << (i - 1)] = i;
+            }
+            this.cb_cardMainCountry.SelectedIndex = country_indexer[c.country % 4096];
+            this.cb_CardSecondCountry.SelectedIndex = (int)c.country >> 12;
+
             this.tb_cardcode.Text = c.id.ToString();
             this.tb_cardalias.Text = c.alias.ToString();
             this.SetImage(c.id.ToString());
@@ -767,6 +781,46 @@ namespace DataEditorX
             }
             long.TryParse(this.tb_cardcode.Text, out c.id);
             long.TryParse(this.tb_cardalias.Text, out c.alias);
+
+            Dictionary<long, int> country_indexer = new Dictionary<long, int>();
+            country_indexer[0] = 0;
+            for (int i = 0; i < 13; ++i)
+            {
+                if (i < 6)
+                    country_indexer[i] = 1 << (i);
+                else if (i == 6)
+                    country_indexer[i] = 36;
+                else if (i > 6)
+                    country_indexer[i] = 1 << (i - 1);
+            }
+            c.country = country_indexer[cb_cardMainCountry.SelectedIndex];
+            Dictionary<string, int> second_country_indexer = new Dictionary<string, int>();
+            second_country_indexer["无集团"] = 0;
+            second_country_indexer["光辉骑士团"] = 0x1000;
+            second_country_indexer["占卜魔法团"] = 0x2000;
+            second_country_indexer["天使之羽"] = 0x3000;
+            second_country_indexer["暗影骑士团"] = 0x4000;
+            second_country_indexer["黄金骑士团"] = 0x5000;
+            second_country_indexer["创世"] = 0x6000;
+            second_country_indexer["阳炎"] = 0x1000;
+            second_country_indexer["射干玉"] = 0x2000;
+            second_country_indexer["太刀风"] = 0x3000;
+            second_country_indexer["丛云"] = 0x4000;
+            second_country_indexer["鸣神"] = 0x5000;
+            second_country_indexer["搏击新星"] = 0x1000;
+            second_country_indexer["次元警察"] = 0x2000;
+            second_country_indexer["链环傀儡"] = 0x3000;
+            second_country_indexer["钢钉兄弟会"] = 0x1000;
+            second_country_indexer["黑暗不法者"] = 0x2000;
+            second_country_indexer["黯月"] = 0x3000;
+            second_country_indexer["齿轮编年史"] = 0x4000;
+            second_country_indexer["百群"] = 0x1000;
+            second_country_indexer["大自然"] = 0x2000;
+            second_country_indexer["永生蜜酒"] = 0x3000;
+            second_country_indexer["雄伟深蓝"] = 0x4000;
+            second_country_indexer["苍海军势"] = 0x5000;
+            second_country_indexer["百慕大三角"] = 0x1000;
+            c.country += second_country_indexer[cb_CardSecondCountry.Text];
 
             return c;
         }
@@ -2542,12 +2596,13 @@ namespace DataEditorX
             indexer["3"] = new string[] { "无集团", "搏击新星", "次元警察", "链环傀儡" };
             indexer["4"] = new string[] { "无集团", "钢钉兄弟会", "黑暗不法者", "黯月", "齿轮编年史" };
             indexer["5"] = new string[] { "无集团", "百群", "大自然", "永生蜜酒", "雄伟深蓝", "苍海军势" };
-            indexer["6"] = new string[] { "无集团", "百慕大三角" };
-            indexer["7"] = new string[] { "无集团" };
+            indexer["6"] = new string[] { "无集团" };
+            indexer["7"] = new string[] { "无集团", "百慕大三角" };
             indexer["8"] = new string[] { "无集团" };
             indexer["9"] = new string[] { "无集团" };
             indexer["10"] = new string[] { "无集团" };
             indexer["11"] = new string[] { "无集团" };
+            indexer["12"] = new string[] { "无集团" };
             cb_CardSecondCountry.Items.Clear();
             cb_CardSecondCountry.Items.AddRange(indexer[text]);
             cb_CardSecondCountry.SelectedIndex = 0;
