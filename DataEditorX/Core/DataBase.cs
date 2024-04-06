@@ -457,6 +457,14 @@ namespace DataEditorX.Core
                 sb.Append(" and datas.alias= " + c.alias.ToString());
             }
 
+            if (c.country > 0)
+            {
+                if (c.country < 4096)
+                    sb.Append(" and datas.country & " + c.country.ToString() + "!= 0");
+                else
+                    sb.Append(" and datas.country=" + c.country.ToString());
+            }
+
             return sb.ToString();
 
         }
