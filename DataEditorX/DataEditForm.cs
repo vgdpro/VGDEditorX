@@ -2371,11 +2371,6 @@ namespace DataEditorX
             }
         }
 
-        private void DataEditForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void menuitem_language_Click(object sender, EventArgs e)
         {
 
