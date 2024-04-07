@@ -39,7 +39,7 @@ namespace DataEditorX.Core
             st.Append(@"CREATE TABLE datas(");
             st.Append("id integer primary key,ot integer,alias integer,");
             st.Append("setcode integer,type integer,atk integer,def integer,");
-            st.Append("level integer,race integer,attribute integer,category integer) ");
+            st.Append("level integer,race integer,attribute integer,category integer, country integer) ");
             _defaultTableSQL = st.ToString();
             st.Remove(0, st.Length);
         }
