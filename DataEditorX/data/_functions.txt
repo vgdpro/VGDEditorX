@@ -2918,3 +2918,131 @@ proc=true则完成正规召唤程序(即解除苏生限制)
 ●void Debug.ShowHint(string msg)
 显示消息提示框，最大长度 1024 个字符（1个汉字2个字符）
 注意，只会在本地生效，在服务器端不会生效。
+
+====================
+●void VgF.VgCard(card c)
+初始化c，使c具有vg卡的功能。
+
+●table,int,int GetID()
+返回这张卡的table self_table，自身的卡号self_code，以及偏移offset。
+卡号大于等于100000000时offset为100，其余情况为1。
+
+●int VgF.Stringid(int code,int id)
+获取卡号索引code的第id个（从0开始）效果提示。
+
+●bool VgF.True()
+总是返回true。
+
+●Card VgF.Next(Group g)
+卡片组g的迭代器，第一次使用会返回卡片组g中的第一张卡，之后每次调用这个函数会使指针指向下一张卡。
+可以用于需要调用卡片组g中的卡依次进行操作的场合。
+例：
+local tc=g:GetFirst()
+while tc do
+g:GetNext()
+end
+可以用这个函数替换为：
+for tc in VgF.Next(g) do
+end
+
+●void VgF.GetValueType(value v)
+返回v在lua中的type。
+
+●card|Group VgF.ReturnCard(card|Group target)
+如果target是card类型，返回其自身。
+如果target是Group类型，则返回其第一张卡。
+其余情况返回nil。
+
+●Group VgF.GetCardsFromGroup(Group g,int num)
+返回卡片组g的前num张卡。
+返回一个新的Group。
+
+●bool VgF.VMonsterFilter(card c)
+返回卡片c是否是先导者。
+
+●bool VgF.RMonsterFilter(c)
+返回卡片c是否是后防者。
+
+●bool VgF.RMonsterCondition(Effect e)
+一般用于效果的Condition
+返回效果e是否以先导者发动。
+
+●bool VgF.IsLevel(card c,int lv[, ...])
+返回卡片c是否是给定的等级中的1个。
+
+●bool VgF.IsSequence(c,int v[, ...])
+返回卡片c是否在给定的某个或某几个编号上。
+
+●bool VgF.Not(function f)
+返回函数，该函数的结果总是与原本的函数f相反。
+
+●Group VgF.GetColumnGroup(card c)
+返回卡片c所在列的所有单位。
+
+●int VgF.Call(card|Group target,int sumtype,int tp,int zone,int pos,int chk)
+把卡片组target中的每一张卡或者卡target，Call到单位区。返回Call成功的数量。
+sumtype Call的方式，默认填0。
+tp Call的玩家。
+zone integer 指示要Call到的格子。前列的R：17； 后列的R：14； 全部的R：31； V：32。
+pos 表示形式。
+
+●bool VgF.LvCondition(Effect|card target)
+返回c（target的类型为card时为卡片本身，Effect时为持有这个效果的卡片）的持有者场上是否有有等级大于等于其的先导者。
+
+●Effect VgF.AtkUp(card c,Group g,int val,int reset|nil[,int count==1])
+以卡片c的名义，使卡片组g中的每一张卡直到count个reset时点攻击力上升val。
+val可以为负。
+reset默认为RESET_PHASE+PHASE_END（回合结束时）。
+count默认为1。
+返回效果e。
+
+●Effect VgF.DefUp(card c,Group g,int val,int reset|nil[,int count==1])
+基本同 VgF.AtkUp，但是上升的是盾值。
+
+●Effect VgF.AtkUp(card c,Group g,int val,int reset|nil[,int count==1])
+基本同 VgF.AtkUp，但是上升的是☆。
+
+●bool  VgF.IsAbleToGZone(card c,int loc)
+判断卡片c能否到loc区域。
+
+●function VgF.DamageFill(int num)
+一般用于效果的Operation。它返回一个执行“[计数回充num]”的函数。
+
+●function VgF.DisCardCost(int num)
+一般用于效果的Cost。它返回一个执行“【费用】[将手牌中的num张卡舍弃]”的函数。
+
+●function VgF.EnergyCost(int num)
+一般用于效果的Cost。它返回一个执行“【费用】[能量爆发num]”的函数。
+
+●function VgF.OverlayCost(int num)
+一般用于效果的Cost。它返回一个执行“【费用】[灵魂爆发num]”的函数。
+
+●function VgF.OverlayFill(int num)
+一般用于效果的Cost或Operation。它返回一个执行“【费用】[灵魂填充num]”的函数。
+
+●function VgF.DamageCost((int num)
+一般用于效果的Cost。它返回一个执行“【费用】[计数爆发num]”的函数。
+
+●function VgF.SearchCard(int loc_to,int loc_from,function f,int_max,int_min)
+一般用于效果的Operation。执行“从loc_from中选取最少int_min，最多int_max张满足f的卡，送去loc_to。”。
+f为卡片的过滤函数。
+不填写loc_to和loc_from的情况下返回0。
+
+●Group VgF.GetVMonster(int tp)
+返回玩家tp场上的先导者。
+tp参数错误的情况下返回nil。
+
+●bool VgF.FrontFilter(card c)
+判断c是否在前列。
+
+●bool VgF.BackFilter(card c)
+判断c是否在后列。
+
+●void VgF.SendtoPrison(Group g,int tp)
+收容g（中的每一张卡）到tp的监狱。没有监狱时，不操作。
+
+●bool VgF.CheckPrison(int tp)
+检测tp场上有没有监狱。
+
+●void VgF.EffectReset(card c,Effecte,int code,function con)
+重置Effect。
