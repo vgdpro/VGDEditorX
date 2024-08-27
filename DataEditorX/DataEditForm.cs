@@ -717,8 +717,9 @@ namespace DataEditorX
             country_indexer[512] = 15;
             country_indexer[1024] = 16;
             country_indexer[2048] = 17;
+            country_indexer[4096] = 18;
 
-            this.cb_cardMainCountry.SelectedIndex = country_indexer[c.country % 4096];
+            this.cb_cardMainCountry.SelectedIndex = country_indexer[c.country % 8192];
             this.cb_CardSecondCountry.SelectedIndex = (int)c.country >> 12;
 
             this.tb_cardcode.Text = c.id.ToString();
@@ -810,6 +811,7 @@ namespace DataEditorX
             country_indexer[15] = 512;
             country_indexer[16] = 1024;
             country_indexer[17] = 2048;
+            country_indexer[18] = 4096;
             c.country = country_indexer[cb_cardMainCountry.SelectedIndex];
             Dictionary<string, int> second_country_indexer = new Dictionary<string, int>();
             second_country_indexer["无集团"] = 0;
@@ -2620,6 +2622,7 @@ namespace DataEditorX
             indexer["15"] = new string[] { "无集团" };
             indexer["16"] = new string[] { "无集团" };
             indexer["17"] = new string[] { "无集团" };
+            indexer["18"] = new string[] { "无集团" };
             cb_CardSecondCountry.Items.Clear();
             cb_CardSecondCountry.Items.AddRange(indexer[text]);
             cb_CardSecondCountry.SelectedIndex = 0;
